@@ -70,6 +70,12 @@ class RegisterController extends Controller
             'last_name' => $data['last_name'],
             'email' => $data['email'],
             'password' => $data['password'],
+            'user_role' => 'admin',
         ]);
+    }
+
+    protected function registered(Request $request, $user)
+    {
+        return redirect()->route('login')->with('success', 'Registration successful! Please login.');
     }
 }
