@@ -67,6 +67,14 @@
             </a>
         </li>
 
+        <!-- Nav Item - Blog -->
+        <li class="nav-item {{ Nav::isRoute('blog') }}">
+            <a class="nav-link" href="{{ route('blog') }}">
+                <i class="fas fa-fw fa-book"></i>
+                <span>{{ __('Blog') }}</span>
+            </a>
+        </li>
+
         <!-- Nav Item - About -->
         <li class="nav-item {{ Nav::isRoute('about') }}">
             <a class="nav-link" href="{{ route('about') }}">
@@ -74,6 +82,7 @@
                 <span>{{ __('About') }}</span>
             </a>
         </li>
+
 
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">
@@ -290,7 +299,7 @@
         <footer class="sticky-footer bg-white">
             <div class="container my-auto">
                 <div class="copyright text-center my-auto">
-                    <span>Copyright &copy; <a href="https://github.com/aleckrh" target="_blank">Aleckrh</a> {{ now()->year }}</span>
+                    <span>Copyright &copy; <a href="https://github.com/Estrella-1234" target="_blank">Estrella</a> {{ now()->year }}</span>
                 </div>
             </div>
         </footer>
