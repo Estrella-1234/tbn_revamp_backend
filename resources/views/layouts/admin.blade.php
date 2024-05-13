@@ -21,6 +21,9 @@
 
     <!-- Favicon -->
     <link href="{{ asset('img/favicon.png') }}" rel="icon" type="image/png">
+
+    <link href="{{ asset('css/main.css') }}" rel="stylesheet">
+
 </head>
 <body id="page-top">
 
@@ -30,12 +33,13 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
         <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-            <div class="sidebar-brand-icon rotate-n-15">
-                <i class="fas fa-laugh-wink"></i>
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('home') }}">
+            <div class="sidebar-brand-icon">
+                <img src="{{ asset('img/Dashboard-ico.png') }}" alt="TBN Logo">
             </div>
-            <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+{{--            <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>--}}
         </a>
+
 
         <!-- Divider -->
         <hr class="sidebar-divider my-0">
@@ -136,7 +140,7 @@
                         <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-bell fa-fw"></i>
                             <!-- Counter - Alerts -->
-                            <span class="badge badge-danger badge-counter">3+</span>
+{{--                            <span class="badge badge-danger badge-counter">3+</span>--}}
                         </a>
                         <!-- Dropdown - Alerts -->
                         <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
@@ -185,7 +189,7 @@
                         <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-envelope fa-fw"></i>
                             <!-- Counter - Messages -->
-                            <span class="badge badge-danger badge-counter">7</span>
+{{--                            <span class="badge badge-danger badge-counter">7</span>--}}
                         </a>
                         <!-- Dropdown - Messages -->
                         <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
