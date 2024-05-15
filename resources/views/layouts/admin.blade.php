@@ -67,6 +67,14 @@
             </a>
         </li>
 
+        <!-- Nav Item - Event -->
+        <li class="nav-item {{ Nav::isRoute('event') }}">
+            <a class="nav-link" href="{{ route('event') }}">
+                <i class="fas fa-fw fa-book"></i>
+                <span>{{ __('Event') }}</span>
+            </a>
+        </li>
+
         <!-- Nav Item - Blog -->
         <li class="nav-item {{ Nav::isRoute('blog') }}">
             <a class="nav-link" href="{{ route('blog') }}">
@@ -304,7 +312,7 @@
             </div>
         </footer>
         <!-- End of Footer -->
-
+`
     </div>
     <!-- End of Content Wrapper -->
 

@@ -1629,3 +1629,221 @@ Did you mean one of these?
 #63 C:\\laragon\\www\\tbn_revamp_backend\\server.php(21): require_once('C:\\\\laragon\\\\www\\\\...')
 #64 {main}
 "} 
+[2024-05-13 09:10:57] local.ERROR: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it.
+ (SQL: select * from `users` where `email` = user@user.user limit 1) {"exception":"[object] (Illuminate\\Database\\QueryException(code: 2002): SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it.
+
+ (SQL: select * from `users` where `email` = user@user.user limit 1) at C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php:712)
+[stacktrace]
+#0 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(672): Illuminate\\Database\\Connection->runQueryCallback('select * from `...', Array, Object(Closure))
+#1 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(376): Illuminate\\Database\\Connection->run('select * from `...', Array, Object(Closure))
+#2 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(2414): Illuminate\\Database\\Connection->select('select * from `...', Array, true)
+#3 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(2402): Illuminate\\Database\\Query\\Builder->runSelect()
+#4 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(2936): Illuminate\\Database\\Query\\Builder->Illuminate\\Database\\Query\\{closure}()
+#5 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(2403): Illuminate\\Database\\Query\\Builder->onceWithColumns(Array, Object(Closure))
+#6 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Builder.php(625): Illuminate\\Database\\Query\\Builder->get(Array)
+#7 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Builder.php(609): Illuminate\\Database\\Eloquent\\Builder->getModels(Array)
+#8 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Concerns\\BuildsQueries.php(294): Illuminate\\Database\\Eloquent\\Builder->get(Array)
+#9 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Auth\\EloquentUserProvider.php(134): Illuminate\\Database\\Eloquent\\Builder->first()
+#10 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Auth\\SessionGuard.php(279): Illuminate\\Auth\\EloquentUserProvider->retrieveByCredentials(Array)
+#11 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Auth\\SessionGuard.php(245): Illuminate\\Auth\\SessionGuard->validate(Array)
+#12 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\tymon\\jwt-auth\\src\\Providers\\Auth\\Illuminate.php(47): Illuminate\\Auth\\SessionGuard->once(Array)
+#13 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\tymon\\jwt-auth\\src\\JWTAuth.php(50): Tymon\\JWTAuth\\Providers\\Auth\\Illuminate->byCredentials(Array)
+#14 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\Facades\\Facade.php(261): Tymon\\JWTAuth\\JWTAuth->attempt(Array)
+#15 C:\\laragon\\www\\tbn_revamp_backend\\app\\Http\\Controllers\\FrontendAuthController.php(23): Illuminate\\Support\\Facades\\Facade::__callStatic('attempt', Array)
+#16 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php(54): App\\Http\\Controllers\\FrontendAuthController->login(Object(Illuminate\\Http\\Request))
+#17 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(45): Illuminate\\Routing\\Controller->callAction('login', Array)
+#18 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(262): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\FrontendAuthController), 'login')
+#19 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(205): Illuminate\\Routing\\Route->runController()
+#20 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(721): Illuminate\\Routing\\Route->run()
+#21 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(128): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#22 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#23 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(167): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#24 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php(127): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#25 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php(63): Illuminate\\Routing\\Middleware\\ThrottleRequests->handleRequest(Object(Illuminate\\Http\\Request), Object(Closure), Array)
+#26 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(167): Illuminate\\Routing\\Middleware\\ThrottleRequests->handle(Object(Illuminate\\Http\\Request), Object(Closure), '60', '1')
+#27 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(103): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#28 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(723): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#29 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(698): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#30 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(662): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#31 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(651): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#32 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(167): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#33 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(128): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#34 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#35 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull.php(31): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#36 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(167): Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#37 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#38 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TrimStrings.php(40): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#39 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(167): Illuminate\\Foundation\\Http\\Middleware\\TrimStrings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#40 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#41 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(167): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#42 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance.php(86): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#43 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(167): Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#44 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\fruitcake\\laravel-cors\\src\\HandleCors.php(52): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#45 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(167): Fruitcake\\Cors\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#46 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\fideloper\\proxy\\src\\TrustProxies.php(57): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#47 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(167): Fideloper\\Proxy\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#48 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(103): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#49 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(142): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#50 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(111): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#51 C:\\laragon\\www\\tbn_revamp_backend\\public\\index.php(55): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#52 C:\\laragon\\www\\tbn_revamp_backend\\server.php(21): require_once('C:\\\\laragon\\\\www\\\\...')
+#53 {main}
+
+[previous exception] [object] (PDOException(code: 2002): SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it.
+
+ at C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\Connector.php:70)
+[stacktrace]
+#0 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\Connector.php(70): PDO->__construct('mysql:host=127....', 'root', '', Array)
+#1 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\Connector.php(46): Illuminate\\Database\\Connectors\\Connector->createPdoConnection('mysql:host=127....', 'root', '', Array)
+#2 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\MySqlConnector.php(24): Illuminate\\Database\\Connectors\\Connector->createConnection('mysql:host=127....', Array, Array)
+#3 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\ConnectionFactory.php(184): Illuminate\\Database\\Connectors\\MySqlConnector->connect(Array)
+#4 [internal function]: Illuminate\\Database\\Connectors\\ConnectionFactory->Illuminate\\Database\\Connectors\\{closure}()
+#5 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(1064): call_user_func(Object(Closure))
+#6 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(1100): Illuminate\\Database\\Connection->getPdo()
+#7 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(442): Illuminate\\Database\\Connection->getReadPdo()
+#8 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(368): Illuminate\\Database\\Connection->getPdoForSelect(true)
+#9 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(705): Illuminate\\Database\\Connection->Illuminate\\Database\\{closure}('select * from `...', Array)
+#10 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(672): Illuminate\\Database\\Connection->runQueryCallback('select * from `...', Array, Object(Closure))
+#11 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(376): Illuminate\\Database\\Connection->run('select * from `...', Array, Object(Closure))
+#12 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(2414): Illuminate\\Database\\Connection->select('select * from `...', Array, true)
+#13 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(2402): Illuminate\\Database\\Query\\Builder->runSelect()
+#14 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(2936): Illuminate\\Database\\Query\\Builder->Illuminate\\Database\\Query\\{closure}()
+#15 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(2403): Illuminate\\Database\\Query\\Builder->onceWithColumns(Array, Object(Closure))
+#16 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Builder.php(625): Illuminate\\Database\\Query\\Builder->get(Array)
+#17 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Builder.php(609): Illuminate\\Database\\Eloquent\\Builder->getModels(Array)
+#18 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Concerns\\BuildsQueries.php(294): Illuminate\\Database\\Eloquent\\Builder->get(Array)
+#19 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Auth\\EloquentUserProvider.php(134): Illuminate\\Database\\Eloquent\\Builder->first()
+#20 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Auth\\SessionGuard.php(279): Illuminate\\Auth\\EloquentUserProvider->retrieveByCredentials(Array)
+#21 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Auth\\SessionGuard.php(245): Illuminate\\Auth\\SessionGuard->validate(Array)
+#22 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\tymon\\jwt-auth\\src\\Providers\\Auth\\Illuminate.php(47): Illuminate\\Auth\\SessionGuard->once(Array)
+#23 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\tymon\\jwt-auth\\src\\JWTAuth.php(50): Tymon\\JWTAuth\\Providers\\Auth\\Illuminate->byCredentials(Array)
+#24 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\Facades\\Facade.php(261): Tymon\\JWTAuth\\JWTAuth->attempt(Array)
+#25 C:\\laragon\\www\\tbn_revamp_backend\\app\\Http\\Controllers\\FrontendAuthController.php(23): Illuminate\\Support\\Facades\\Facade::__callStatic('attempt', Array)
+#26 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php(54): App\\Http\\Controllers\\FrontendAuthController->login(Object(Illuminate\\Http\\Request))
+#27 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(45): Illuminate\\Routing\\Controller->callAction('login', Array)
+#28 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(262): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\FrontendAuthController), 'login')
+#29 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(205): Illuminate\\Routing\\Route->runController()
+#30 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(721): Illuminate\\Routing\\Route->run()
+#31 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(128): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#32 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#33 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(167): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#34 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php(127): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#35 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php(63): Illuminate\\Routing\\Middleware\\ThrottleRequests->handleRequest(Object(Illuminate\\Http\\Request), Object(Closure), Array)
+#36 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(167): Illuminate\\Routing\\Middleware\\ThrottleRequests->handle(Object(Illuminate\\Http\\Request), Object(Closure), '60', '1')
+#37 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(103): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#38 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(723): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#39 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(698): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#40 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(662): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#41 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(651): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#42 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(167): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#43 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(128): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#44 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#45 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull.php(31): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#46 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(167): Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#47 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#48 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TrimStrings.php(40): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#49 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(167): Illuminate\\Foundation\\Http\\Middleware\\TrimStrings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#50 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#51 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(167): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#52 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance.php(86): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#53 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(167): Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#54 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\fruitcake\\laravel-cors\\src\\HandleCors.php(52): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#55 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(167): Fruitcake\\Cors\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#56 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\fideloper\\proxy\\src\\TrustProxies.php(57): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#57 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(167): Fideloper\\Proxy\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#58 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(103): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#59 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(142): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#60 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(111): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#61 C:\\laragon\\www\\tbn_revamp_backend\\public\\index.php(55): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#62 C:\\laragon\\www\\tbn_revamp_backend\\server.php(21): require_once('C:\\\\laragon\\\\www\\\\...')
+#63 {main}
+"} 
+[2024-05-14 04:26:24] local.ERROR: The "--mcv" option does not exist. {"exception":"[object] (Symfony\\Component\\Console\\Exception\\RuntimeException(code: 0): The \"--mcv\" option does not exist. at C:\\laragon\\www\\tbn_revamp_backend\\vendor\\symfony\\console\\Input\\ArgvInput.php:220)
+[stacktrace]
+#0 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\symfony\\console\\Input\\ArgvInput.php(149): Symfony\\Component\\Console\\Input\\ArgvInput->addLongOption('mcv', NULL)
+#1 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\symfony\\console\\Input\\ArgvInput.php(82): Symfony\\Component\\Console\\Input\\ArgvInput->parseLongOption('--mcv')
+#2 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\symfony\\console\\Input\\ArgvInput.php(71): Symfony\\Component\\Console\\Input\\ArgvInput->parseToken('--mcv', true)
+#3 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\symfony\\console\\Input\\Input.php(55): Symfony\\Component\\Console\\Input\\ArgvInput->parse()
+#4 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\symfony\\console\\Command\\Command.php(257): Symfony\\Component\\Console\\Input\\Input->bind(Object(Symfony\\Component\\Console\\Input\\InputDefinition))
+#5 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php(121): Symfony\\Component\\Console\\Command\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))
+#6 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\symfony\\console\\Application.php(1040): Illuminate\\Console\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#7 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\symfony\\console\\Application.php(301): Symfony\\Component\\Console\\Application->doRunCommand(Object(Illuminate\\Foundation\\Console\\ModelMakeCommand), Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#8 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\symfony\\console\\Application.php(171): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#9 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Application.php(94): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#10 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(129): Illuminate\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#11 C:\\laragon\\www\\tbn_revamp_backend\\artisan(37): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#12 {main}
+"} 
+[2024-05-14 04:26:33] local.ERROR: Command "make:" is ambiguous.
+Did you mean one of these?
+    make:cast         Create a new custom Eloquent cast class
+    make:channel      Create a new channel class
+    make:component    Create a new view component class
+    make:command      Create a new Artisan command
+    make:controller   Create a new controller class
+    make:event        Create a new event class
+    make:exception    Create a new custom exception class
+    make:factory      Create a new model factory
+    make:job          Create a new job class
+    make:listener     Create a new event listener class
+    make:mail         Create a new email class
+    make:middleware   Create a new middleware class
+    make:model        Create a new Eloquent model class
+    make:notification Create a new notification class
+    make:observer     Create a new observer class
+    make:policy       Create a new policy class
+    make:provider     Create a new service provider class
+    make:request      Create a new form request class
+    make:resource     Create a new resource
+    make:rule         Create a new validation rule
+    make:seeder       Create a new seeder class
+    make:test         Create a new test class
+    make:migration    Create a new migration file. {"exception":"[object] (Symfony\\Component\\Console\\Exception\\CommandNotFoundException(code: 0): Command \"make:\" is ambiguous.
+Did you mean one of these?
+    make:cast         Create a new custom Eloquent cast class
+    make:channel      Create a new channel class
+    make:component    Create a new view component class
+    make:command      Create a new Artisan command
+    make:controller   Create a new controller class
+    make:event        Create a new event class
+    make:exception    Create a new custom exception class
+    make:factory      Create a new model factory
+    make:job          Create a new job class
+    make:listener     Create a new event listener class
+    make:mail         Create a new email class
+    make:middleware   Create a new middleware class
+    make:model        Create a new Eloquent model class
+    make:notification Create a new notification class
+    make:observer     Create a new observer class
+    make:policy       Create a new policy class
+    make:provider     Create a new service provider class
+    make:request      Create a new form request class
+    make:resource     Create a new resource
+    make:rule         Create a new validation rule
+    make:seeder       Create a new seeder class
+    make:test         Create a new test class
+    make:migration    Create a new migration file. at C:\\laragon\\www\\tbn_revamp_backend\\vendor\\symfony\\console\\Application.php:761)
+[stacktrace]
+#0 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\symfony\\console\\Application.php(259): Symfony\\Component\\Console\\Application->find('make:')
+#1 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\symfony\\console\\Application.php(171): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#2 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Application.php(94): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#3 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(129): Illuminate\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#4 C:\\laragon\\www\\tbn_revamp_backend\\artisan(37): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#5 {main}
+"} 
+[2024-05-14 04:27:18] local.ERROR: The "--mcr" option does not exist. {"exception":"[object] (Symfony\\Component\\Console\\Exception\\RuntimeException(code: 0): The \"--mcr\" option does not exist. at C:\\laragon\\www\\tbn_revamp_backend\\vendor\\symfony\\console\\Input\\ArgvInput.php:220)
+[stacktrace]
+#0 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\symfony\\console\\Input\\ArgvInput.php(149): Symfony\\Component\\Console\\Input\\ArgvInput->addLongOption('mcr', NULL)
+#1 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\symfony\\console\\Input\\ArgvInput.php(82): Symfony\\Component\\Console\\Input\\ArgvInput->parseLongOption('--mcr')
+#2 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\symfony\\console\\Input\\ArgvInput.php(71): Symfony\\Component\\Console\\Input\\ArgvInput->parseToken('--mcr', true)
+#3 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\symfony\\console\\Input\\Input.php(55): Symfony\\Component\\Console\\Input\\ArgvInput->parse()
+#4 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\symfony\\console\\Command\\Command.php(257): Symfony\\Component\\Console\\Input\\Input->bind(Object(Symfony\\Component\\Console\\Input\\InputDefinition))
+#5 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php(121): Symfony\\Component\\Console\\Command\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))
+#6 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\symfony\\console\\Application.php(1040): Illuminate\\Console\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#7 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\symfony\\console\\Application.php(301): Symfony\\Component\\Console\\Application->doRunCommand(Object(Illuminate\\Foundation\\Console\\ModelMakeCommand), Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#8 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\symfony\\console\\Application.php(171): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#9 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Application.php(94): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#10 C:\\laragon\\www\\tbn_revamp_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(129): Illuminate\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#11 C:\\laragon\\www\\tbn_revamp_backend\\artisan(37): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#12 {main}
+"} 

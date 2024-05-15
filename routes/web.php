@@ -30,4 +30,6 @@ Route::get('/about', function () {
 
 Route::get('/blog', 'PostController@index')->name('blog');
 
+Route::get('/event', 'EventRegisterController@index')->name('event');
+
 
