@@ -28,7 +28,6 @@ class HomeController extends Controller
             'users' => User::where('user_role', 'users')->count(),
         ];
 
-
         return view('home', compact('widget'));
     }
 }
