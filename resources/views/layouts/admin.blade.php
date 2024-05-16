@@ -72,7 +72,7 @@
         <!-- Nav Item - Event -->
         <li class="nav-item {{ Nav::isRoute('events.index') }}">
             <a class="nav-link" href="{{ route('events.index') }}">
-                <i class="fas fa-fw fa-book"></i>
+                <i class="fa-solid fa-calendar-days"></i>
                 <span>{{ __('Event') }}</span>
             </a>
         </li>
