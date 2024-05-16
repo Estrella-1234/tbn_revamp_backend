@@ -70,8 +70,8 @@
         </li>
 
         <!-- Nav Item - Event -->
-        <li class="nav-item {{ Nav::isRoute('event') }}">
-            <a class="nav-link" href="{{ route('event') }}">
+        <li class="nav-item {{ Nav::isRoute('events.index') }}">
+            <a class="nav-link" href="{{ route('events.index') }}">
                 <i class="fas fa-fw fa-book"></i>
                 <span>{{ __('Event') }}</span>
             </a>

@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -34,14 +34,10 @@ Route::get('/blog', 'PostController@index')->name('blog');
 Route::get('/event', 'EventRegisterController@index')->name('event');
 
 
-// Define resource route for users
-Route::get('/users', 'UserController@index')->name('users.index');
-Route::get('/users/create', 'UserController@create')->name('users.create');
-Route::post('/users', 'UserController@store')->name('users.store');
-Route::get('/users/{id}', 'UserController@show')->name('users.show');
-Route::get('/users/{id}/edit', 'UserController@edit')->name('users.edit');
-Route::put('/users/{id}', 'UserController@update')->name('users.update');
-Route::delete('/users/{id}', 'UserController@destroy')->name('users.destroy');
+
+Route::resource('users', 'UserController');
+Route::resource('events', 'EventController');
+
 
 
 
