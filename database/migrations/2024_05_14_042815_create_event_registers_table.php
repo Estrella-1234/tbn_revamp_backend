@@ -14,8 +14,12 @@ class CreateEventRegistersTable extends Migration
     public function up()
     {
         Schema::create('event_registers', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->bigIncrements('idacara');
+            $table->string('judul');
+            $table->string('deskripsi');
+            $table->dateTime('tanggal');
+            $table->string('pembicara');
+            $table->string('poster_path');
         });
     }
 

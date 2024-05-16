@@ -44,14 +44,14 @@ class LoginController extends Controller
     {
         $this->validateLogin($request);
 
-        // Attempt to log in the user
+        // Attempt to log in the users
         if ($this->attemptLogin($request)) {
-            // Check if the authenticated user has the role of 'admin'
+            // Check if the authenticated users has the role of 'admin'
             if ($this->guard()->user()->user_role == 'admin') {
                 // Redirect admin users to the intended location after login
                 return $this->sendLoginResponse($request);
             } else {
-                // If the user is not an admin, logout and redirect back with an error message
+                // If the users is not an admin, logout and redirect back with an error message
                 $this->guard()->logout();
                 $request->session()->invalidate();
                 throw ValidationException::withMessages([

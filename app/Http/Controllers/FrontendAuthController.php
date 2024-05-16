@@ -10,7 +10,7 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 class FrontendAuthController extends Controller
 {
     /**
-     * Authenticate user and return JWT token.
+     * Authenticate users and return JWT token.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
@@ -29,7 +29,7 @@ class FrontendAuthController extends Controller
 
         return response()->json([
             'token' => $token,
-            'user' => Auth::user(), // Include user data if needed
+            'users' => Auth::user(), // Include users data if needed
         ]);
     }
 }

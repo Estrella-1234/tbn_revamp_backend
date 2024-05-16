@@ -12,7 +12,7 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 class FrontendRegisterController extends Controller
 {
     /**
-     * Register a new user.
+     * Register a new users.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
@@ -34,8 +34,8 @@ class FrontendRegisterController extends Controller
             'name' => $request->name,
             'last_name' => $request->last_name,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'user_role' => 'user', // Set the user role to 'user'
+            'password' => $request->password,
+            'user_role' => 'users', // Set the users role to 'users'
         ]);
 
         // Generate JWT token

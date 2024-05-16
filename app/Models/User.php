@@ -40,7 +40,7 @@ class User extends Authenticatable implements JWTSubject
     ];
 
     /**
-     * Get the user's full name.
+     * Get the users's full name.
      *
      * @return string
      */
@@ -54,7 +54,7 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
-     * Set the user's password.
+     * Set the users's password.
      *
      * @param string $value
      * @return void

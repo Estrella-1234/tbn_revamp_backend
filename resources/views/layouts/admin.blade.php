@@ -24,6 +24,8 @@
 
     <link href="{{ asset('css/main.css') }}" rel="stylesheet">
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
 </head>
 <body id="page-top">
 
@@ -59,11 +61,11 @@
             {{ __('Settings') }}
         </div>
 
-        <!-- Nav Item - Profile -->
-        <li class="nav-item {{ Nav::isRoute('profile') }}">
-            <a class="nav-link" href="{{ route('profile') }}">
-                <i class="fas fa-fw fa-user"></i>
-                <span>{{ __('Profile') }}</span>
+        <!-- Nav Item - User -->
+        <li class="nav-item {{ Nav::isRoute('users.index') }}">
+            <a class="nav-link" href="{{ route('users.index') }}">
+                <i class="fas fa-fw fa-users"></i>
+                <span>{{ __('User') }}</span>
             </a>
         </li>
 
