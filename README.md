@@ -28,7 +28,7 @@ This is an Event Management System built with Laravel. It allows administrators 
 ## Installation
 
 1. Clone the repository:
-git clone https://github.com/your-username/event-management-system.git
+git clone [https://github.com/your-username/event-management-system.git](https://github.com/Estrella-1234/tbn_revamp_backend.git)
 
 2. Navigate to the project directory:
 cd event-management-system
