@@ -8,10 +8,21 @@ use Illuminate\Support\Facades\Storage;
 
 class EventController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $events = Event::all();
+        $search = $request->input('search');
+
+        $events = Event::query()
+            ->when($search, function ($query) use ($search) {
+                return $query->where('judul', 'like', "%{$search}%")
+                    ->orWhere('deskripsi', 'like', "%{$search}%")
+                    ->orWhere('tanggal', 'like', "%{$search}%")
+                    ->orWhere('pembicara', 'like', "%{$search}%");
+            })
+            ->paginate(10);
+
         return view('events.index', compact('events'));
+
     }
 
     public function create()

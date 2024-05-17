@@ -31,14 +31,14 @@
         @if($event->poster_path)
             <div class="form-group">
                 <label>Current Poster</label><br>
-                <img src="{{ asset('storage/'.$event->poster_path) }}" alt="Current Poster" style="max-width: 200px;">
+                <img src="{{ asset('storage/'.$event->poster_path) }}" alt="Current Poster" style="max-width: 500px;">
             </div>
         @endif
         <div class="d-flex align-items-center">
             <button type="submit" class="btn btn-primary mr-3">
                 {{ $event->exists ? __('Update Event') : __('Create Event') }}
             </button>
-            <a href="{{ route('events.index') }}" class="btn btn-secondary">Back to Events</a>
+            <a href="{{ route('events.index') }}" class="btn btn-secondary ">Back to Events</a>
         </div>
     </form>
 @endsection

@@ -3,7 +3,21 @@
 @section('main-content')
     <h1 class="h3 mb-4 text-gray-800">{{ __('Events') }}</h1>
 
-    <a href="{{ route('events.create') }}" class="btn btn-primary mb-3">Add Event</a>
+
+    <div class="d-flex align-items-center mb-3">
+        <a href="{{ route('events.create') }}" class="btn btn-primary mr-auto">Add Event</a>
+
+        <form action="{{ route('events.index') }}" method="GET">
+            <div class="input-group">
+                <input type="text" name="search" class="form-control" placeholder="Search Event Here..." value="{{ request()->input('search') }}">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit">Search</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
 
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
@@ -37,6 +51,11 @@
         @endforeach
         </tbody>
     </table>
+
+    <!-- Pagination links -->
+    <div class="d-flex justify-content-center">
+        {{ $events->links() }}
+    </div>
 
     @foreach($events as $event)
         <div class="modal fade" id="deleteEventModal-{{ $event->id }}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="deleteEventModalLabel-{{ $event->id }}" aria-hidden="true">

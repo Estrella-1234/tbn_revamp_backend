@@ -10,7 +10,7 @@
         <div class="card-body">
             @if($event->poster_path)
                 <div class="mb-3">
-                    <img src="{{ asset('storage/' . $event->poster_path) }}" alt="Event Poster" style="max-width: 200px;">
+                    <img src="{{ asset('storage/' . $event->poster_path) }}" alt="Event Poster" style="max-width: 500px;">
                 </div>
             @endif
             <p><strong>Title:</strong> {{ $event->judul }}</p>
