@@ -10,7 +10,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'TBN Alliance') }}</title>
 
     <!-- Fonts -->
     <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
@@ -75,6 +75,14 @@
                 <span>{{ __('Event') }}</span>
             </a>
         </li>
+
+        <!-- Nav Item - Event Registration -->
+{{--        <li class="nav-item {{ Nav::isRoute('events.index') }}">--}}
+{{--            <a class="nav-link" href="{{ route('events.index') }}">--}}
+{{--                <i class="fa-solid fa-calendar-days"></i>--}}
+{{--                <span>{{ __('Event') }}</span>--}}
+{{--            </a>--}}
+{{--        </li>--}}
 
         <!-- Nav Item - Blog -->
         <li class="nav-item {{ Nav::isRoute('blog') }}">

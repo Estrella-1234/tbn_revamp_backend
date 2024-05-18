@@ -14,10 +14,10 @@ class EventController extends Controller
 
         $events = Event::query()
             ->when($search, function ($query) use ($search) {
-                return $query->where('judul', 'like', "%{$search}%")
-                    ->orWhere('deskripsi', 'like', "%{$search}%")
-                    ->orWhere('tanggal', 'like', "%{$search}%")
-                    ->orWhere('pembicara', 'like', "%{$search}%");
+                return $query->where('judul', 'like', "%$search%")
+                    ->orWhere('deskripsi', 'like', "%$search%")
+                    ->orWhere('tanggal', 'like', "%$search%")
+                    ->orWhere('pembicara', 'like', "%$search%");
             })
             ->paginate(10);
 
@@ -30,7 +30,7 @@ class EventController extends Controller
         return view('events.create');
     }
 
-    public function store(Request $request)
+    public function store(Request $request): \Illuminate\Http\RedirectResponse
     {
         $request->validate([
             'judul' => 'required|string|max:255',
