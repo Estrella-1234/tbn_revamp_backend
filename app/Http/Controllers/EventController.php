@@ -124,4 +124,13 @@ class EventController extends Controller
         ]);
     }
 
+    public function getEvent($id)
+    {
+        $event = Event::findOrFail($id);
+
+        return response()->json([
+            'event' => $event,
+        ]);
+    }
+
 }

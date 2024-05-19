@@ -21,4 +21,4 @@ Route::middleware('auth:api')->get('/users', function (Request $request) {
 Route::post('login', 'FrontendAuthController@login');
 Route::post('register', 'FrontendRegisterController@register');
 Route::get('/events-list', 'EventController@getAllEvents');
-
+Route::get('/events/{id}', 'EventController@getEvent');
