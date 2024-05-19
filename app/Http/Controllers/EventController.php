@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -30,7 +31,7 @@ class EventController extends Controller
         return view('events.create');
     }
 
-    public function store(Request $request): \Illuminate\Http\RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
         $request->validate([
             'judul' => 'required|string|max:255',
@@ -112,6 +113,15 @@ class EventController extends Controller
         $event->delete();
 
         return redirect()->route('events.index')->with('success', 'Event deleted successfully.');
+    }
+
+    public function getAllEvents()
+    {
+        $events = Event::all();
+
+        return response()->json([
+            'events' => $events,
+        ]);
     }
 
 }

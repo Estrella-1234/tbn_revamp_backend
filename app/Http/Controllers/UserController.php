@@ -69,6 +69,7 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
+
         $request->validate([
             'name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',

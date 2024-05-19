@@ -76,13 +76,13 @@
             </a>
         </li>
 
-        <!-- Nav Item - Event Registration -->
-{{--        <li class="nav-item {{ Nav::isRoute('events.index') }}">--}}
-{{--            <a class="nav-link" href="{{ route('events.index') }}">--}}
-{{--                <i class="fa-solid fa-calendar-days"></i>--}}
-{{--                <span>{{ __('Event') }}</span>--}}
-{{--            </a>--}}
-{{--        </li>--}}
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('registrations.index') }}">
+                <i class="fa-solid fa-calendar-check"></i>
+                <span>{{ __('Event Registrations') }}</span>
+            </a>
+        </li>
+
 
         <!-- Nav Item - Blog -->
         <li class="nav-item {{ Nav::isRoute('blog') }}">
