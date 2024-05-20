@@ -1,42 +1,37 @@
 @extends('layouts.admin')
 
 @section('main-content')
-    <h1 class="h3 mb-4 text-gray-800">{{ $user->exists ? __('Edit User') : __('Create User') }}</h1>
+    <h1 class="h3 mb-4 text-gray-800">{{ __('Edit User') }}</h1>
 
-    <form action="{{ $user->exists ? route('users.update', $user->id) : route('users.store') }}" method="POST">
+    <form action="{{ route('users.update', $user->id) }}" method="POST">
         @csrf
-        @if($user->exists)
-            @method('PUT')
-        @endif
+        @method('PUT')
+
         <div class="form-group">
             <label for="name">Name</label>
-            <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $user->name) }}" required>
+            <input type="text" name="name" class="form-control" value="{{ old('name', $user->name) }}" required>
         </div>
+
         <div class="form-group">
             <label for="last_name">Last Name</label>
-            <input type="text" class="form-control" id="last_name" name="last_name" value="{{ old('last_name', $user->last_name) }}" required>
+            <input type="text" name="last_name" class="form-control" value="{{ old('last_name', $user->last_name) }}" required>
         </div>
+
         <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" class="form-control" id="email" name="email" value="{{ old('email', $user->email) }}" required>
-        </div>
-        @unless($user->exists)
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" class="form-control" id="password" name="password" required>
-            </div>
-            <div class="form-group">
-                <label for="password_confirmation">Confirm Password</label>
-                <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
-            </div>
-        @endunless
-        <div class="d-flex align-items-center">
-            <button type="submit" class="btn btn-primary mr-3">
-                {{ $user->exists ? __('Update User') : __('Create User') }}
-            </button>
-            <a href="{{ route('users.index') }}" class="btn btn-secondary">Back to Users</a>
+            <input type="email" name="email" class="form-control" value="{{ old('email', $user->email) }}" required>
         </div>
 
+        <div class="form-group">
+            <label for="password">New Password</label>
+            <input type="password" name="password" class="form-control">
+        </div>
 
+        <div class="form-group">
+            <label for="password_confirmation">Confirm New Password</label>
+            <input type="password" name="password_confirmation" class="form-control">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update User</button>
     </form>
 @endsection

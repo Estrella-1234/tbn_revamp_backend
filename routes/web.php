@@ -9,13 +9,11 @@ Route::get('/', function () {
     return view('/auth/login') ;
 });
 
-Route::get('/register', function () {
-    return view('/auth/register') ;
-});
 
 // Authentication routes
 //Auth::routes(['register' => false]); // Disable registration
 Auth::routes();
+
 // Routes that require authentication
 Route::middleware(['auth'])->group(function () {
     Route::get('/home', 'HomeController@index')->name('home');
@@ -35,6 +33,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('registrations', 'RegistrationController');
 
 
+
 });
 
 // Public route for testing
@@ -42,6 +41,8 @@ Route::get('/example', function () {
     return 'Hello, world!';
 });
 
+Route::put('/registrations/{registration}/mark-attendance','RegistrationController@markAttendance' );
+Route::put('/registrations/{registration}/unmark-attendance','RegistrationController@unmarkAttendance' );
 
 
 

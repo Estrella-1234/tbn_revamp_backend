@@ -29,6 +29,7 @@
                 <th>Ticket Type</th>
                 <th>Notes</th>
                 <th>Status</th>
+                <th>Attendance</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -44,9 +45,17 @@
                     <td>{{ $registration->notes }}</td>
                     <td>{{ $registration->status }}</td>
                     <td>
+                        @if($registration->attendance === 1)
+                            <span class="text-success">Attended</span>
+                        @elseif($registration->attendance === 0)
+                            <span class="text-danger">Not Attended</span>
+                        @else
+                            <span class="text-warning">Unknown</span>
+                        @endif
+                    </td>
+                    <td>
                         <a href="{{ route('registrations.show', $registration->id) }}" class="btn btn-info">View</a>
                         <a href="{{ route('registrations.edit', $registration->id) }}" class="btn btn-warning">Edit</a>
-                        <!-- Trigger the modal with a button -->
                         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteRegistrationModal-{{ $registration->id }}">
                             Delete
                         </button>
@@ -85,3 +94,5 @@
     @endif
 
 @endsection
+
+

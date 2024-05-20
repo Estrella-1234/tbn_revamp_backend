@@ -23,7 +23,9 @@ class RegistrationController extends Controller
                     ->orWhere('phone', 'like', "%$search%")
                     ->orWhere('affiliation', 'like', "%$search%")
                     ->orWhere('ticket_type', 'like', "%$search%")
-                    ->orWhere('status', 'like', "%$search%");
+                    ->orWhere('notes', 'like', "%$search%")
+                    ->orWhere('status', 'like', "%$search%")
+                    ->orWhere('attendance', $search == 'attend' ? 1 : 0);
             })
             ->paginate(10);
 
@@ -217,5 +219,23 @@ class RegistrationController extends Controller
 
         // Return a success response
         return response()->json(['message' => 'Registration deleted successfully'], 200);
+
     }
+
+    public function markAttendance(EventRegistration $registration)
+    {
+        $registration->attendance = true;
+        $registration->save();
+
+        return redirect()->route('registrations.index')->with('success', 'Attendance marked successfully.');
+    }
+
+    public function unmarkAttendance(EventRegistration $registration)
+    {
+        $registration->attendance = false;
+        $registration->save();
+
+        return redirect()->route('registrations.index')->with('success', 'Attendance unmarked successfully.');
+    }
+
 }

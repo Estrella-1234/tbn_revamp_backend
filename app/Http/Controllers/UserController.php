@@ -69,18 +69,28 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
-
         $request->validate([
             'name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,'.$id,
+            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+            'password' => 'nullable|string|min:8|confirmed', // Add validation for password
         ]);
 
         $user = User::findOrFail($id);
-        $user->update($request->all());
+        $user->name = $request->name;
+        $user->last_name = $request->last_name;
+        $user->email = $request->email;
+
+        // Check if a new password has been provided
+        if ($request->filled('password')) {
+            $user->password = $request->password;
+        }
+
+        $user->save();
 
         return redirect()->route('users.index')->with('success', 'User updated successfully.');
     }
+
 
     public function destroy($id)
     {

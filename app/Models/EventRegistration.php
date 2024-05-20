@@ -19,6 +19,7 @@ class EventRegistration extends Model
         'ticket_type',
         'notes',
         'status',
+        'attendance',
     ];
 
     public function user()
