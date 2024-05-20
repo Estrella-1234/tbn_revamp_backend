@@ -27,7 +27,7 @@
                 <th>Phone</th>
                 <th>Affiliation</th>
                 <th>Ticket Type</th>
-                <th>Notes</th>
+{{--                <th>Notes</th>--}}
                 <th>Status</th>
                 <th>Attendance</th>
                 <th>Actions</th>
@@ -42,7 +42,7 @@
                     <td>{{ $registration->phone }}</td>
                     <td>{{ $registration->affiliation }}</td>
                     <td>{{ $registration->ticket_type }}</td>
-                    <td>{{ $registration->notes }}</td>
+{{--                    <td>{{ $registration->notes }}</td>--}}
                     <td>{{ $registration->status }}</td>
                     <td>
                         @if($registration->attendance === 1)
