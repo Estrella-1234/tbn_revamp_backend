@@ -9,9 +9,13 @@ Route::get('/', function () {
     return view('/auth/login') ;
 });
 
-// Authentication routes
-Auth::routes(['register' => false]); // Disable registration
+Route::get('/register', function () {
+    return view('/auth/register') ;
+});
 
+// Authentication routes
+//Auth::routes(['register' => false]); // Disable registration
+Auth::routes();
 // Routes that require authentication
 Route::middleware(['auth'])->group(function () {
     Route::get('/home', 'HomeController@index')->name('home');

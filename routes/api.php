@@ -23,6 +23,7 @@ Route::post('register', 'FrontendRegisterController@register');
 Route::get('/events', 'EventController@getAllEvents');
 Route::get('/events/{id}', 'EventController@getEvent');
 
+
 Route::get('/registrations', 'RegistrationController@getAllData');
 Route::get('/registrations/{id}', 'RegistrationController@getRegistration');
 Route::post('/registrations', 'RegistrationController@createRegistration');
