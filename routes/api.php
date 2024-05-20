@@ -20,5 +20,13 @@ Route::middleware('auth:api')->get('/users', function (Request $request) {
 
 Route::post('login', 'FrontendAuthController@login');
 Route::post('register', 'FrontendRegisterController@register');
-Route::get('/events-list', 'EventController@getAllEvents');
+Route::get('/events', 'EventController@getAllEvents');
 Route::get('/events/{id}', 'EventController@getEvent');
+
+Route::get('/registrations', 'RegistrationController@getAllData');
+Route::get('/registrations/{id}', 'RegistrationController@getRegistration');
+Route::post('/registrations', 'RegistrationController@createRegistration');
+Route::put('/registrations/{id}', 'RegistrationController@editRegistration');
+Route::delete('/registrations/{id}', 'RegistrationController@deleteRegistration');
+
+

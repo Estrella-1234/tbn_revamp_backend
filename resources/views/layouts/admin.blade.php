@@ -76,6 +76,7 @@
             </a>
         </li>
 
+        <!-- Nav Item - Registration -->
         <li class="nav-item">
             <a class="nav-link" href="{{ route('registrations.index') }}">
                 <i class="fa-solid fa-calendar-check"></i>
@@ -84,13 +85,13 @@
         </li>
 
 
-        <!-- Nav Item - Blog -->
-        <li class="nav-item {{ Nav::isRoute('blog') }}">
-            <a class="nav-link" href="{{ route('blog') }}">
-                <i class="fas fa-fw fa-book"></i>
-                <span>{{ __('Blog') }}</span>
-            </a>
-        </li>
+{{--        <!-- Nav Item - Blog -->--}}
+{{--        <li class="nav-item {{ Nav::isRoute('review') }}">--}}
+{{--            <a class="nav-link" href="{{ route('review') }}">--}}
+{{--                <i class="fa-solid fa-star"></i>--}}
+{{--                <span>{{ __('Review') }}</span>--}}
+{{--            </a>--}}
+{{--        </li>--}}
 
         <!-- Nav Item - About -->
         <li class="nav-item {{ Nav::isRoute('about') }}">
