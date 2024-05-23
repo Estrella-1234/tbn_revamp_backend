@@ -10,13 +10,14 @@
         <div class="card-body">
             @if($event->poster_path)
                 <div class="mb-3">
-                    <img src="{{ asset('storage/' . $event->poster_path) }}" alt="Event Poster" style="max-width: 500px;">
+                    <img src="{{ asset('storage/' . $event->poster_path) }}" alt="Event Poster" style="max-width: 35%;;">
                 </div>
             @endif
             <p><strong>Title:</strong> {{ $event->judul }}</p>
             <p><strong>Description:</strong> {{ $event->deskripsi }}</p>
             <p><strong>Date:</strong> {{ \Carbon\Carbon::parse($event->tanggal)->format('d M Y, H:i') }}</p>
             <p><strong>Speaker:</strong> {{ $event->pembicara }}</p>
+            <p><strong>Price:</strong> {{ 'Rp ' . number_format($event->harga, 0, ',', '.') }}</p>
             <p><strong>Created At:</strong> {{ $event->created_at }}</p>
             <p><strong>Updated At:</strong> {{ $event->updated_at }}</p>
         </div>

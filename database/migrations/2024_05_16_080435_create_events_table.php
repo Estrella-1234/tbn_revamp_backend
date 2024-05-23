@@ -19,6 +19,7 @@ class CreateEventsTable extends Migration
             $table->string('deskripsi');
             $table->dateTime('tanggal');
             $table->string('pembicara');
+            $table->string('harga');
             $table->string('poster_path');
             $table->timestamps();
         });

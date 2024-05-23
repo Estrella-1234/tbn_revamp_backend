@@ -3,7 +3,7 @@
 @section('main-content')
     <h1 class="h3 mb-4 text-gray-800">{{ __('Event Registrations') }}</h1>
 
-    <div class="d-flex align-items-center mb-3">
+    <div class="d-flex align-items-center mb-3 ">
         <a href="{{ route('registrations.create') }}" class="btn btn-primary mr-auto">Register for an Event</a>
 
         <form action="{{ route('registrations.index') }}" method="GET">
@@ -18,7 +18,7 @@
     </div>
 
     @if($registrations->count())
-        <table class="table table-bordered table-striped">
+        <table class="table table-bordered table-striped ">
             <thead>
             <tr>
                 <th>Event</th>

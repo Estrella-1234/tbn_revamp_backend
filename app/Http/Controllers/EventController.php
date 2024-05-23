@@ -39,6 +39,7 @@ class EventController extends Controller
             'tanggal' => 'required|date',
             'pembicara' => 'required|string|max:255',
             'poster_path' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'harga' => 'required|string|max:255',
         ]);
 
         $posterPath = $request->file('poster_path')->store('public/posters');
@@ -49,6 +50,7 @@ class EventController extends Controller
             'tanggal' => $request->tanggal,
             'pembicara' => $request->pembicara,
             'poster_path' => str_replace('public/', '', $posterPath),
+            'harga' => $request->harga,
         ]);
 
         return redirect()->route('events.index')->with('success', 'Event created successfully.');
@@ -74,6 +76,7 @@ class EventController extends Controller
             'tanggal' => 'required|date',
             'pembicara' => 'required|string|max:255',
             'poster_path' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'harga' => 'required|string|max:255',
         ]);
 
         $event = Event::findOrFail($id);
@@ -94,6 +97,7 @@ class EventController extends Controller
             'deskripsi' => $request->deskripsi,
             'tanggal' => $request->tanggal,
             'pembicara' => $request->pembicara,
+            'harga' => $request->harga,
         ]);
 
         return redirect()->route('events.index')->with('success', 'Event updated successfully.');

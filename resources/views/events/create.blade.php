@@ -22,6 +22,9 @@
             <input type="text" class="form-control" id="pembicara" name="pembicara" value="{{ old('pembicara') }}" required>
         </div>
         <div class="form-group">
+            <label for="harga">Price</label>
+            <input type="number" class="form-control" id="harga" name="harga" value="{{ old('harga') }}" required>
+        <div class="form-group">
             <label for="poster_path">Poster</label>
             <input type="file" class="form-control-file" id="poster_path" name="poster_path" accept="image/*" required>
         </div>

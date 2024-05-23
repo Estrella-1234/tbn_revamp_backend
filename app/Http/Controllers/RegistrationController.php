@@ -29,6 +29,7 @@ class RegistrationController extends Controller
             })
             ->paginate(10);
 
+
         return view('registrations.index', compact('registrations'));
     }
 
@@ -78,33 +79,23 @@ class RegistrationController extends Controller
 
     public function update(Request $request, EventRegistration $registration)
     {
-
         $request->validate([
             'event_id' => 'required|exists:events,id',
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
-            'phone' => 'required|string|max:15',
-            'affiliation' => 'required|string|max:255',
-            'ticket_type' => 'required|string|max:50',
+            'phone' => 'required|string|max:255',
+            'affiliation' => 'nullable|string|max:255',
+            'ticket_type' => 'nullable|string|max:255',
             'notes' => 'nullable|string',
-            'status' => 'required|string|max:255',
+            'status' => 'required|string|in:Pending,Accepted,Rejected',
+            'attendance' => 'required|boolean',
         ]);
 
-        // Update the registration attributes
-        $registration->update([
-            'event_id' => $request->event_id,
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'affiliation' => $request->affiliation,
-            'ticket_type' => $request->ticket_type,
-            'notes' => $request->notes,
-            'status' => $request->status,
-        ]);
+        $registration->update($request->all());
 
-        // Redirect back to the registrations index page with a success message
         return redirect()->route('registrations.index')->with('success', 'Registration updated successfully.');
     }
+
 
 
     public function destroy(EventRegistration $registration)
@@ -227,7 +218,7 @@ class RegistrationController extends Controller
         $registration->attendance = true;
         $registration->save();
 
-        return redirect()->route('registrations.index')->with('success', 'Attendance marked successfully.');
+        return response()->json(['success' => true, 'message' => 'Attendance marked successfully.']);
     }
 
     public function unmarkAttendance(EventRegistration $registration)
@@ -235,7 +226,8 @@ class RegistrationController extends Controller
         $registration->attendance = false;
         $registration->save();
 
-        return redirect()->route('registrations.index')->with('success', 'Attendance unmarked successfully.');
+        return response()->json(['success' => true, 'message' => 'Attendance unmarked successfully.']);
     }
+
 
 }

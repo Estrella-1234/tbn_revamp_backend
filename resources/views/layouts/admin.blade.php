@@ -85,13 +85,13 @@
         </li>
 
 
-{{--        <!-- Nav Item - Blog -->--}}
-{{--        <li class="nav-item {{ Nav::isRoute('review') }}">--}}
-{{--            <a class="nav-link" href="{{ route('review') }}">--}}
-{{--                <i class="fa-solid fa-star"></i>--}}
-{{--                <span>{{ __('Review') }}</span>--}}
-{{--            </a>--}}
-{{--        </li>--}}
+        <!-- Nav Item - Blog -->
+        <li class="nav-item ">
+            <a class="nav-link" href="{{ route('reviews.index') }}">
+                <i class="fa-solid fa-star"></i>
+                <span>{{ __('Review') }}</span>
+            </a>
+        </li>
 
         <!-- Nav Item - About -->
         <li class="nav-item {{ Nav::isRoute('about') }}">

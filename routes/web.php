@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\ReviewsController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -32,7 +33,14 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/registrations/{registration}/updateStatus', [RegistrationController::class, 'updateStatus'])->name('registrations.updateStatus');
     Route::resource('registrations', 'RegistrationController');
 
+//    Route::resource('reviews', ReviewsController::class);
+    Route::get('/reviews', [ReviewsController::class, 'index'])->name('reviews.index');
+    Route::resource('reviews', 'ReviewsController');
 
+// Route to create a review for a specific registration
+
+    Route::get('registrations/{registration}/reviews/create', [ReviewsController::class, 'create'])->name('reviews.create');
+    Route::post('registrations/{registration}/reviews', [ReviewsController::class, 'store'])->name('reviews.store');
 
 });
 
@@ -41,8 +49,7 @@ Route::get('/example', function () {
     return 'Hello, world!';
 });
 
-Route::put('/registrations/{registration}/mark-attendance','RegistrationController@markAttendance' );
-Route::put('/registrations/{registration}/unmark-attendance','RegistrationController@unmarkAttendance' );
+
 
 
 

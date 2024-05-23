@@ -28,10 +28,12 @@
         <thead>
         <tr>
             <th>ID</th>
+            <th>Poster</th>
             <th>Title</th>
             <th>Description</th>
             <th>Date</th>
             <th>Speaker</th>
+            <th>Price</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -39,10 +41,17 @@
         @foreach($events as $event)
             <tr>
                 <td>{{ $event->id }}</td>
+                <td class="text-center align-middle">
+                    @if($event->poster_path)
+                        <img src="{{ asset('storage/' . $event->poster_path) }}" alt="Event Poster" style="max-width: 250px;">
+                    @endif
+                </td>
+
                 <td>{{ $event->judul }}</td>
                 <td>{{ $event->deskripsi }}</td>
                 <td>{{ $event->tanggal }}</td>
                 <td>{{ $event->pembicara }}</td>
+                <td>{{ 'Rp ' . number_format($event->harga, 0, ',', '.') }}</td>
                 <td>
                     <a href="{{ route('events.edit', $event->id) }}" class="btn btn-warning">Edit</a>
                     <button type="button" class="btn btn-danger delete-event" data-event-id="{{ $event->id }}"

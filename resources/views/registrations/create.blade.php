@@ -38,5 +38,6 @@
             <textarea name="notes" id="notes" class="form-control"></textarea>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
+        <a href="{{ route('registrations.index') }}" class="btn btn-secondary ">Back to Registrations</a>
     </form>
 @endsection

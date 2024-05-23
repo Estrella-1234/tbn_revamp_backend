@@ -31,5 +31,11 @@ class EventRegistration extends Model
     {
         return $this->belongsTo(Event::class);
     }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
 }
 
