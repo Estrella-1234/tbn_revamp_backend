@@ -61,18 +61,33 @@ class ReviewsController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'review' => 'required|string|max:255',
+            'rating' => 'required|integer|min:1|max:5',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()->first()], 400);
         }
 
+        $imagePath = null;
+
+        // Handle the file upload
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $imagePath = $image->storeAs('review', $imageName, 'public');
+        }
+
+        // Create the review
         $review = $registration->reviews()->create([
             'review' => $request->input('review'),
+            'rating' => $request->input('rating'),
+            'image_path' => $imagePath, // save image path to the database
         ]);
 
         return response()->json(['message' => 'Review added successfully', 'review' => $review], 200);
     }
+
 
     public function updateReview(Request $request, Review $review): JsonResponse
     {

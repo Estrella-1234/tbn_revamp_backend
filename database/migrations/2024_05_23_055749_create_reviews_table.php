@@ -17,7 +17,7 @@ class CreateReviewsTable extends Migration
             $table->id();
             $table->foreignId('event_registration_id')->constrained()->onDelete('cascade');
             $table->text('review');
-            $table->integer('rating')->nullable();
+            $table->integer('rating')->nullable()->default(0);
             $table->string('image_path')->nullable();
             $table->timestamps();
         });

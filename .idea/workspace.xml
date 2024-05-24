@@ -5,30 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2edcff2e-9b78-4fdf-b5b4-865568011779" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/views/reviews/create.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/reviews/edit.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/reviews/index.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/reviews/show.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/EventController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/EventController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/FrontendRegisterController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/FrontendRegisterController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/RegistrationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/RegistrationController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Event.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Event.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/EventRegistration.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/EventRegistration.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2024_05_16_080435_create_events_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2024_05_16_080435_create_events_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2024_05_18_074515_create_event_user_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2024_05_19_132939_add_reviews.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/events/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/events/create.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/events/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/events/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/events/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/events/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/events/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/events/show.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/admin.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/admin.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/registrations/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/registrations/create.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/registrations/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/registrations/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/registrations/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/registrations/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/registrations/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/registrations/show.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ReviewsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ReviewsController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2024_05_23_055749_create_reviews_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2024_05_23_055749_create_reviews_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/reviews/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/reviews/index.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/logs/laravel.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -284,6 +264,7 @@
       <workItem from="1716201572363" duration="9914000" />
       <workItem from="1716367463769" duration="1055000" />
       <workItem from="1716442652593" duration="9505000" />
+      <workItem from="1716514194582" duration="3681000" />
     </task>
     <servers />
   </component>

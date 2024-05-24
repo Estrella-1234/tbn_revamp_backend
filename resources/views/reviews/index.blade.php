@@ -10,7 +10,9 @@
                 <thead>
                 <tr>
                     <th>User</th>
+                    <th>Image</th>
                     <th>Review</th>
+                    <th>Rating</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -18,7 +20,13 @@
                 @foreach($reviews as $review)
                     <tr>
                         <td>{{ $review->registration->name }}</td>
+                        <td class="text-center align-middle">
+                            @if($review->image_path)
+                                <img src="{{ asset('storage/' . $review->image_path) }}" alt="Review Poster" style="max-width: 250px;">
+                            @endif
+                        </td>
                         <td>{{ $review->review }}</td>
+                        <td>{{ $review->rating }}</td>
                         <td>
                             <a href="{{ route('reviews.edit', $review->id) }}" class="btn btn-warning btn-sm">Edit</a>
                             <form action="{{ route('reviews.destroy', $review->id) }}" method="POST" class="d-inline">
