@@ -41,7 +41,6 @@
             </div>
         </a>
 
-
         <!-- Divider -->
         <hr class="sidebar-divider my-0">
 
@@ -49,7 +48,8 @@
         <li class="nav-item {{ Nav::isRoute('home') }}">
             <a class="nav-link" href="{{ route('home') }}">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
-                <span>{{ __('Dashboard') }}</span></a>
+                <span>{{ __('Dashboard') }}</span>
+            </a>
         </li>
 
         <!-- Divider -->
@@ -57,9 +57,10 @@
 
         <!-- Heading -->
         <div class="sidebar-heading">
-            {{ __('Menu') }}
+            {{ __('User Management') }}
         </div>
 
+        <!-- User Management -->
         <!-- Nav Item - User -->
         <li class="nav-item {{ Nav::isRoute('users.index') }}">
             <a class="nav-link" href="{{ route('users.index') }}">
@@ -67,6 +68,15 @@
                 <span>{{ __('User') }}</span>
             </a>
         </li>
+
+        <!-- Event Management -->
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            {{ __('Event Management') }}
+        </div>
 
         <!-- Nav Item - Event -->
         <li class="nav-item {{ Nav::isRoute('events.index') }}">
@@ -76,7 +86,7 @@
             </a>
         </li>
 
-        <!-- Nav Item - Registration -->
+        <!-- Nav Item - Event Registrations -->
         <li class="nav-item">
             <a class="nav-link" href="{{ route('registrations.index') }}">
                 <i class="fa-solid fa-calendar-check"></i>
@@ -84,14 +94,22 @@
             </a>
         </li>
 
-
-
-        <li class="nav-item ">
+        <!-- Nav Item - Review -->
+        <li class="nav-item">
             <a class="nav-link" href="{{ route('reviews.index') }}">
                 <i class="fa-solid fa-star"></i>
                 <span>{{ __('Review') }}</span>
             </a>
         </li>
+
+        <!-- Content Management -->
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            {{ __('Content Management') }}
+        </div>
 
         <!-- Nav Item - Blog -->
         <li class="nav-item {{ Nav::isRoute('blogs.index') }}">
@@ -99,7 +117,9 @@
                 <i class="fas fa-fw fa-blog"></i>
                 <span>{{ __('Blog') }}</span>
             </a>
+        </li>
 
+        <!-- About -->
         <!-- Nav Item - About -->
         <li class="nav-item {{ Nav::isRoute('about') }}">
             <a class="nav-link" href="{{ route('about') }}">
@@ -107,7 +127,6 @@
                 <span>{{ __('About') }}</span>
             </a>
         </li>
-
 
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">
@@ -119,6 +138,7 @@
 
     </ul>
     <!-- End of Sidebar -->
+
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">

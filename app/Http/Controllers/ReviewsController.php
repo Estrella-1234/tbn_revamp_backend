@@ -106,10 +106,8 @@ class ReviewsController extends Controller
 
     public function updateReview(Request $request, Review $review): JsonResponse
     {
-        // Log the raw request content for debugging
-        \Log::info('Raw Request Content: ' . $request->getContent());
+        dd($request->all());
 
-        // Validate the request
         $validator = Validator::make($request->all(), [
             'review' => 'required|string|max:255',
             'rating' => 'required|integer|min:1|max:5',
@@ -117,7 +115,6 @@ class ReviewsController extends Controller
         ]);
 
         if ($validator->fails()) {
-            \Log::error('Validation Errors: ', $validator->errors()->toArray());
             return response()->json(['error' => $validator->errors()->first()], 400);
         }
 
