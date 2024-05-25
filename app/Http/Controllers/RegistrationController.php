@@ -49,7 +49,6 @@ class RegistrationController extends Controller
             'phone' => 'required|string|max:15',
             'affiliation' => 'required|string|max:255',
             'ticket_type' => 'required|string|max:50',
-            'notes' => 'nullable|string',
         ]);
 
         EventRegistration::create([
@@ -161,6 +160,7 @@ class RegistrationController extends Controller
 
     public function editRegistration(Request $request, $id)
     {
+        dd($request->all());
         // Validate the incoming request data
         $validator = Validator::make($request->all(), [
             'user_id' => 'required|exists:users,id',

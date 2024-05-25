@@ -9,6 +9,7 @@
             <table class="table table-bordered">
                 <thead>
                 <tr>
+                    <th>Event</th>
                     <th>User</th>
                     <th>Image</th>
                     <th>Review</th>
@@ -19,6 +20,7 @@
                 <tbody>
                 @foreach($reviews as $review)
                     <tr>
+                        <td>{{ $review->registration->event->judul }}</td>
                         <td>{{ $review->registration->name }}</td>
                         <td class="text-center align-middle">
                             @if($review->image_path)

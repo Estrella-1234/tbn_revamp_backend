@@ -5,10 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2edcff2e-9b78-4fdf-b5b4-865568011779" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/resources/views/blogs/create.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/blogs/edit.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/blogs/index.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/blogs/show.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/RegistrationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/RegistrationController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ReviewsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ReviewsController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2024_05_23_055749_create_reviews_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2024_05_23_055749_create_reviews_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Post.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2024_05_13_052451_create_posts_table.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/admin.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/admin.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/reviews/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/reviews/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/logs/laravel.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -264,7 +274,10 @@
       <workItem from="1716201572363" duration="9914000" />
       <workItem from="1716367463769" duration="1055000" />
       <workItem from="1716442652593" duration="9505000" />
-      <workItem from="1716514194582" duration="3681000" />
+      <workItem from="1716514194582" duration="5930000" />
+      <workItem from="1716523957087" duration="4903000" />
+      <workItem from="1716532498253" duration="570000" />
+      <workItem from="1716616606196" duration="2623000" />
     </task>
     <servers />
   </component>

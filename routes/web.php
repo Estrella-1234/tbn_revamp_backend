@@ -42,6 +42,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('registrations/{registration}/reviews/create', [ReviewsController::class, 'create'])->name('reviews.create');
     Route::post('registrations/{registration}/reviews', [ReviewsController::class, 'store'])->name('reviews.store');
 
+
+
+    Route::resource('blogs', 'BlogController');
+
+
 });
 
 // Public route for testing

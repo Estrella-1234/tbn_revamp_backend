@@ -85,13 +85,20 @@
         </li>
 
 
-        <!-- Nav Item - Blog -->
+
         <li class="nav-item ">
             <a class="nav-link" href="{{ route('reviews.index') }}">
                 <i class="fa-solid fa-star"></i>
                 <span>{{ __('Review') }}</span>
             </a>
         </li>
+
+        <!-- Nav Item - Blog -->
+        <li class="nav-item {{ Nav::isRoute('blogs.index') }}">
+            <a class="nav-link" href="{{ route('blogs.index') }}">
+                <i class="fas fa-fw fa-blog"></i>
+                <span>{{ __('Blog') }}</span>
+            </a>
 
         <!-- Nav Item - About -->
         <li class="nav-item {{ Nav::isRoute('about') }}">
