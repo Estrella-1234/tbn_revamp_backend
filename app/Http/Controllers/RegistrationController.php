@@ -160,7 +160,7 @@ class RegistrationController extends Controller
 
     public function editRegistration(Request $request, $id)
     {
-        dd($request->all());
+
         // Validate the incoming request data
         $validator = Validator::make($request->all(), [
             'user_id' => 'required|exists:users,id',

@@ -106,7 +106,6 @@ class ReviewsController extends Controller
 
     public function updateReview(Request $request, Review $review): JsonResponse
     {
-        dd($request->all());
 
         $validator = Validator::make($request->all(), [
             'review' => 'required|string|max:255',

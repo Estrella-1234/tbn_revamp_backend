@@ -1,7 +1,6 @@
 @extends('layouts.admin')
 
 @section('main-content')
-    <div class="container my-4">
         <div class="card">
             <div class="card-body">
                 <h1 class="card-title">{{ $blog->title }}</h1>
@@ -9,11 +8,11 @@
                 <p class="card-text">{{ $blog->desc }}</p>
                 @if ($blog->image_path)
                     <div class="mb-3">
-                        <img src="{{ asset('storage/' . $blog->image_path) }}" alt="Blog Image" class="img-fluid" style="max-width: 100%; height: auto;">
+                        <img src="{{ asset('storage/' . $blog->image_path) }}" alt="Blog Image" class="img-fluid" style="max-width: 50%; height: auto;">
                     </div>
                 @endif
                 <div class="d-flex justify-content-start">
-                    <a href="{{ route('blogs.edit', $blog->id) }}" class="btn btn-primary me-2">Edit</a>
+                    <a href="{{ route('blogs.edit', $blog->id) }}" class="btn btn-primary mr-2">Edit</a>
                     <form action="{{ route('blogs.destroy', $blog->id) }}" method="POST" style="display: inline-block;">
                         @csrf
                         @method('DELETE')
@@ -23,6 +22,7 @@
                 </div>
             </div>
         </div>
+
         <hr>
         <div class="card mt-4">
             <div class="card-body">
@@ -39,7 +39,12 @@
                     </div>
                     <hr>
                 @endforeach
+            </div>
+        </div>
 
+        <hr>
+        <div class="card mt-4">
+            <div class="card-body">
                 <h3>Add a Comment</h3>
                 <form action="{{ route('comments.store', $blog->id) }}" method="POST">
                     @csrf
@@ -61,5 +66,5 @@
                 </form>
             </div>
         </div>
-    </div>
+
 @endsection

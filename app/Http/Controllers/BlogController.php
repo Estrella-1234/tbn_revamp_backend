@@ -173,6 +173,12 @@ class BlogController extends Controller
     {
         $blog = Blog::find($id);
         if ($blog) {
+            // Hapus gambar terkait jika ada
+            if ($blog->image_path) {
+                \Storage::delete('public/' . $blog->image_path);
+            }
+
+            // Hapus blog dari database
             $blog->delete();
             return response()->json(['message' => 'Blog deleted successfully']);
         } else {

@@ -123,9 +123,16 @@ class EventController extends Controller
     {
         $events = Event::all();
 
-        return response()->json([
-            'events' => $events,
-        ]);
+        if($events->isEmpty()) {
+            return response()->json([
+                'message' => 'No events found',
+            ]);
+        }else {
+            return response()->json([
+                'events' => $events,
+            ]);
+        }
+
     }
 
     public function getEvent($id)
