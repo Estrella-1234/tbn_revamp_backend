@@ -14,3 +14,5 @@ storage/logs
 storage/logs/laravel.log
 .idea/workspace.xml
 /.idea
+/.idea
+/storage
