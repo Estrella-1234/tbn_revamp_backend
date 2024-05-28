@@ -25,6 +25,11 @@
                    value="{{ old('tanggal', \Carbon\Carbon::parse($event->tanggal)->format('Y-m-d\TH:i')) }}" required>
         </div>
         <div class="form-group">
+            <label for="lokasi">Location</label>
+            <input type="text" class="form-control" id="lokasi" name="lokasi"
+                   value="{{ old('lokasi', $event->lokasi) }}" required>
+        </div>
+        <div class="form-group">
             <label for="pembicara">Speaker</label>
             <input type="text" class="form-control" id="pembicara" name="pembicara"
                    value="{{ old('pembicara', $event->pembicara) }}" required>

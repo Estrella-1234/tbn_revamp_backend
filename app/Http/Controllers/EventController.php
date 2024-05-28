@@ -18,7 +18,8 @@ class EventController extends Controller
                 return $query->where('judul', 'like', "%$search%")
                     ->orWhere('deskripsi', 'like', "%$search%")
                     ->orWhere('tanggal', 'like', "%$search%")
-                    ->orWhere('pembicara', 'like', "%$search%");
+                    ->orWhere('pembicara', 'like', "%$search%")
+                    ->orWhere('lokasi', 'like', "%$search%");
             })
             ->paginate(10);
 
@@ -40,6 +41,7 @@ class EventController extends Controller
             'pembicara' => 'required|string|max:255',
             'poster_path' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'harga' => 'required|string|max:255',
+            'lokasi' => 'required|string|max:255',
         ]);
 
         $posterPath = $request->file('poster_path')->store('public/posters');
@@ -51,6 +53,7 @@ class EventController extends Controller
             'pembicara' => $request->pembicara,
             'poster_path' => str_replace('public/', '', $posterPath),
             'harga' => $request->harga,
+            'lokasi' => $request->lokasi
         ]);
 
         return redirect()->route('events.index')->with('success', 'Event created successfully.');
@@ -74,6 +77,7 @@ class EventController extends Controller
             'judul' => 'required|string|max:255',
             'deskripsi' => 'required|string',
             'tanggal' => 'required|date',
+            'lokasi' => 'required|string|max:255',
             'pembicara' => 'required|string|max:255',
             'poster_path' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'harga' => 'required|string|max:255',
@@ -96,6 +100,7 @@ class EventController extends Controller
             'judul' => $request->judul,
             'deskripsi' => $request->deskripsi,
             'tanggal' => $request->tanggal,
+            'lokasi' => $request->lokasi,
             'pembicara' => $request->pembicara,
             'harga' => $request->harga,
         ]);

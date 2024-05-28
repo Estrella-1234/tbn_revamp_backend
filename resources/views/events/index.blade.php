@@ -32,6 +32,7 @@
             <th>Title</th>
             <th>Description</th>
             <th>Date</th>
+            <th>Location</th>
             <th>Speaker</th>
             <th>Price</th>
             <th>Actions</th>
@@ -50,6 +51,7 @@
                 <td>{{ $event->judul }}</td>
                 <td>{{ $event->deskripsi }}</td>
                 <td>{{ $event->tanggal }}</td>
+                <td>{{ $event->lokasi }}</td>
                 <td>{{ $event->pembicara }}</td>
                 <td>{{ 'Rp ' . number_format($event->harga, 0, ',', '.') }}</td>
                 <td>
