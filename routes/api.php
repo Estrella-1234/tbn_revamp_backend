@@ -21,6 +21,7 @@ Route::middleware('auth:api')->get('/users', function (Request $request) {
 
 Route::post('login', 'FrontendAuthController@login');
 Route::post('register', 'FrontendRegisterController@register');
+Route::post('/google-auth', 'FrontendRegisterController@googleAuth');
 Route::get('/events', 'EventController@getAllEvents');
 Route::get('/events/{id}', 'EventController@getEvent');
 

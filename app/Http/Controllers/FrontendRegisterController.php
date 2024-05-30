@@ -45,4 +45,34 @@ class FrontendRegisterController extends Controller
 
         return response()->json(compact('user', 'token'));
     }
+
+
+    public function googleAuth(Request $request )
+    {
+
+        $user = User::where('email', $request->email)->first();
+
+        if ($user) {
+            $token = JWTAuth::fromUser($user);
+            return response()->json(compact('user', 'token'));
+        } else {
+
+            $user = User::create([
+                'name' => $request->name,
+                'last_name' => $request->last_name,
+                'email' => $request->email,
+                'password' =>  $request->password,
+                'user_role' => 'users',
+            ]);
+
+            if (!$user) {
+                return response()->json(['error' => 'Failed to create user'], 500);
+            }
+
+            $token = JWTAuth::fromUser($user);
+            $status = "success";
+            return response()->json(compact('user', 'token','status'));
+
+        }
+    }
 }
