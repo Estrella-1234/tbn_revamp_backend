@@ -74,7 +74,7 @@ class ReviewsController extends Controller
     public function addReview(Request $request, EventRegistration $registration): JsonResponse
     {
         $validator = Validator::make($request->all(), [
-            'review' => 'required|string|max:255',
+            'review' => 'required|string',
             'rating' => 'required|integer|min:1|max:5',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
