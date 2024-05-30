@@ -43,7 +43,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('registrations/{registration}/reviews', [ReviewsController::class, 'store'])->name('reviews.store');
 
 
-
     Route::resource('blogs', 'BlogController');
 
 

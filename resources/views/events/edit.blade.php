@@ -38,6 +38,7 @@
             <label for="harga">Price</label>
             <input type="number" class="form-control" id="harga" name="harga" value="{{ old('harga', $event->harga) }}"
                    required>
+        </div>
         <div class="form-group">
             <label for="poster_path">Poster</label>
             <input type="file" class="form-control-file" id="poster_path" name="poster_path" accept="image/*">
@@ -55,4 +56,9 @@
             <a href="{{ route('events.index') }}" class="btn btn-secondary ">Back to Events</a>
         </div>
     </form>
+
+    <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('deskripsi');
+    </script>
 @endsection

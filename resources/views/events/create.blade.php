@@ -28,13 +28,20 @@
         <div class="form-group">
             <label for="harga">Price</label>
             <input type="number" class="form-control" id="harga" name="harga" value="{{ old('harga') }}" required>
-        <div class="form-group">
-            <label for="poster_path">Poster</label>
-            <input type="file" class="form-control-file" id="poster_path" name="poster_path" accept="image/*" required>
-        </div>
-        <div class="d-flex align-items-center">
-            <button type="submit" class="btn btn-primary mr-3">{{ __('Create Event') }}</button>
-            <a href="{{ route('events.index') }}" class="btn btn-secondary">{{ __('Back to Events') }}</a>
+            <div class="form-group">
+                <label for="poster_path">Poster</label>
+                <input type="file" class="form-control-file" id="poster_path" name="poster_path" accept="image/*" required>
+            </div>
+            <div class="d-flex align-items-center">
+                <button type="submit" class="btn btn-primary mr-3">{{ __('Create Event') }}</button>
+                <a href="{{ route('events.index') }}" class="btn btn-secondary">{{ __('Back to Events') }}</a>
+            </div>
         </div>
     </form>
+
+    <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('deskripsi');
+    </script>
+
 @endsection

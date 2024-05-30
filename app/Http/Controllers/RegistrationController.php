@@ -42,6 +42,7 @@ class RegistrationController extends Controller
 
     public function store(Request $request)
     {
+        
         $request->validate([
             'event_id' => 'required|exists:events,id',
             'name' => 'required|string|max:255',
@@ -103,6 +104,7 @@ class RegistrationController extends Controller
         return redirect()->route('registrations.index')->with('success', 'Registration deleted successfully.');
     }
 
+    //==================================================================================================================
     public function getAllData()
     {
         $registrations = EventRegistration::with('event')->get();

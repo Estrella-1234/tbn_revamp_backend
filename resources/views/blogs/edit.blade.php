@@ -26,4 +26,9 @@
                 <a href="{{ route('blogs.index') }}" class="btn btn-secondary ">Back to Blog</a>
             </div>
         </form>
+
+        <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
+        <script>
+            CKEDITOR.replace('desc');
+        </script>
 @endsection
