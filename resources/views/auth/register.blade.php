@@ -57,7 +57,7 @@
                                 <hr>
 
                                 <div class="text-center">
-                                    <a class="small" href="{{ route('login') }}">
+                                    <a class="small text-link" href="{{ route('login') }}">
                                         {{ __('Already have an account? Login!') }}
                                     </a>
                                 </div>

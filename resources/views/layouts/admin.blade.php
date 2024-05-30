@@ -10,7 +10,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'TBN Alliance') }}</title>
 
     <!-- Fonts -->
     <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
@@ -21,6 +21,11 @@
 
     <!-- Favicon -->
     <link href="{{ asset('img/favicon.png') }}" rel="icon" type="image/png">
+
+    <link href="{{ asset('css/main.css') }}" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
 </head>
 <body id="page-top">
 
@@ -30,11 +35,10 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
         <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-            <div class="sidebar-brand-icon rotate-n-15">
-                <i class="fas fa-laugh-wink"></i>
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('home') }}">
+            <div class="sidebar-brand-icon">
+                <img src="{{ asset('img/Dashboard-ico.png') }}" alt="TBN Logo">
             </div>
-            <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
         </a>
 
         <!-- Divider -->
@@ -44,7 +48,8 @@
         <li class="nav-item {{ Nav::isRoute('home') }}">
             <a class="nav-link" href="{{ route('home') }}">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
-                <span>{{ __('Dashboard') }}</span></a>
+                <span>{{ __('Dashboard') }}</span>
+            </a>
         </li>
 
         <!-- Divider -->
@@ -52,17 +57,69 @@
 
         <!-- Heading -->
         <div class="sidebar-heading">
-            {{ __('Settings') }}
+            {{ __('User Management') }}
         </div>
 
-        <!-- Nav Item - Profile -->
-        <li class="nav-item {{ Nav::isRoute('profile') }}">
-            <a class="nav-link" href="{{ route('profile') }}">
-                <i class="fas fa-fw fa-user"></i>
-                <span>{{ __('Profile') }}</span>
+        <!-- User Management -->
+        <!-- Nav Item - User -->
+        <li class="nav-item {{ Nav::isRoute('users.index') }}">
+            <a class="nav-link" href="{{ route('users.index') }}">
+                <i class="fas fa-fw fa-users"></i>
+                <span>{{ __('User') }}</span>
             </a>
         </li>
 
+        <!-- Event Management -->
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            {{ __('Event Management') }}
+        </div>
+
+        <!-- Nav Item - Event -->
+        <li class="nav-item {{ Nav::isRoute('events.index') }}">
+            <a class="nav-link" href="{{ route('events.index') }}">
+                <i class="fa-solid fa-calendar-days"></i>
+                <span>{{ __('Event') }}</span>
+            </a>
+        </li>
+
+        <!-- Nav Item - Event Registrations -->
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('registrations.index') }}">
+                <i class="fa-solid fa-calendar-check"></i>
+                <span>{{ __('Event Registrations') }}</span>
+            </a>
+        </li>
+
+        <!-- Nav Item - Review -->
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('reviews.index') }}">
+                <i class="fa-solid fa-star"></i>
+                <span>{{ __('Review') }}</span>
+            </a>
+        </li>
+
+        <!-- Content Management -->
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            {{ __('Content Management') }}
+        </div>
+
+        <!-- Nav Item - Blog -->
+        <li class="nav-item {{ Nav::isRoute('blogs.index') }}">
+            <a class="nav-link" href="{{ route('blogs.index') }}">
+                <i class="fas fa-fw fa-blog"></i>
+                <span>{{ __('Blog') }}</span>
+            </a>
+        </li>
+
+        <!-- About -->
         <!-- Nav Item - About -->
         <li class="nav-item {{ Nav::isRoute('about') }}">
             <a class="nav-link" href="{{ route('about') }}">
@@ -82,6 +139,7 @@
     </ul>
     <!-- End of Sidebar -->
 
+
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
 
@@ -89,24 +147,13 @@
         <div id="content">
 
             <!-- Topbar -->
-            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow fixed-topbar">
 
                 <!-- Sidebar Toggle (Topbar) -->
                 <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                     <i class="fa fa-bars"></i>
                 </button>
 
-                <!-- Topbar Search -->
-                <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                    <div class="input-group">
-                        <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" type="button">
-                                <i class="fas fa-search fa-sm"></i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
 
                 <!-- Topbar Navbar -->
                 <ul class="navbar-nav ml-auto">
@@ -136,7 +183,7 @@
                         <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-bell fa-fw"></i>
                             <!-- Counter - Alerts -->
-                            <span class="badge badge-danger badge-counter">3+</span>
+{{--                            <span class="badge badge-danger badge-counter">3+</span>--}}
                         </a>
                         <!-- Dropdown - Alerts -->
                         <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
@@ -185,7 +232,7 @@
                         <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-envelope fa-fw"></i>
                             <!-- Counter - Messages -->
-                            <span class="badge badge-danger badge-counter">7</span>
+{{--                            <span class="badge badge-danger badge-counter">7</span>--}}
                         </a>
                         <!-- Dropdown - Messages -->
                         <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
@@ -286,12 +333,12 @@
         <footer class="sticky-footer bg-white">
             <div class="container my-auto">
                 <div class="copyright text-center my-auto">
-                    <span>Copyright &copy; <a href="https://github.com/aleckrh" target="_blank">Aleckrh</a> {{ now()->year }}</span>
+                    <span>Copyright &copy; <a href="https://github.com/Estrella-1234" target="_blank">Estrella</a> {{ now()->year }}</span>
                 </div>
             </div>
         </footer>
         <!-- End of Footer -->
-
+`
     </div>
     <!-- End of Content Wrapper -->
 

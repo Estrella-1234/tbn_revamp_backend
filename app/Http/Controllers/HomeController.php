@@ -24,11 +24,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $users = User::count();
-
         $widget = [
-            'users' => $users,
-            //...
+            'users' => User::where('user_role', 'users')->count(),
         ];
 
         return view('home', compact('widget'));

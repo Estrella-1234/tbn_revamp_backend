@@ -1,0 +1,31 @@
+
+.bg-gradient-primary {
+    background-color: #092040; /* Start color */
+    background-image: linear-gradient(180deg, #092040 50%, #306CC0 100%);
+    background-size: cover;
+}
+
+
+.sidebar-brand img {
+    max-width: 150px;
+    height: auto;
+    transition: max-width 0.5s ease;
+}
+
+@media (min-width: 768px) {
+    .sidebar.toggled .sidebar-brand img {
+        max-width: 100px;
+    }
+}
+
+/* When in mobile view */
+@media (max-width: 767.98px) {
+    .sidebar-brand img {
+        max-width: 100px;
+    }
+}
+
+
+
+
+

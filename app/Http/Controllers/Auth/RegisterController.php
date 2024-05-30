@@ -8,6 +8,8 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
+
 
 class RegisterController extends Controller
 {
@@ -58,7 +60,7 @@ class RegisterController extends Controller
     }
 
     /**
-     * Create a new user instance after a valid registration.
+     * Create a new users instance after a valid registration.
      *
      * @param  array  $data
      * @return \App\Models\User
@@ -70,6 +72,12 @@ class RegisterController extends Controller
             'last_name' => $data['last_name'],
             'email' => $data['email'],
             'password' => $data['password'],
+            'user_role' => 'admin',
         ]);
+    }
+
+    protected function registered(Request $request, $user)
+    {
+        return redirect()->route('login')->with('success', 'Registration successful! Please login.');
     }
 }
