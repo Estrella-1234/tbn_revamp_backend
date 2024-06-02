@@ -14,34 +14,42 @@
             </div>
         @endif
 
+        @php
+            $postData = json_decode(stripslashes($post->post_data), true);
+        @endphp
+
         <form action="{{ route('posts.update', $post) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="form-group">
+                <label for="section">Section</label>
+                <input type="text" name="section" id="section" class="form-control" value="{{ $post->section }}">
+            </div>
+            <div class="form-group">
                 <label for="title">Title</label>
-                <input type="text" name="title" id="title" class="form-control" value="{{ $post->title }}">
+                <input type="text" name="title" id="title" class="form-control" value="{{ $postData['title'] ?? '' }}">
             </div>
             <div class="form-group">
                 <label for="description">Description</label>
-                <textarea name="description" id="description" class="form-control">{{ $post->description }}</textarea>
+                <textarea name="description" id="description" class="form-control">{{ $postData['description'] ?? '' }}</textarea>
             </div>
             <div class="form-group">
                 <label for="content_type">Content Type</label>
                 <select name="content_type" id="content_type" class="form-control">
-                    <option value="image" {{ $post->content_type === 'image' ? 'selected' : '' }}>Image</option>
-                    <option value="video" {{ $post->content_type === 'video' ? 'selected' : '' }}>Video</option>
+                    <option value="image" {{ isset($postData['content_type']) && $postData['content_type'] === 'image' ? 'selected' : '' }}>Image</option>
+                    <option value="video" {{ isset($postData['content_type']) && $postData['content_type'] === 'video' ? 'selected' : '' }}>Video</option>
                 </select>
             </div>
-            <div id="image-upload" class="form-group {{ $post->content_type !== 'image' ? 'd-none' : '' }}">
+            <div id="image-upload" class="form-group {{ isset($postData['content_type']) && $postData['content_type'] !== 'image' ? 'd-none' : '' }}">
                 <label for="image">Image</label><br>
-                @if($post->content_type === 'image' && $post->content)
-                    <img src="{{ asset('storage/' . $post->content) }}" alt="Old Image" style="max-width: 35%;">
+                @if(isset($postData['content_type']) && $postData['content_type'] === 'image' && isset($postData['content']))
+                    <img src="{{ asset('storage/' . $postData['content']) }}" alt="Old Image" style="max-width: 35%;">
                 @endif
                 <input type="file" name="image" id="image" class="form-control-file">
             </div>
-            <div id="video-url" class="form-group {{ $post->content_type !== 'video' ? 'd-none' : '' }}">
+            <div id="video-url" class="form-group {{ isset($postData['content_type']) && $postData['content_type'] !== 'video' ? 'd-none' : '' }}">
                 <label for="video_url">Video URL</label>
-                <input type="text" name="video_url" id="video_url" class="form-control" value="{{ $post->content_type === 'video' ? $post->content : '' }}">
+                <input type="text" name="video_url" id="video_url" class="form-control" value="{{ isset($postData['content_type']) && $postData['content_type'] === 'video' ? $postData['content'] : '' }}">
             </div>
             <button type="submit" class="btn btn-primary">Update Post</button>
         </form>

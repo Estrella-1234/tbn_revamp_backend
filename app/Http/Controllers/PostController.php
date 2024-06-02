@@ -71,31 +71,46 @@ class PostController extends Controller
             'video_url' => $request->content_type == 'video' ? 'required|url' : '',
         ]);
 
+        // Decode the post data from JSON to an array
+        $postData = json_decode($post->post_data, true);
+
+        // Check if content type is changed or a new file is uploaded
+        $contentChanged = $request->content_type !== $postData['content_type'] || ($request->content_type == 'image' && $request->hasFile('image'));
+
+        // Delete the old image or video file if content type is changed or a new file is uploaded
+        if ($contentChanged && $postData['content_type'] === 'image' && $postData['content']) {
+            Storage::disk('public')->delete($postData['content']);
+        }
+
+        // Handle image upload if content type is image
         if ($request->content_type == 'image' && $request->hasFile('image')) {
-            if ($post->content_type == 'image' && $post->content) {
-                Storage::disk('public')->delete($post->content);
-            }
             $imagePath = $request->file('image')->store('posts', 'public');
         } else {
             $imagePath = null;
         }
 
-        $post->section = $request->section;
-        $post->post_data = json_encode([
+        // Update post data
+        $postData = [
             'title' => $request->title,
             'description' => $request->description,
             'content_type' => $request->content_type,
             'content' => $request->content_type === 'image' ? $imagePath : $request->video_url,
-        ]);
+        ];
+
+        $post->section = $request->section;
+        $post->post_data = json_encode($postData);
         $post->save();
 
         return redirect()->route('posts.index')->with('success', 'Post updated successfully.');
     }
 
+
     public function destroy(Post $post)
     {
-        if ($post->content_type === 'image' && $post->content) {
-            Storage::disk('public')->delete($post->content);
+        $postData = json_decode($post->post_data, true);
+
+        if ($postData['content_type'] === 'image' && $postData['content']) {
+            Storage::disk('public')->delete($postData['content']);
         }
 
         $post->delete();
@@ -103,9 +118,31 @@ class PostController extends Controller
         return redirect()->route('posts.index')->with('success', 'Post deleted successfully.');
     }
 
+
+
+
     public function getAllPost()
     {
         $posts = Post::all();
-        return response()->json($posts);
+
+        // Decode the post_data for each post and remove backslashes
+        $decodedPosts = $posts->map(function ($post) {
+            $postData = json_decode(stripslashes($post->post_data), true);
+            return [
+                'id' => $post->id,
+                'section' => $post->section,
+                'post_data' => [
+                    'title' => $postData['title'] ?? null,
+                    'description' => $postData['description'] ?? null,
+                    'content_type' => $postData['content_type'] ?? null,
+                    'content' => $postData['content'] ?? null,
+                ],
+                'created_at' => $post->created_at,
+                'updated_at' => $post->updated_at
+            ];
+        });
+
+        return response()->json($decodedPosts);
     }
+
 }
