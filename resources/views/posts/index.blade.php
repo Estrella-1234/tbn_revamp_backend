@@ -24,7 +24,7 @@
             <tbody>
             @foreach ($posts as $post)
                 @php
-                    $postData = json_decode($post->post_data, true);
+                    $postData = is_array($post->post_data) ? $post->post_data : json_decode($post->post_data, true);
                 @endphp
                 <tr>
                     <td>{{ $post->section }}</td>
