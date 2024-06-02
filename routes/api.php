@@ -53,6 +53,9 @@ Route::post('blogs/{blog}/comments', 'CommentController@createComment');
 Route::put('comments/{comment}', 'CommentController@editComment');
 Route::delete('comments/{comment}', 'CommentController@deleteF');
 
+Route::get('posts', 'PostController@getAllPost');
+
+
 
 
 
