@@ -24,7 +24,7 @@
             @foreach ($posts as $post)
                 <tr>
                     <td>{{ $post->title }}</td>
-                    <td>{{ $post->description }}</td>
+                    <td>{!! $post->description !!}</td>
                     <td>{{ $post->content_type }}</td>
                     <td>
                         <a href="{{ route('posts.show', $post) }}" class="btn btn-info btn-sm">View</a>

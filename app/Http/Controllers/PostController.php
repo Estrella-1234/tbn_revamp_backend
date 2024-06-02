@@ -74,13 +74,18 @@ class PostController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'content_type' => 'required|in:image,video',
-            'image' => $request->content_type == 'image' ? 'required|image|mimes:jpeg,png,jpg,gif|max:5120' : '',
+            'image' => $request->content_type == 'image' ? 'image|mimes:jpeg,png,jpg,gif|max:5120' : '',
             'video_url' => $request->content_type == 'video' ? 'required|url' : '',
         ]);
 
         // Handle image upload if content type is image
         if ($request->content_type == 'image' && $request->hasFile('image')) {
-            $imagePath = $this->uploadImage($request->file('image'));
+            // Delete old image if it exists
+            if ($post->content_type == 'image' && $post->content) {
+                Storage::disk('public')->delete($post->content);
+            }
+            // Upload new image
+            $imagePath = $request->file('image')->store('posts', 'public');
         } else {
             $imagePath = null;
         }
@@ -93,6 +98,7 @@ class PostController extends Controller
 
         return redirect()->route('posts.index')->with('success', 'Post updated successfully.');
     }
+
 
     public function destroy(Post $post)
     {

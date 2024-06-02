@@ -14,7 +14,7 @@
             </div>
         @endif
 
-        <form action="{{ route('posts.update', $post) }}" method="POST">
+        <form action="{{ route('posts.update', $post) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="form-group">
@@ -23,11 +23,25 @@
             </div>
             <div class="form-group">
                 <label for="description">Description</label>
-                <input type="text" name="description" id="description" class="form-control" value="{{ $post->description }}">
+                <textarea name="description" id="description" class="form-control">{{ $post->description }}</textarea>
             </div>
             <div class="form-group">
-                <label for="content">Content</label>
-                <textarea name="content" id="content" class="form-control">{{ $post->content }}</textarea>
+                <label for="content_type">Content Type</label>
+                <select name="content_type" id="content_type" class="form-control">
+                    <option value="image" {{ $post->content_type === 'image' ? 'selected' : '' }}>Image</option>
+                    <option value="video" {{ $post->content_type === 'video' ? 'selected' : '' }}>Video</option>
+                </select>
+            </div>
+            <div id="image-upload" class="form-group {{ $post->content_type !== 'image' ? 'd-none' : '' }}">
+                <label for="image">Image</label><br>
+                @if($post->content_type === 'image' && $post->content)
+                    <img src="{{ asset('storage/' . $post->content) }}" alt="Old Image" style="max-width: 35%;">
+                @endif
+                <input type="file" name="image" id="image" class="form-control-file">
+            </div>
+            <div id="video-url" class="form-group {{ $post->content_type !== 'video' ? 'd-none' : '' }}">
+                <label for="video_url">Video URL</label>
+                <input type="text" name="video_url" id="video_url" class="form-control" value="{{ $post->content_type === 'video' ? $post->content : '' }}">
             </div>
             <button type="submit" class="btn btn-primary">Update Post</button>
         </form>
@@ -37,6 +51,27 @@
     <script>
         CKEDITOR.replace('description', {
             removeButtons: 'Image,Table,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe,Source,Code,Link,Unlink,Anchor,About,Subscript,Superscript,RemoveFormat',
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var contentSelect = document.getElementById('content_type');
+            var imageUpload = document.getElementById('image-upload');
+            var videoUrl = document.getElementById('video-url');
+
+            function toggleContentFields() {
+                if (contentSelect.value === 'image') {
+                    imageUpload.classList.remove('d-none');
+                    videoUrl.classList.add('d-none');
+                } else if (contentSelect.value === 'video') {
+                    videoUrl.classList.remove('d-none');
+                    imageUpload.classList.add('d-none');
+                }
+            }
+
+            contentSelect.addEventListener('change', toggleContentFields);
+
+            // Trigger change event on page load
+            toggleContentFields();
         });
     </script>
 @endsection

@@ -3,8 +3,12 @@
 @section('main-content')
     <div class="container">
         <h1>{{ $post->title }}</h1>
-        <p><strong>Description:</strong> {{ $post->description }}</p>
-        <p><strong>Content:</strong> {{ $post->content }}</p>
-        <a href="{{ route('posts.index') }}" class="btn btn-secondary">Back to Posts</a>
+        <p>Description: {!! $post->description !!}</p>
+
+        @if ($post->content_type === 'image')
+            <img src="{{ asset('storage/' . $post->content) }}" alt="Post Image" style="max-width: 35%;;">
+        @elseif ($post->content_type === 'video')
+            <iframe width="560" height="315" src="{{ $post->content }}" frameborder="0" allowfullscreen></iframe>
+        @endif
     </div>
 @endsection
