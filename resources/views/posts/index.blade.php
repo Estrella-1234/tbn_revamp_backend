@@ -14,6 +14,7 @@
         <table class="table">
             <thead>
             <tr>
+                <th>Section</th>
                 <th>Title</th>
                 <th>Description</th>
                 <th>Content Type</th>
@@ -22,10 +23,14 @@
             </thead>
             <tbody>
             @foreach ($posts as $post)
+                @php
+                    $postData = json_decode($post->post_data, true);
+                @endphp
                 <tr>
-                    <td>{{ $post->title }}</td>
-                    <td>{!! $post->description !!}</td>
-                    <td>{{ $post->content_type }}</td>
+                    <td>{{ $post->section }}</td>
+                    <td>{{ $postData['title'] }}</td>
+                    <td>{!! $postData['description'] !!}</td>
+                    <td>{{ $postData['content_type'] }}</td>
                     <td>
                         <a href="{{ route('posts.show', $post) }}" class="btn btn-info btn-sm">View</a>
                         <a href="{{ route('posts.edit', $post) }}" class="btn btn-primary btn-sm">Edit</a>
@@ -43,5 +48,4 @@
         <!-- Pagination Links -->
         {{ $posts->links() }}
     @endif
-
 @endsection

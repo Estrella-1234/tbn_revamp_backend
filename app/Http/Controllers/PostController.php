@@ -10,11 +10,10 @@ class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::paginate(10); // Paginate the results
+        $posts = Post::paginate(10);
 
         return view('posts.index', compact('posts'));
     }
-
 
     public function create()
     {
@@ -23,8 +22,8 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
-
         $request->validate([
+            'section' => 'required|string|max:255',
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'content_type' => 'required|in:image,video',
@@ -32,31 +31,24 @@ class PostController extends Controller
             'video_url' => $request->content_type == 'video' ? 'required|url' : '',
         ]);
 
-        // Handle image upload if content type is image
         if ($request->content_type == 'image' && $request->hasFile('image')) {
             $imagePath = $request->file('image')->store('posts', 'public');
         } else {
             $imagePath = null;
         }
 
-        // Create a new Post instance
         $post = new Post();
-        $post->title = $request->title;
-        $post->description = $request->description;
-        $post->content = $request->content_type === 'image' ? $imagePath : $request->video_url;
-        $post->content_type = $request->content_type;
+        $post->section = $request->section;
+        $post->post_data = json_encode([
+            'title' => $request->title,
+            'description' => $request->description,
+            'content_type' => $request->content_type,
+            'content' => $request->content_type === 'image' ? $imagePath : $request->video_url,
+        ]);
         $post->save();
 
         return redirect()->route('posts.index')->with('success', 'Post created successfully.');
     }
-
-    private function uploadImage($image)
-    {
-        $imageName = $image->store('posts', 'public'); // Store the image in storage/app/public/posts directory
-
-        return Storage::url($imageName); // Return the URL of the uploaded image
-    }
-
 
     public function show(Post $post)
     {
@@ -71,6 +63,7 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         $request->validate([
+            'section' => 'required|string|max:255',
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'content_type' => 'required|in:image,video',
@@ -78,31 +71,29 @@ class PostController extends Controller
             'video_url' => $request->content_type == 'video' ? 'required|url' : '',
         ]);
 
-        // Handle image upload if content type is image
         if ($request->content_type == 'image' && $request->hasFile('image')) {
-            // Delete old image if it exists
             if ($post->content_type == 'image' && $post->content) {
                 Storage::disk('public')->delete($post->content);
             }
-            // Upload new image
             $imagePath = $request->file('image')->store('posts', 'public');
         } else {
             $imagePath = null;
         }
 
-        $post->title = $request->title;
-        $post->description = $request->description;
-        $post->content = $request->content_type === 'image' ? $imagePath : $request->video_url;
-        $post->content_type = $request->content_type;
+        $post->section = $request->section;
+        $post->post_data = json_encode([
+            'title' => $request->title,
+            'description' => $request->description,
+            'content_type' => $request->content_type,
+            'content' => $request->content_type === 'image' ? $imagePath : $request->video_url,
+        ]);
         $post->save();
 
         return redirect()->route('posts.index')->with('success', 'Post updated successfully.');
     }
 
-
     public function destroy(Post $post)
     {
-        // Delete the associated image file if the post has an image
         if ($post->content_type === 'image' && $post->content) {
             Storage::disk('public')->delete($post->content);
         }
