@@ -3,6 +3,7 @@
 @section('main-content')
     <h1>All Posts</h1>
     <a href="{{ route('posts.create') }}" class="btn btn-primary mb-3">Create New Post</a>
+    <a href="{{ route('partners.index') }}" class="btn btn-secondary mb-3">Manage Partners</a>
 
     @if (session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>

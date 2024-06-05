@@ -17,6 +17,7 @@ class PostController extends Controller
 
     public function create()
     {
+        $sections = ['Section1', 'Section2', 'Section3']; // Replace with your actual sections
         return view('posts.create');
     }
 

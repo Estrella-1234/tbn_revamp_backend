@@ -17,7 +17,10 @@
         @csrf
         <div class="form-group">
             <label for="section">Section</label>
-            <input type="text" name="section" id="section" class="form-control" value="{{ old('section') }}">
+            <select name="section" id="section" class="form-control">
+                <option value="About Us">About Us</option>
+                <option value="Who We Are">Who We Are</option>
+            </select>
         </div>
         <div class="form-group">
             <label for="title">Title</label>

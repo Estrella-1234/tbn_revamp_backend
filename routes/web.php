@@ -51,6 +51,9 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('comments/{comment}','CommentController@destroy')->name('comments.destroy');
 
     Route::resource('posts', 'PostController');
+
+    Route::resource('partners', 'PartnerController');
+
 });
 
 // Public route for testing
