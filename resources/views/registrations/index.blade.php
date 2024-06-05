@@ -4,7 +4,8 @@
     <h1 class="h3 mb-4 text-gray-800">{{ __('Event Registrations') }}</h1>
 
     <div class="d-flex align-items-center mb-3 ">
-        <a href="{{ route('registrations.create') }}" class="btn btn-primary mr-auto">Register for an Event</a>
+        <a href="{{ route('registrations.create') }}" class="btn btn-primary mr-3">Register for an Event</a>
+        <a href="{{ route('registrations.export') }}" class="btn btn-secondary mr-auto">Export CSV</a>
 
         <form action="{{ route('registrations.index') }}" method="GET">
             <div class="input-group">

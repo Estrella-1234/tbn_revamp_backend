@@ -6,6 +6,7 @@ use App\Models\Event;
 use App\Models\EventRegistration;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class RegistrationController extends Controller
 {
@@ -33,6 +34,49 @@ class RegistrationController extends Controller
         return view('registrations.index', compact('registrations'));
     }
 
+    public function export()
+    {
+        $registrations = EventRegistration::all();
+
+        $timestamp = now()->format('YmdH');
+        $filename = 'registrations_' . $timestamp . '.csv';
+
+        $headers = array(
+            "Content-type" => "text/csv",
+            "Content-Disposition" => "attachment; filename=$filename",
+            "Pragma" => "no-cache",
+            "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
+            "Expires" => "0"
+        );
+
+        $callback = function () use ($registrations) {
+            $file = fopen('php://output', 'w');
+
+            // Add CSV headers
+            fputcsv($file, array('Event', 'Name', 'Email', 'Phone', 'Affiliation', 'Ticket Type', 'Status', 'Attendance'));
+
+            // Add data
+            foreach ($registrations as $registration) {
+                fputcsv($file, array(
+                    $registration->event->judul,
+                    $registration->name,
+                    $registration->email,
+                    $registration->phone,
+                    $registration->affiliation,
+                    $registration->ticket_type,
+                    $registration->status,
+                    $registration->attendance === 1 ? 'Attended' : ($registration->attendance === 0 ? 'Not Attended' : 'Unknown'),
+                ));
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
+
+
+
 
     public function create()
     {
@@ -42,7 +86,7 @@ class RegistrationController extends Controller
 
     public function store(Request $request)
     {
-        
+
         $request->validate([
             'event_id' => 'required|exists:events,id',
             'name' => 'required|string|max:255',

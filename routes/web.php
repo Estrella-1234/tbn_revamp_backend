@@ -30,6 +30,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('events', 'EventController');
 
     Route::get('/registrations', [RegistrationController::class, 'index'])->name('registrations.index');
+    Route::get('registrations/export', [RegistrationController::class, 'export'])->name('registrations.export');
     Route::put('/registrations/{registration}/updateStatus', [RegistrationController::class, 'updateStatus'])->name('registrations.updateStatus');
     Route::resource('registrations', 'RegistrationController');
 
