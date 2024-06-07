@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\RegistrationStatusUpdated;
 use App\Models\Event;
 use App\Models\EventRegistration;
 use Illuminate\Http\Request;
@@ -141,6 +142,8 @@ class RegistrationController extends Controller
         ]);
 
         $registration->update($request->all());
+        event(new RegistrationStatusUpdated($registration));
+
 
         return redirect()->route('registrations.index')->with('success', 'Registration updated successfully.');
     }
