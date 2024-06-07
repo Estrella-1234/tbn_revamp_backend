@@ -65,19 +65,6 @@ Route::get('/example', function () {
 
 
 
-//test email
-
-use Illuminate\Support\Facades\Mail;
-
-Route::get('/test-email', function () {
-    Mail::raw('This is a test email Halo Halo', function ($message) {
-        $message->to('gemilang2100016062@webmail.uad.ac.id')
-            ->subject('Test Email');
-    });
-
-    return 'Email sent successfully!';
-});
-
 
 
 

@@ -13,7 +13,7 @@ class SendStatusUpdateEmail implements ShouldQueue
     {
         $registration = $event->registration;
 
-        Mail::raw("Your registration status for event '{$registration->event->judul}' has been updated to '{$registration->status}'", function ($message) use ($registration) {
+        Mail::raw("Your registration status for event '{$registration->event->judul}' has been {$registration->status}", function ($message) use ($registration) {
             $message->to($registration->email)
                 ->subject('Registration Status Update');
         });
