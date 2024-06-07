@@ -29,6 +29,7 @@
             <th>Name</th>
             <th>Last Name</th>
             <th>Email</th>
+            <th>User Role</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -39,6 +40,7 @@
                 <td>{{ $user->name }}</td>
                 <td>{{ $user->last_name }}</td>
                 <td>{{ $user->email }}</td>
+                <td>{{ $user->user_role }}</td>
                 <td>
                     <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning">Edit</a>
                     <button type="button" class="btn btn-danger delete-user" data-user-id="{{ $user->id }}" data-toggle="modal" data-target="#deleteUserModal-{{ $user->id }}">Delete</button>

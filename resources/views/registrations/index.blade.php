@@ -9,8 +9,14 @@
 
         <form action="{{ route('registrations.index') }}" method="GET">
             <div class="input-group">
-                <input type="text" name="search" class="form-control" placeholder="Search Registration Here..."
-                       value="{{ request()->input('search') }}">
+                <select name="search_type" class="form-control mr-2">
+                    <option value="name" {{ request()->input('search_type') == 'name' ? 'selected' : '' }}>Name</option>
+                    <option value="email" {{ request()->input('search_type') == 'email' ? 'selected' : '' }}>Email</option>
+                    <option value="status" {{ request()->input('search_type') == 'status' ? 'selected' : '' }}>Status</option>
+                    <option value="ticket_type" {{ request()->input('search_type') == 'ticket_type' ? 'selected' : '' }}>Ticket Type</option>
+                    <option value="attendance" {{ request()->input('search_type') == 'attendance' ? 'selected' : '' }}>Attendance</option>
+                </select>
+                <input type="text" name="search" class="form-control" placeholder="Search Registration Here..." value="{{ request()->input('search') }}">
                 <div class="input-group-append">
                     <button class="btn btn-primary" type="submit">Search</button>
                 </div>
@@ -28,7 +34,6 @@
                 <th>Phone</th>
                 <th>Affiliation</th>
                 <th>Ticket Type</th>
-{{--                <th>Notes</th>--}}
                 <th>Status</th>
                 <th>Attendance</th>
                 <th>Actions</th>
@@ -43,7 +48,6 @@
                     <td>{{ $registration->phone }}</td>
                     <td>{{ $registration->affiliation }}</td>
                     <td>{{ $registration->ticket_type }}</td>
-{{--                    <td>{{ $registration->notes }}</td>--}}
                     <td>{{ $registration->status }}</td>
                     <td>
                         @if($registration->attendance === 1)
@@ -95,5 +99,3 @@
     @endif
 
 @endsection
-
-

@@ -13,7 +13,7 @@ class UserController extends Controller
         $search = $request->input('search');
 
         $users = User::query()
-            ->where('user_role', 'users') // Filter by user role first
+//            ->where('user_role', 'users') // Filter by user role first
             ->when($search, function ($query) use ($search) {
                 return $query->where(function ($query) use ($search) {
                     $query->where('name', 'like', "%{$search}%")
@@ -50,6 +50,7 @@ class UserController extends Controller
             'last_name' => $request->last_name,
             'email' => $request->email,
             'password' => ($request->password),
+            'user_role' => $request->user_role,
         ]);
 
         return redirect()->route('users.index')->with('success', 'User created successfully.');

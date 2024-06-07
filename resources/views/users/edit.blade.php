@@ -3,6 +3,16 @@
 @section('main-content')
     <h1 class="h3 mb-4 text-gray-800">{{ __('Edit User') }}</h1>
 
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                @endforeach
+                <li>{{ $error }}</li>
+            </ul>
+        </div>
+    @endif
+
     <form action="{{ route('users.update', $user->id) }}" method="POST">
         @csrf
         @method('PUT')
@@ -30,6 +40,14 @@
         <div class="form-group">
             <label for="password_confirmation">Confirm New Password</label>
             <input type="password" name="password_confirmation" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="user_role">User Role</label>
+            <select name="user_role" class="form-control" required>
+                <option value="user" {{ $user->user_role == 'users' ? 'selected' : '' }}>User</option>
+                <option value="admin" {{ $user->user_role == 'admin' ? 'selected' : '' }}>Admin</option>
+            </select>
         </div>
 
         <button type="submit" class="btn btn-primary">Update User</button>

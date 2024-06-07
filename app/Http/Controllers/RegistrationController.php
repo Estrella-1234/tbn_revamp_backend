@@ -13,26 +13,31 @@ class RegistrationController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
+        $searchType = $request->input('search_type', 'name');
 
         $registrations = EventRegistration::with('event')
-            ->when($search, function ($query) use ($search) {
-                return $query->whereHas('event', function ($query) use ($search) {
-                    $query->where('judul', 'like', "%$search%");
-                })
-                    ->orWhere('name', 'like', "%$search%")
-                    ->orWhere('email', 'like', "%$search%")
-                    ->orWhere('phone', 'like', "%$search%")
-                    ->orWhere('affiliation', 'like', "%$search%")
-                    ->orWhere('ticket_type', 'like', "%$search%")
-                    ->orWhere('notes', 'like', "%$search%")
-                    ->orWhere('status', 'like', "%$search%")
-                    ->orWhere('attendance', $search == 'attend' ? 1 : 0);
+            ->when($search, function ($query) use ($search, $searchType) {
+                switch ($searchType) {
+                    case 'name':
+                        return $query->where('name', 'like', "%$search%");
+                    case 'email':
+                        return $query->where('email', 'like', "%$search%");
+                    case 'status':
+                        return $query->where('status', 'like', "%$search%");
+                    case 'ticket_type':
+                        return $query->where('ticket_type', 'like', "%$search%");
+                    case 'attendance':
+                        $attendance = $search == 'attend' ? 1 : 0;
+                        return $query->where('attendance', $attendance);
+                    default:
+                        return $query;
+                }
             })
             ->paginate(10);
 
-
         return view('registrations.index', compact('registrations'));
     }
+
 
     public function export()
     {
