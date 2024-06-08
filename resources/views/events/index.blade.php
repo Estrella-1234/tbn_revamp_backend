@@ -57,10 +57,11 @@
                     <button type="button" class="btn btn-danger delete-event" data-event-id="{{ $event->id }}"
                             data-toggle="modal" data-target="#deleteEventModal-{{ $event->id }}">Delete
                     </button>
-                    <a href="{{ route('events.show', $event->judul) }}" class="btn btn-info">View</a>
+                    <a href="{{ route('events.show', $event->slug) }}" class="btn btn-info">View</a> <!-- Update this line to use slug -->
                 </td>
             </tr>
         @endforeach
+
         </tbody>
     </table>
 

@@ -27,7 +27,13 @@ Route::middleware(['auth'])->group(function () {
     })->name('about');
     Route::get('/blog', 'PostController@index')->name('blog');
     Route::resource('users', 'UserController');
+
     Route::resource('events', 'EventController');
+    Route::get('events/{slug}', 'EventController@show')
+        ->where('slug', '[A-Za-z0-9\-]+')
+        ->name('events.show');
+
+
 
     Route::get('/registrations', [RegistrationController::class, 'index'])->name('registrations.index');
     Route::get('registrations/export', [RegistrationController::class, 'export'])->name('registrations.export');
