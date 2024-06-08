@@ -23,7 +23,13 @@
             @method('PUT')
             <div class="form-group">
                 <label for="section">Section</label>
-                <input type="text" name="section" id="section" class="form-control" value="{{ $post->section }}">
+                <select name="section" id="section" class="form-control">
+                    <option value="About Us" {{ $post->section === 'About Us' ? 'selected' : '' }}>About Us</option>
+                    <option value="Who We Are" {{ $post->section === 'Who We Are' ? 'selected' : '' }}>Who We Are</option>
+                    <option value="Vision" {{ $post->section === 'Vision' ? 'selected' : '' }}>Vision</option>
+                    <option value="Mision" {{ $post->section === 'Mision' ? 'selected' : '' }}>Mision</option>
+                    <option value="Value" {{ $post->section === 'Value' ? 'selected' : '' }}>Value</option>
+                </select>
             </div>
             <div class="form-group">
                 <label for="title">Title</label>

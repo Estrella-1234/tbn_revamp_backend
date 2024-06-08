@@ -57,7 +57,7 @@
                     <button type="button" class="btn btn-danger delete-event" data-event-id="{{ $event->id }}"
                             data-toggle="modal" data-target="#deleteEventModal-{{ $event->id }}">Delete
                     </button>
-                    <a href="{{ route('events.show', $event->id) }}" class="btn btn-info">View</a>
+                    <a href="{{ route('events.show', $event->judul) }}" class="btn btn-info">View</a>
                 </td>
             </tr>
         @endforeach

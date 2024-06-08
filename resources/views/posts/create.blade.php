@@ -20,6 +20,9 @@
             <select name="section" id="section" class="form-control">
                 <option value="About Us">About Us</option>
                 <option value="Who We Are">Who We Are</option>
+                <option value="Vision">Vision</option>
+                <option value="Mision">Mision</option>
+                <option value="Value">Value</option>
             </select>
         </div>
         <div class="form-group">
