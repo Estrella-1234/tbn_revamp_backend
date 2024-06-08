@@ -198,6 +198,16 @@ class RegistrationController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
+        // Check if the user has already registered for the event
+        $existingRegistration = EventRegistration::where('user_id', $request->user_id)
+            ->where('event_id', $request->event_id)
+            ->exists();
+
+        // If the user has already registered, return an error response
+        if ($existingRegistration) {
+            return response()->json(['message' => 'User has already registered for this event'], 422);
+        }
+
         // Create a new registration
         $registration = EventRegistration::create([
             'user_id' => $request->user_id,
