@@ -12,8 +12,8 @@ Route::get('/', function () {
 
 
 // Authentication routes
-//Auth::routes(['register' => false]); // Disable registration
-Auth::routes();
+Auth::routes(['register' => false]); // Disable registration
+//Auth::routes();
 
 // Routes that require authentication
 Route::middleware(['auth'])->group(function () {

@@ -2,12 +2,19 @@
 
 @section('main-content')
     <h1>All Posts</h1>
+
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <a href="{{ route('posts.create') }}" class="btn btn-primary mb-3">Create New Post</a>
     <a href="{{ route('partners.index') }}" class="btn btn-secondary mb-3">Manage Partners</a>
-
-    @if (session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
 
     @if ($posts->isEmpty())
         <p>No posts found.</p>
@@ -15,6 +22,7 @@
         <table class="table">
             <thead>
             <tr>
+                <th>No</th>
                 <th>Section</th>
                 <th>Title</th>
                 <th>Description</th>
@@ -23,11 +31,12 @@
             </tr>
             </thead>
             <tbody>
-            @foreach ($posts as $post)
+            @foreach ($posts as $index => $post)
                 @php
                     $postData = is_array($post->post_data) ? $post->post_data : json_decode($post->post_data, true);
                 @endphp
                 <tr>
+                    <td>{{ ($posts->currentPage() - 1) * $posts->perPage() + $index + 1 }}</td>
                     <td>{{ $post->section }}</td>
                     <td>{{ $postData['title'] }}</td>
                     <td>{!! $postData['description'] !!}</td>

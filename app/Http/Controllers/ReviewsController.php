@@ -13,10 +13,11 @@ class ReviewsController extends Controller
 {
     public function index()
     {
-        $reviews = Review::with('registration')->get();
+        $reviews = Review::with('registration')->paginate(10);
 
         return view('reviews.index', compact('reviews'));
     }
+
 
 
 

@@ -21,6 +21,10 @@ class RegistrationController extends Controller
                 switch ($searchType) {
                     case 'name':
                         return $query->where('name', 'like', "%$search%");
+                    case 'event':
+                        return $query->whereHas('event', function ($query) use ($search) {
+                            $query->where('judul', 'like', "%$search%");
+                        });
                     case 'email':
                         return $query->where('email', 'like', "%$search%");
                     case 'status':
@@ -38,6 +42,7 @@ class RegistrationController extends Controller
 
         return view('registrations.index', compact('registrations'));
     }
+
 
 
     public function export()
@@ -80,8 +85,6 @@ class RegistrationController extends Controller
 
         return response()->stream($callback, 200, $headers);
     }
-
-
 
 
     public function create()
@@ -147,7 +150,6 @@ class RegistrationController extends Controller
 
         return redirect()->route('registrations.index')->with('success', 'Registration updated successfully.');
     }
-
 
 
     public function destroy(EventRegistration $registration)

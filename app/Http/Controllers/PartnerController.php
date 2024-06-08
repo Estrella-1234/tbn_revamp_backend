@@ -9,9 +9,10 @@ class PartnerController extends Controller
 {
     public function index()
     {
-        $partners = Partner::all();
+        $partners = Partner::paginate(7); // Change 10 to the number of items per page you want
         return view('partners.index', compact('partners'));
     }
+
 
     public function create()
     {

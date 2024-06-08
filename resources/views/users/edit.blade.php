@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('main-content')
-    <h1 class="h3 mb-4 text-gray-800">{{ __('Edit User') }}</h1>
+    <h1>Edit User</h1>
 
     @if ($errors->any())
         <div class="alert alert-danger">

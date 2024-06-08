@@ -1,7 +1,17 @@
 @extends('layouts.admin')
 
 @section('main-content')
-    <h1 class="h3 mb-4 text-gray-800">{{ __('Event Registrations') }}</h1>
+    <h1>Event Registrations</h1>
+
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                @endforeach
+                <li>{{ $error }}</li>
+            </ul>
+        </div>
+    @endif
 
     <div class="d-flex align-items-center mb-3 ">
         <a href="{{ route('registrations.create') }}" class="btn btn-primary mr-3">Register for an Event</a>
@@ -11,6 +21,7 @@
             <div class="input-group">
                 <select name="search_type" class="form-control mr-2">
                     <option value="name" {{ request()->input('search_type') == 'name' ? 'selected' : '' }}>Name</option>
+                    <option value="event" {{ request()->input('search_type') == 'event' ? 'selected' : '' }}>Event</option>
                     <option value="email" {{ request()->input('search_type') == 'email' ? 'selected' : '' }}>Email</option>
                     <option value="status" {{ request()->input('search_type') == 'status' ? 'selected' : '' }}>Status</option>
                     <option value="ticket_type" {{ request()->input('search_type') == 'ticket_type' ? 'selected' : '' }}>Ticket Type</option>
@@ -28,6 +39,7 @@
         <table class="table table-bordered table-striped ">
             <thead>
             <tr>
+                <th>No</th>
                 <th>Event</th>
                 <th>Name</th>
                 <th>Email</th>
@@ -40,8 +52,9 @@
             </tr>
             </thead>
             <tbody>
-            @foreach($registrations as $registration)
+            @foreach($registrations as $index => $registration)
                 <tr>
+                    <td>{{ ($registrations->currentPage() - 1) * $registrations->perPage() + $index + 1 }}</td>
                     <td>{{ $registration->event->judul }}</td>
                     <td>{{ $registration->name }}</td>
                     <td>{{ $registration->email }}</td>

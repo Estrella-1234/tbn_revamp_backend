@@ -1,7 +1,17 @@
 @extends('layouts.admin')
 
 @section('main-content')
-    <h1 class="h3 mb-4 text-gray-800">{{ __('Users') }}</h1>
+    <h1>Users</h1>
+
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                @endforeach
+                <li>{{ $error }}</li>
+            </ul>
+        </div>
+    @endif
 
     <div class="d-flex align-items-center mb-3">
         <a href="{{ route('users.create') }}" class="btn btn-primary mr-auto">Add User</a>
@@ -16,8 +26,6 @@
         </form>
     </div>
 
-
-
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
@@ -25,6 +33,7 @@
     <table class="table table-bordered table-striped">
         <thead>
         <tr>
+            <th>No</th>
             <th>ID</th>
             <th>Name</th>
             <th>Last Name</th>
@@ -34,8 +43,9 @@
         </tr>
         </thead>
         <tbody>
-        @foreach($users as $user)
+        @foreach($users as $index => $user)
             <tr>
+                <td>{{ ($users->currentPage() - 1) * $users->perPage() + $index + 1 }}</td>
                 <td>{{ $user->id }}</td>
                 <td>{{ $user->name }}</td>
                 <td>{{ $user->last_name }}</td>
