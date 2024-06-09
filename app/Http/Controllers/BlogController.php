@@ -72,20 +72,29 @@ class BlogController extends Controller
 
         $blog = Blog::findOrFail($id);
 
-        if ($request->hasFile('image')) {
-            // Delete the old image if exists
-            if ($blog->image_path) {
-                \Storage::delete('public/' . $blog->image_path);
+        try {
+            // Check if the updated title already exists in other blogs
+            if ($request->title !== $blog->title && Blog::where('title', $request->title)->exists()) {
+                throw new \Exception('A blog with the same title already exists.');
             }
-            $imagePath = $request->file('image')->store('Blog', 'public');
-            $blog->image_path = $imagePath;
+
+            if ($request->hasFile('image')) {
+                // Delete the old image if exists
+                if ($blog->image_path) {
+                    \Storage::delete('public/' . $blog->image_path);
+                }
+                $imagePath = $request->file('image')->store('Blog', 'public');
+                $blog->image_path = $imagePath;
+            }
+
+            $blog->title = $request->title;
+            $blog->desc = $request->desc;
+            $blog->save();
+
+            return redirect()->route('blogs.index')->with('success', 'Blog updated successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['title' => $e->getMessage()])->withInput();
         }
-
-        $blog->title = $request->title;
-        $blog->desc = $request->desc;
-        $blog->save();
-
-        return redirect()->route('blogs.index')->with('success', 'Blog updated successfully.');
     }
 
     public function destroy($id)
