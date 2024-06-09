@@ -43,22 +43,29 @@ class EventController extends Controller
         ]);
 
         $posterPath = $request->file('poster_path')->store('public/posters');
-        $slug = Str::slug($request->judul); // Use Str::slug to generate the slug
+        $slug = Str::slug($request->judul);
 
-        Event::create([
-            'judul' => $request->judul,
-            'slug' => $slug,
-            'deskripsi' => $request->deskripsi,
-            'tanggal' => $request->tanggal,
-            'pembicara' => $request->pembicara,
-            'poster_path' => str_replace('public/', '', $posterPath),
-            'harga' => $request->harga,
-            'lokasi' => $request->lokasi
-        ]);
+        try {
+            Event::create([
+                'judul' => $request->judul,
+                'slug' => $slug,
+                'deskripsi' => $request->deskripsi,
+                'tanggal' => $request->tanggal,
+                'pembicara' => $request->pembicara,
+                'poster_path' => str_replace('public/', '', $posterPath),
+                'harga' => $request->harga,
+                'lokasi' => $request->lokasi
+            ]);
 
-
-        return redirect()->route('events.index')->with('success', 'Event created successfully.');
+            return redirect()->route('events.index')->with('success', 'Event created successfully.');
+        } catch (\Illuminate\Database\QueryException $e) {
+            if ($e->getCode() == 23000) { // Integrity constraint violation code
+                return redirect()->back()->withInput()->withErrors(['slug' => 'Event already exists.']);
+            }
+            throw $e;
+        }
     }
+
 
     public function show($slug)
     {
@@ -86,7 +93,7 @@ class EventController extends Controller
         ]);
 
         $event = Event::findOrFail($id);
-        $slug = Str::slug($request->judul); // Use Str::slug to generate the slug
+        $slug = Str::slug($request->judul);
 
         if ($request->hasFile('poster_path')) {
             if ($event->poster_path) {
@@ -97,18 +104,26 @@ class EventController extends Controller
             $event->poster_path = str_replace('public/', '', $posterPath);
         }
 
-        $event->update([
-            'judul' => $request->judul,
-            'slug' => $slug,
-            'deskripsi' => $request->deskripsi,
-            'tanggal' => $request->tanggal,
-            'lokasi' => $request->lokasi,
-            'pembicara' => $request->pembicara,
-            'harga' => $request->harga,
-        ]);
+        try {
+            $event->update([
+                'judul' => $request->judul,
+                'slug' => $slug,
+                'deskripsi' => $request->deskripsi,
+                'tanggal' => $request->tanggal,
+                'lokasi' => $request->lokasi,
+                'pembicara' => $request->pembicara,
+                'harga' => $request->harga,
+            ]);
 
-        return redirect()->route('events.index')->with('success', 'Event updated successfully.');
+            return redirect()->route('events.index')->with('success', 'Event updated successfully.');
+        } catch (\Illuminate\Database\QueryException $e) {
+            if ($e->getCode() == 23000) { // Integrity constraint violation code
+                return redirect()->back()->withInput()->withErrors(['slug' => 'Event already exists.']);
+            }
+            throw $e;
+        }
     }
+
 
     public function destroy($id)
     {

@@ -14,7 +14,7 @@
                 </div>
             @endif
             <p><strong>Title:</strong> {{ $event->judul }}</p>
-            <p><strong>Description:</strong> {{ $event->deskripsi }}</p>
+            <p><strong>Description:</strong> {!! $event->deskripsi !!}</p>
             <p><strong>Date:</strong> {{ \Carbon\Carbon::parse($event->tanggal)->format('d M Y, H:i') }}</p>
             <p><strong>Location:</strong> {{ $event->lokasi }}</p>
             <p><strong>Speaker:</strong> {{ $event->pembicara }}</p>

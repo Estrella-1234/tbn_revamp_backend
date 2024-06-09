@@ -15,50 +15,50 @@ Route::get('/', function () {
 //Auth::routes(['register' => false]); // Disable registration
 Auth::routes();
 
+
 // Routes that require authentication
 Route::middleware(['auth'])->group(function () {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/profile', 'ProfileController@index')->name('profile');
-
-
     Route::put('/profile', 'ProfileController@update')->name('profile.update');
     Route::get('/about', function () {
         return view('about');
     })->name('about');
-    Route::get('/blog', 'PostController@index')->name('blog');
+
+    // User routes
     Route::resource('users', 'UserController');
 
+    // Event routes
     Route::resource('events', 'EventController');
     Route::get('events/{slug}', 'EventController@show')
         ->where('slug', '[A-Za-z0-9\-]+')
         ->name('events.show');
 
-
-
+    // Registration routes
     Route::get('/registrations', [RegistrationController::class, 'index'])->name('registrations.index');
     Route::get('registrations/export', [RegistrationController::class, 'export'])->name('registrations.export');
     Route::put('/registrations/{registration}/updateStatus', [RegistrationController::class, 'updateStatus'])->name('registrations.updateStatus');
     Route::resource('registrations', 'RegistrationController');
 
+    // Review routes
 //    Route::resource('reviews', ReviewsController::class);
     Route::get('/reviews', [ReviewsController::class, 'index'])->name('reviews.index');
     Route::resource('reviews', 'ReviewsController');
-
-// Route to create a review for a specific registration
-
     Route::get('registrations/{registration}/reviews/create', [ReviewsController::class, 'create'])->name('reviews.create');
     Route::post('registrations/{registration}/reviews', [ReviewsController::class, 'store'])->name('reviews.store');
 
-
+    // Blog routes
+    Route::get('/blog', 'PostController@index')->name('blog');
     Route::resource('blogs', 'BlogController');
-
-
+    Route::get('blogs/{slug}', 'App\Http\Controllers\BlogController@show')->name('blogs.show');
     Route::get('blogs/{blog}/comments', 'CommentController@index')->name('comments.index');
     Route::post('blogs/{blog}/comments','CommentController@store')->name('comments.store');
     Route::delete('comments/{comment}','CommentController@destroy')->name('comments.destroy');
 
+    // Post routes
     Route::resource('posts', 'PostController');
 
+    // Partner routes
     Route::resource('partners', 'PartnerController');
 
 });

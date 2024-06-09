@@ -42,9 +42,9 @@ Route::get('/reviews/{id}', 'ReviewsController@getReviewbyId');
 
 Route::get('blogs', 'BlogController@getAll');
 Route::get('blogs/{id}', 'BlogController@getById');
-Route::post('blogs', 'BlogController@createF');
-Route::put('blogs/{id}', 'BlogController@updateF');
-Route::delete('blogs/{id}', 'BlogController@deleteF');
+//Route::post('blogs', 'BlogController@createF');
+//Route::put('blogs/{id}', 'BlogController@updateF');
+//Route::delete('blogs/{id}', 'BlogController@deleteF');
 
 Route::get('blogs/{blog}/comments', 'CommentController@getallComments');
 Route::get('comments/{id}', 'CommentController@getComment');

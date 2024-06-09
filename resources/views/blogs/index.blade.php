@@ -19,7 +19,7 @@
             @foreach ($blogs as $index => $blog)
                 <tr>
                     <td>{{ ($blogs->currentPage() - 1) * $blogs->perPage() + $index + 1 }}</td>
-                    <td><a href="{{ route('blogs.show', $blog->id) }}">{{ $blog->title }}</a></td>
+                    <td><a href="{{ route('blogs.show', $blog->slug) }}">{{ $blog->title }}</a></td>
                     <td class="text-center">
                         <img src="{{ asset('storage/' . $blog->image_path) }}" alt="{{ $blog->title }}" style="max-width: 200px;">
                     </td>
