@@ -25,7 +25,6 @@
         <thead>
         <tr>
             <th>No</th>
-            <th>ID</th>
             <th>Poster</th>
             <th>Title</th>
             <th>Description</th>
@@ -40,7 +39,6 @@
         @foreach($events as $index => $event)
             <tr>
                 <td>{{ ($events->currentPage() - 1) * $events->perPage() + $index + 1 }}</td>
-                <td>{{ $event->id }}</td>
                 <td class="text-center align-middle">
                     @if($event->poster_path)
                         <img src="{{ asset('storage/' . $event->poster_path) }}" alt="Event Poster" style="max-width: 250px;">
