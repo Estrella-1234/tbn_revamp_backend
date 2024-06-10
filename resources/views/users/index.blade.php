@@ -34,7 +34,7 @@
         <thead>
         <tr>
             <th>No</th>
-            <th>ID</th>
+{{--            <th>ID</th>--}}
             <th>Name</th>
             <th>Last Name</th>
             <th>Email</th>
@@ -46,7 +46,7 @@
         @foreach($users as $index => $user)
             <tr>
                 <td>{{ ($users->currentPage() - 1) * $users->perPage() + $index + 1 }}</td>
-                <td>{{ $user->id }}</td>
+{{--                <td>{{ $user->id }}</td>--}}
                 <td>{{ $user->name }}</td>
                 <td>{{ $user->last_name }}</td>
                 <td>{{ $user->email }}</td>
