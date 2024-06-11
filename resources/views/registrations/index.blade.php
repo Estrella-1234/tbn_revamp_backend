@@ -24,15 +24,11 @@
 
         <form action="{{ route('registrations.index') }}" method="GET">
             <div class="input-group">
-                <select name="search_type" class="form-control mr-2">
-                    <option value="name" {{ request()->input('search_type') == 'name' ? 'selected' : '' }}>Name</option>
-                    <option value="event" {{ request()->input('search_type') == 'event' ? 'selected' : '' }}>Event</option>
-                    <option value="email" {{ request()->input('search_type') == 'email' ? 'selected' : '' }}>Email</option>
-                    <option value="status" {{ request()->input('search_type') == 'status' ? 'selected' : '' }}>Status</option>
-                    <option value="ticket_type" {{ request()->input('search_type') == 'ticket_type' ? 'selected' : '' }}>Ticket Type</option>
-                    <option value="attendance" {{ request()->input('search_type') == 'attendance' ? 'selected' : '' }}>Attendance</option>
-                </select>
-                <input type="text" name="search" class="form-control" placeholder="Search Registration Here..." value="{{ request()->input('search') }}">
+                <input type="text" name="event" class="form-control mr-2" placeholder="Event" value="{{ request()->input('event') }}">
+                <input type="text" name="name" class="form-control mr-2" placeholder="Name" value="{{ request()->input('name') }}">
+                <input type="text" name="email" class="form-control mr-2" placeholder="Email" value="{{ request()->input('email') }}">
+                <input type="text" name="status" class="form-control mr-2" placeholder="Status" value="{{ request()->input('status') }}">
+                <input type="text" name="attendance" class="form-control mr-2" placeholder="Attendance" value="{{ request()->input('attendance') }}">
                 <div class="input-group-append">
                     <button class="btn btn-primary" type="submit">Search</button>
                 </div>

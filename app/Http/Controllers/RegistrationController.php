@@ -14,35 +14,36 @@ class RegistrationController extends Controller
 {
     public function index(Request $request)
     {
-        $search = $request->input('search');
-        $searchType = $request->input('search_type', 'name');
+        $query = EventRegistration::query();
 
-        $registrations = EventRegistration::with('event')
-            ->when($search, function ($query) use ($search, $searchType) {
-                switch ($searchType) {
-                    case 'name':
-                        return $query->where('name', 'like', "%$search%");
-                    case 'event':
-                        return $query->whereHas('event', function ($query) use ($search) {
-                            $query->where('judul', 'like', "%$search%");
-                        });
-                    case 'email':
-                        return $query->where('email', 'like', "%$search%");
-                    case 'status':
-                        return $query->where('status', 'like', "%$search%");
-                    case 'ticket_type':
-                        return $query->where('ticket_type', 'like', "%$search%");
-                    case 'attendance':
-                        $attendance = $search == 'attend' ? 1 : 0;
-                        return $query->where('attendance', $attendance);
-                    default:
-                        return $query;
-                }
-            })
-            ->paginate(10);
+        if ($request->filled('event')) {
+            $query->whereHas('event', function ($q) use ($request) {
+                $q->where('judul', 'like', '%' . $request->input('event') . '%');
+            });
+        }
+
+        if ($request->filled('name')) {
+            $query->where('name', 'like', '%' . $request->input('name') . '%');
+        }
+
+        if ($request->filled('email')) {
+            $query->where('email', 'like', '%' . $request->input('email') . '%');
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', 'like', '%' . $request->input('status') . '%');
+        }
+
+        if ($request->filled('attendance')) {
+            $query->where('attendance', $request->input('attendance'));
+        }
+
+        $registrations = $query->paginate(10);
 
         return view('registrations.index', compact('registrations'));
     }
+
+
 
 
 

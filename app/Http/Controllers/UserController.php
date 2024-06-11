@@ -22,6 +22,7 @@ class UserController extends Controller
                         ->orWhere('email', 'like', "%{$search}%");
                 });
             })
+            ->orderBy('created_at', 'asc')
             ->paginate(10);
 
         return view('users.index', compact('users'));
