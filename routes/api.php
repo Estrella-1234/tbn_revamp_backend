@@ -31,8 +31,6 @@ Route::get('/registrations/{id}', 'RegistrationController@getRegistration');
 Route::post('/registrations', 'RegistrationController@createRegistration');
 Route::put('/registrations/{id}', 'RegistrationController@editRegistration');
 Route::delete('/registrations/{id}', 'RegistrationController@deleteRegistration');
-Route::put('/registrations/{registration}/addattendance','RegistrationController@markAttendance' );
-Route::put('/registrations/{registration}/removeattendance','RegistrationController@unmarkAttendance' );
 
 Route::post('/reviews/{registration}', 'ReviewsController@addReview');
 Route::put('/reviews/{review}', 'ReviewsController@updateReview');

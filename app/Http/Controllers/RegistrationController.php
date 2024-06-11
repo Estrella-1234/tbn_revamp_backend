@@ -6,6 +6,7 @@ use App\Events\RegistrationStatusUpdated;
 use App\Models\Event;
 use App\Models\EventRegistration;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -174,11 +175,16 @@ class RegistrationController extends Controller
 
     public function updateAttendance(Request $request, $id)
     {
-        $registration = EventRegistration::findOrFail($id);
-        $registration->attendance = $request->input('attendance');
-        $registration->save();
+        try {
+            $registration = EventRegistration::findOrFail($id);
+            $registration->attendance = $request->input('attendance');
+            $registration->save();
 
-        return response()->json(['success' => true, 'message' => 'Attendance updated successfully']);
+            return response()->json(['success' => true, 'message' => 'Attendance updated successfully']);
+        } catch (\Exception $e) {
+//            Log::error('Error updating attendance: ' . $e->getMessage());
+            return response()->json(['success' => false, 'message' => 'Failed to update attendance']);
+        }
     }
 
 
@@ -302,23 +308,5 @@ class RegistrationController extends Controller
         return response()->json(['message' => 'Registration deleted successfully'], 200);
 
     }
-
-    public function markAttendance(EventRegistration $registration)
-    {
-        $registration->attendance = true;
-        $registration->save();
-
-        return response()->json(['success' => true, 'message' => 'Attendance marked successfully.']);
-    }
-
-    public function unmarkAttendance(EventRegistration $registration)
-    {
-        $registration->attendance = false;
-        $registration->save();
-
-        return response()->json(['success' => true, 'message' => 'Attendance unmarked successfully.']);
-    }
-
-
 
 }
