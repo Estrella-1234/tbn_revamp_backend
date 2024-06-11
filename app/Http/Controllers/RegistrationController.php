@@ -158,6 +158,30 @@ class RegistrationController extends Controller
         return redirect()->route('registrations.index')->with('success', 'Registration deleted successfully.');
     }
 
+    public function updateStatus(Request $request, $id)
+    {
+        try {
+            $registration = EventRegistration::findOrFail($id);
+            $registration->status = $request->input('status');
+            $registration->save();
+            event(new RegistrationStatusUpdated($registration));
+
+            return response()->json(['success' => 'Status updated successfully']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to update status', 'message' => $e->getMessage()], 500);
+        }
+    }
+
+    public function updateAttendance(Request $request, $id)
+    {
+        $registration = EventRegistration::findOrFail($id);
+        $registration->attendance = $request->input('attendance');
+        $registration->save();
+
+        return response()->json(['success' => true, 'message' => 'Attendance updated successfully']);
+    }
+
+
     //==================================================================================================================
     public function getAllData()
     {
@@ -294,6 +318,7 @@ class RegistrationController extends Controller
 
         return response()->json(['success' => true, 'message' => 'Attendance unmarked successfully.']);
     }
+
 
 
 }

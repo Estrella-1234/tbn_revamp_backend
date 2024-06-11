@@ -36,6 +36,8 @@ Route::middleware(['auth'])->group(function () {
 
     // Registration routes
     Route::get('/registrations', [RegistrationController::class, 'index'])->name('registrations.index');
+    Route::patch('/registrations/{registration}/status', [RegistrationController::class, 'updateStatus'])->name('registrations.updateStatus');
+    Route::patch('/registrations/{id}/attendance', [RegistrationController::class, 'updateAttendance']);
     Route::get('registrations/export', [RegistrationController::class, 'export'])->name('registrations.export');
     Route::put('/registrations/{registration}/updateStatus', [RegistrationController::class, 'updateStatus'])->name('registrations.updateStatus');
     Route::resource('registrations', 'RegistrationController');

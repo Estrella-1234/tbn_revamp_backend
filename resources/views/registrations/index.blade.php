@@ -7,13 +7,18 @@
         <div class="alert alert-danger">
             <ul>
                 @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
                 @endforeach
-                <li>{{ $error }}</li>
             </ul>
         </div>
     @endif
 
-    <div class="d-flex align-items-center mb-3 ">
+    <!-- Success Alert -->
+    <div id="success-alert" class="alert alert-success" style="display: none;">
+        <strong>Success!</strong> <span id="success-message"></span>
+    </div>
+
+    <div class="d-flex align-items-center mb-3">
         <a href="{{ route('registrations.create') }}" class="btn btn-primary mr-3">Register for an Event</a>
         <a href="{{ route('registrations.export') }}" class="btn btn-secondary mr-auto">Export CSV</a>
 
@@ -36,7 +41,7 @@
     </div>
 
     @if($registrations->count())
-        <table class="table table-bordered table-striped ">
+        <table class="table table-bordered table-striped">
             <thead>
             <tr>
                 <th>No</th>
@@ -61,15 +66,18 @@
                     <td>{{ $registration->phone }}</td>
                     <td>{{ $registration->affiliation }}</td>
                     <td>{{ $registration->ticket_type }}</td>
-                    <td>{{ $registration->status }}</td>
                     <td>
-                        @if($registration->attendance === 1)
-                            <span class="text-success">Attended</span>
-                        @elseif($registration->attendance === 0)
-                            <span class="text-danger">Not Attended</span>
-                        @else
-                            <span class="text-warning">Unknown</span>
-                        @endif
+                        <select class="form-control status-select" data-id="{{ $registration->id }}">
+                            <option value="Accepted" {{ $registration->status == 'Accepted' ? 'selected' : '' }}>Accepted</option>
+                            <option value="Pending" {{ $registration->status == 'Pending' ? 'selected' : '' }}>Pending</option>
+                            <option value="Rejected" {{ $registration->status == 'Rejected' ? 'selected' : '' }}>Rejected</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select class="form-control attendance-select" data-id="{{ $registration->id }}">
+                            <option value="1" {{ $registration->attendance === 1 ? 'selected' : '' }}>Attended</option>
+                            <option value="0" {{ $registration->attendance === 0 ? 'selected' : '' }}>Not Attended</option>
+                        </select>
                     </td>
                     <td>
                         <a href="{{ route('registrations.show', $registration->id) }}" class="btn btn-info">View</a>
@@ -111,4 +119,76 @@
         <p>No registrations found.</p>
     @endif
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const statusSelects = document.querySelectorAll('.status-select');
+            const attendanceSelects = document.querySelectorAll('.attendance-select');
+            const successAlert = document.getElementById('success-alert');
+            const successMessage = document.getElementById('success-message');
+
+            statusSelects.forEach(select => {
+                select.addEventListener('change', function () {
+                    const registrationId = this.getAttribute('data-id');
+                    const newStatus = this.value;
+
+                    fetch(`/registrations/${registrationId}/status`, {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({ status: newStatus })
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                successMessage.textContent = 'Status updated successfully';
+                                successAlert.style.display = 'block';
+                                setTimeout(() => {
+                                    successAlert.style.display = 'none';
+                                }, 3000);
+                            } else {
+                                alert('Failed to update status');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('An error occurred while updating status');
+                        });
+                });
+            });
+
+            attendanceSelects.forEach(select => {
+                select.addEventListener('change', function () {
+                    const registrationId = this.getAttribute('data-id');
+                    const newAttendance = this.value;
+
+                    fetch(`/registrations/${registrationId}/attendance`, {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({ attendance: newAttendance })
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                successMessage.textContent = 'Attendance updated successfully';
+                                successAlert.style.display = 'block';
+                                setTimeout(() => {
+                                    successAlert.style.display = 'none';
+                                }, 3000);
+                            } else {
+                                alert('Failed to update attendance');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('An error occurred while updating attendance');
+                        });
+                });
+            });
+        });
+    </script>
 @endsection
