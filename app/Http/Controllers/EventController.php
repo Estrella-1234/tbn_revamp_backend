@@ -153,12 +153,11 @@ class EventController extends Controller
         }
     }
 
-    public function getEvent($id)
+    public function getbySlug($slug)
     {
-        $event = Event::findOrFail($id);
+        $event = Event::where('slug', $slug)->firstOrFail();
 
-        return response()->json([
-            'event' => $event,
-        ]);
+        return response()->json(['event' => $event]);
     }
+
 }

@@ -23,7 +23,11 @@ Route::post('login', 'FrontendAuthController@login');
 Route::post('register', 'FrontendRegisterController@register');
 Route::post('/google-auth', 'FrontendRegisterController@googleAuth');
 Route::get('/events', 'EventController@getAllEvents');
-Route::get('/events/{id}', 'EventController@getEvent');
+//Route::get('/events/{id}', 'EventController@getEvent');
+Route::get('events/{slug}', 'EventController@getbySlug')
+    ->where('slug', '[A-Za-z0-9\-]+')
+    ->name('events.show');
+
 
 
 Route::get('/registrations', 'RegistrationController@getAllData');
