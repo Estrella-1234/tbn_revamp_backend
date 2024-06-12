@@ -18,6 +18,7 @@
         <div class="form-group">
             <label for="section">Section</label>
             <select name="section" id="section" class="form-control">
+                <option value="Landing Page">Landing Page</option>
                 <option value="About Us">About Us</option>
                 <option value="Who We Are">Who We Are</option>
                 <option value="Vision">Vision</option>

@@ -24,6 +24,7 @@
             <div class="form-group">
                 <label for="section">Section</label>
                 <select name="section" id="section" class="form-control">
+                    <option value="Landing Page" {{ $post->section === 'Landing Page' ? 'selected' : '' }}>Landing Page</option>
                     <option value="About Us" {{ $post->section === 'About Us' ? 'selected' : '' }}>About Us</option>
                     <option value="Who We Are" {{ $post->section === 'Who We Are' ? 'selected' : '' }}>Who We Are</option>
                     <option value="Vision" {{ $post->section === 'Vision' ? 'selected' : '' }}>Vision</option>
