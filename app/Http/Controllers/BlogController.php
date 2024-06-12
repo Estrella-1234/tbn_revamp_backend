@@ -131,6 +131,16 @@ class BlogController extends Controller
         }
     }
 
+    public function getBySlug($slug)
+    {
+        $blog = Blog::where('slug', $slug)->with('user')->first();
+        if ($blog) {
+            return response()->json($blog);
+        } else {
+            return response()->json(['message' => 'Blog not found'], 404);
+        }
+    }
+
 //    // Create a new blog
 //    public function createF(Request $request)
 //    {
