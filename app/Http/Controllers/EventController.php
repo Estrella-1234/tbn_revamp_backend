@@ -160,4 +160,10 @@ class EventController extends Controller
         return response()->json(['event' => $event]);
     }
 
+    public function getbyId($id)
+    {
+        $event = Event::where('id', $id)->firstOrFail();
+
+        return response()->json(['event' => $event]);
+    }
 }
