@@ -24,7 +24,7 @@ Route::post('register', 'FrontendRegisterController@register');
 Route::post('/google-auth', 'FrontendRegisterController@googleAuth');
 Route::get('/events', 'EventController@getAllEvents');
 Route::get('/events/{id}', 'EventController@getbyId');
-Route::get('events/{slug}', 'EventController@getbySlug')
+Route::get('events/details/{slug}', 'EventController@getbySlug')
     ->where('slug', '[A-Za-z0-9\-]+')
     ->name('events.show');
 
@@ -43,10 +43,12 @@ Route::get('/reviews', 'ReviewsController@getAllReviews');
 Route::get('/reviews/{id}', 'ReviewsController@getReviewbyId');
 
 Route::get('blogs', 'BlogController@getAll');
-Route::get('blogs/{id}', 'BlogController@getById');
-Route::get('blogs/{slug}', 'BlogController@getBySlug')
+
+Route::get('blogs/details/{slug}', 'BlogController@getBySlug')
     ->where('slug', '[A-Za-z0-9\-]+')
     ->name('blogs.show');
+
+Route::get('blogs/{id}', 'BlogController@getById');
 
 //Route::post('blogs', 'BlogController@createF');
 //Route::put('blogs/{id}', 'BlogController@updateF');

@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="2edcff2e-9b78-4fdf-b5b4-865568011779" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/EventController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/EventController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/logs/laravel.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel.log" afterDir="false" />
     </list>
@@ -302,7 +301,9 @@
       <workItem from="1718178068800" duration="752000" />
       <workItem from="1718179017043" duration="1327000" />
       <workItem from="1718185140184" duration="659000" />
-      <workItem from="1718185869062" duration="321000" />
+      <workItem from="1718185869062" duration="702000" />
+      <workItem from="1718195738775" duration="1895000" />
+      <workItem from="1718201397291" duration="1230000" />
     </task>
     <servers />
   </component>
