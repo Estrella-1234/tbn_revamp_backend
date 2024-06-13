@@ -43,7 +43,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('registrations', 'RegistrationController');
 
     // Review routes
-//    Route::resource('reviews', ReviewsController::class);
     Route::get('/reviews', [ReviewsController::class, 'index'])->name('reviews.index');
     Route::resource('reviews', 'ReviewsController');
     Route::get('registrations/{registration}/reviews/create', [ReviewsController::class, 'create'])->name('reviews.create');

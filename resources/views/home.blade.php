@@ -190,16 +190,26 @@
         <div class="col-lg-6 mb-4">
 
             <!-- Illustrations -->
+            <!-- Event List -->
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Illustrations</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Upcoming Events</h6>
                 </div>
-                <div class="card-body">
-                    <div class="text-center">
-                        <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;" src="{{ asset('img/svg/undraw_editable_dywm.svg') }}" alt="">
-                    </div>
-                    <p>Add some quality, svg illustrations to your project courtesy of <a target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>, a constantly updated collection of beautiful svg images that you can use completely free and without attribution!</p>
-                    <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on unDraw →</a>
+                <div class="card-body fixed-height">
+                    @if ($events->isEmpty())
+                        <p>No events found.</p>
+                    @else
+                        <div class="list-group">
+                            @foreach ($events as $event)
+                                <a href="{{ route('events.show', $event->slug) }}" class="list-group-item list-group-item-action">
+                                    <h5 class="mb-1">{{ $event->judul }}</h5>
+                                    <p class="mb-1 text-justify">{!! $event->deskripsi !!}</p>
+                                    <small>{{ $event->tanggal }}</small>
+                                </a>
+                            @endforeach
+                        </div>
+                        {{ $events->links() }} <!-- Pagination links -->
+                    @endif
                 </div>
             </div>
 
