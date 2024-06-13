@@ -2,6 +2,17 @@
 
 @section('main-content')
         <h1>Edit Blog</h1>
+
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    @endforeach
+                    <li>{{ $error }}</li>
+                </ul>
+            </div>
+        @endif
+
         <form action="{{ route('blogs.update', $blog->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')

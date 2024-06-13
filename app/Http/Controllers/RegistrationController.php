@@ -2,35 +2,90 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\RegistrationStatusUpdated;
 use App\Models\Event;
 use App\Models\EventRegistration;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class RegistrationController extends Controller
 {
     public function index(Request $request)
     {
-        $search = $request->input('search');
+        $query = EventRegistration::query();
 
-        $registrations = EventRegistration::with('event')
-            ->when($search, function ($query) use ($search) {
-                return $query->whereHas('event', function ($query) use ($search) {
-                    $query->where('judul', 'like', "%$search%");
-                })
-                    ->orWhere('name', 'like', "%$search%")
-                    ->orWhere('email', 'like', "%$search%")
-                    ->orWhere('phone', 'like', "%$search%")
-                    ->orWhere('affiliation', 'like', "%$search%")
-                    ->orWhere('ticket_type', 'like', "%$search%")
-                    ->orWhere('notes', 'like', "%$search%")
-                    ->orWhere('status', 'like', "%$search%")
-                    ->orWhere('attendance', $search == 'attend' ? 1 : 0);
-            })
-            ->paginate(10);
+        if ($request->filled('event')) {
+            $query->whereHas('event', function ($q) use ($request) {
+                $q->where('judul', 'like', '%' . $request->input('event') . '%');
+            });
+        }
 
+        if ($request->filled('name')) {
+            $query->where('name', 'like', '%' . $request->input('name') . '%');
+        }
+
+        if ($request->filled('email')) {
+            $query->where('email', 'like', '%' . $request->input('email') . '%');
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', 'like', '%' . $request->input('status') . '%');
+        }
+
+        if ($request->filled('attendance')) {
+            $query->where('attendance', $request->input('attendance'));
+        }
+
+        $registrations = $query->paginate(10);
 
         return view('registrations.index', compact('registrations'));
+    }
+
+
+
+
+
+    public function export()
+    {
+        $registrations = EventRegistration::all();
+
+        $timestamp = now()->format('YmdH');
+        $filename = 'registrations_' . $timestamp . '.csv';
+
+        $headers = array(
+            "Content-type" => "text/csv",
+            "Content-Disposition" => "attachment; filename=$filename",
+            "Pragma" => "no-cache",
+            "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
+            "Expires" => "0"
+        );
+
+        $callback = function () use ($registrations) {
+            $file = fopen('php://output', 'w');
+
+            // Add CSV headers
+            fputcsv($file, array('Event', 'Name', 'Email', 'Phone', 'Affiliation', 'Ticket Type', 'Status', 'Attendance'));
+
+            // Add data
+            foreach ($registrations as $registration) {
+                fputcsv($file, array(
+                    $registration->event->judul,
+                    $registration->name,
+                    $registration->email,
+                    $registration->phone,
+                    $registration->affiliation,
+                    $registration->ticket_type,
+                    $registration->status,
+                    $registration->attendance === 1 ? 'Attended' : ($registration->attendance === 0 ? 'Not Attended' : 'Unknown'),
+                ));
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
     }
 
 
@@ -42,7 +97,7 @@ class RegistrationController extends Controller
 
     public function store(Request $request)
     {
-        
+
         $request->validate([
             'event_id' => 'required|exists:events,id',
             'name' => 'required|string|max:255',
@@ -92,10 +147,11 @@ class RegistrationController extends Controller
         ]);
 
         $registration->update($request->all());
+        event(new RegistrationStatusUpdated($registration));
+
 
         return redirect()->route('registrations.index')->with('success', 'Registration updated successfully.');
     }
-
 
 
     public function destroy(EventRegistration $registration)
@@ -103,6 +159,35 @@ class RegistrationController extends Controller
         $registration->delete();
         return redirect()->route('registrations.index')->with('success', 'Registration deleted successfully.');
     }
+
+    public function updateStatus(Request $request, $id)
+    {
+        try {
+            $registration = EventRegistration::findOrFail($id);
+            $registration->status = $request->input('status');
+            $registration->save();
+            event(new RegistrationStatusUpdated($registration));
+
+            return response()->json(['success' => 'Status updated successfully']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to update status', 'message' => $e->getMessage()], 500);
+        }
+    }
+
+    public function updateAttendance(Request $request, $id)
+    {
+        try {
+            $registration = EventRegistration::findOrFail($id);
+            $registration->attendance = $request->input('attendance');
+            $registration->save();
+
+            return response()->json(['success' => true, 'message' => 'Attendance updated successfully']);
+        } catch (\Exception $e) {
+//            Log::error('Error updating attendance: ' . $e->getMessage());
+            return response()->json(['success' => false, 'message' => 'Failed to update attendance']);
+        }
+    }
+
 
     //==================================================================================================================
     public function getAllData()
@@ -142,6 +227,16 @@ class RegistrationController extends Controller
         // If validation fails, return error response
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        // Check if the user has already registered for the event
+        $existingRegistration = EventRegistration::where('user_id', $request->user_id)
+            ->where('event_id', $request->event_id)
+            ->exists();
+
+        // If the user has already registered, return an error response
+        if ($existingRegistration) {
+            return response()->json(['message' => 'User has already registered for this event'], 422);
         }
 
         // Create a new registration
@@ -214,22 +309,5 @@ class RegistrationController extends Controller
         return response()->json(['message' => 'Registration deleted successfully'], 200);
 
     }
-
-    public function markAttendance(EventRegistration $registration)
-    {
-        $registration->attendance = true;
-        $registration->save();
-
-        return response()->json(['success' => true, 'message' => 'Attendance marked successfully.']);
-    }
-
-    public function unmarkAttendance(EventRegistration $registration)
-    {
-        $registration->attendance = false;
-        $registration->save();
-
-        return response()->json(['success' => true, 'message' => 'Attendance unmarked successfully.']);
-    }
-
 
 }

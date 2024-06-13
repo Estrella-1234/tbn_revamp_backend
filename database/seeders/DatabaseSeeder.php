@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // Create 10 user records
-//        User::factory()->count(500)->create();
-        EventRegistration::factory()->count(20)->create();
+        User::factory()->count(500)->create();
+//        EventRegistration::factory()->count(20)->create();
     }
 }

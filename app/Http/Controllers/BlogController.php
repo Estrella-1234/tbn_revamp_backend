@@ -28,21 +28,31 @@ class BlogController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $imagePath = $request->file('image') ? $request->file('image')->store('Blog', 'public') : null;
+        try {
+            $imagePath = $request->file('image') ? $request->file('image')->store('Blog', 'public') : null;
 
-        Blog::create([
-            'user_id' => Auth::id(),
-            'title' => $request->title,
-            'desc' => $request->desc,
-            'image_path' => $imagePath,
-        ]);
+            $blog = Blog::create([
+                'user_id' => Auth::id(),
+                'title' => $request->title,
+                'desc' => $request->desc,
+                'image_path' => $imagePath,
+            ]);
 
-        return redirect()->route('blogs.index')->with('success', 'Blog created successfully.');
+            return redirect()->route('blogs.index')->with('success', 'Blog created successfully.');
+        } catch (\Illuminate\Database\QueryException $e) {
+            $errorCode = $e->errorInfo[1];
+            if ($errorCode == 1062) { // Unique constraint violation
+                return redirect()->back()->withErrors(['title' => 'A blog with the same title already exists.'])->withInput();
+            }
+            // Handle other database-related errors if needed
+            return redirect()->back()->withErrors(['error' => 'An error occurred. Please try again.'])->withInput();
+        }
     }
 
-    public function show($id)
+
+    public function show($slug)
     {
-        $blog = Blog::findOrFail($id);
+        $blog = Blog::where('slug', $slug)->firstOrFail();
         return view('blogs.show', compact('blog'));
     }
 
@@ -62,20 +72,29 @@ class BlogController extends Controller
 
         $blog = Blog::findOrFail($id);
 
-        if ($request->hasFile('image')) {
-            // Delete the old image if exists
-            if ($blog->image_path) {
-                \Storage::delete('public/' . $blog->image_path);
+        try {
+            // Check if the updated title already exists in other blogs
+            if ($request->title !== $blog->title && Blog::where('title', $request->title)->exists()) {
+                throw new \Exception('A blog with the same title already exists.');
             }
-            $imagePath = $request->file('image')->store('Blog', 'public');
-            $blog->image_path = $imagePath;
+
+            if ($request->hasFile('image')) {
+                // Delete the old image if exists
+                if ($blog->image_path) {
+                    \Storage::delete('public/' . $blog->image_path);
+                }
+                $imagePath = $request->file('image')->store('Blog', 'public');
+                $blog->image_path = $imagePath;
+            }
+
+            $blog->title = $request->title;
+            $blog->desc = $request->desc;
+            $blog->save();
+
+            return redirect()->route('blogs.index')->with('success', 'Blog updated successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['title' => $e->getMessage()])->withInput();
         }
-
-        $blog->title = $request->title;
-        $blog->desc = $request->desc;
-        $blog->save();
-
-        return redirect()->route('blogs.index')->with('success', 'Blog updated successfully.');
     }
 
     public function destroy($id)
@@ -112,77 +131,87 @@ class BlogController extends Controller
         }
     }
 
-    // Create a new blog
-    public function createF(Request $request)
+    public function getBySlug($slug)
     {
-        $validator = Validator::make($request->all(), [
-            'title' => 'required|string|max:255',
-            'desc' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'user_id' => 'required|exists:users,id'
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
-        }
-
-        $imagePath = null;
-
-        // Handle the file upload
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $imagePath = $image->storeAs('Blog', $imageName, 'public');
-        }
-
-        $blog = Blog::create([
-            'title' => $request->title,
-            'desc' => $request->desc,
-            'image_path' => $imagePath,
-            'user_id' => $request->user_id,
-        ]);
-//        dd($imagePath);
-        return response()->json($blog, 201);
-    }
-
-    // Update a blog
-    public function updateF(Request $request, $id)
-    {
-        $validator = Validator::make($request->all(), [
-            'title' => 'sometimes|required|string|max:255',
-            'desc' => 'sometimes|required|string',
-            'image_path' => 'nullable|string',
-            'user_id' => 'sometimes|required|exists:users,id'
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
-        }
-
-        $blog = Blog::find($id);
+        $blog = Blog::where('slug', $slug)->with('user')->first();
         if ($blog) {
-            $blog->update($request->all());
             return response()->json($blog);
         } else {
             return response()->json(['message' => 'Blog not found'], 404);
         }
     }
 
-    // Delete a blog
-    public function deleteF($id)
-    {
-        $blog = Blog::find($id);
-        if ($blog) {
-            // Hapus gambar terkait jika ada
-            if ($blog->image_path) {
-                \Storage::delete('public/' . $blog->image_path);
-            }
-
-            // Hapus blog dari database
-            $blog->delete();
-            return response()->json(['message' => 'Blog deleted successfully']);
-        } else {
-            return response()->json(['message' => 'Blog not found'], 404);
-        }
-    }
+//    // Create a new blog
+//    public function createF(Request $request)
+//    {
+//        $validator = Validator::make($request->all(), [
+//            'title' => 'required|string|max:255',
+//            'desc' => 'required|string',
+//            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+//            'user_id' => 'required|exists:users,id'
+//        ]);
+//
+//        if ($validator->fails()) {
+//            return response()->json($validator->errors(), 400);
+//        }
+//
+//        $imagePath = null;
+//
+//        // Handle the file upload
+//        if ($request->hasFile('image')) {
+//            $image = $request->file('image');
+//            $imageName = time() . '.' . $image->getClientOriginalExtension();
+//            $imagePath = $image->storeAs('Blog', $imageName, 'public');
+//        }
+//
+//        $blog = Blog::create([
+//            'title' => $request->title,
+//            'desc' => $request->desc,
+//            'image_path' => $imagePath,
+//            'user_id' => $request->user_id,
+//        ]);
+////        dd($imagePath);
+//        return response()->json($blog, 201);
+//    }
+//
+//    // Update a blog
+//    public function updateF(Request $request, $id)
+//    {
+//        $validator = Validator::make($request->all(), [
+//            'title' => 'sometimes|required|string|max:255',
+//            'desc' => 'sometimes|required|string',
+//            'image_path' => 'nullable|string',
+//            'user_id' => 'sometimes|required|exists:users,id'
+//        ]);
+//
+//        if ($validator->fails()) {
+//            return response()->json($validator->errors(), 400);
+//        }
+//
+//        $blog = Blog::find($id);
+//        if ($blog) {
+//            $blog->update($request->all());
+//            return response()->json($blog);
+//        } else {
+//            return response()->json(['message' => 'Blog not found'], 404);
+//        }
+//    }
+//
+//    // Delete a blog
+//    public function deleteF($id)
+//    {
+//        $blog = Blog::find($id);
+//        if ($blog) {
+//            // Hapus gambar terkait jika ada
+//            if ($blog->image_path) {
+//                \Storage::delete('public/' . $blog->image_path);
+//            }
+//
+//            // Hapus blog dari database
+//            $blog->delete();
+//            return response()->json(['message' => 'Blog deleted successfully']);
+//        } else {
+//            return response()->json(['message' => 'Blog not found'], 404);
+//        }
+//    }
 }

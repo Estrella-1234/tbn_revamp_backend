@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('main-content')
-    <h1 class="h3 mb-4 text-gray-800">{{ __('Event Details') }}</h1>
+    <h1>Event Details</h1>
 
     <div class="card">
         <div class="card-header">
@@ -14,7 +14,7 @@
                 </div>
             @endif
             <p><strong>Title:</strong> {{ $event->judul }}</p>
-            <p><strong>Description:</strong> {{ $event->deskripsi }}</p>
+            <p><strong>Description:</strong> {!! $event->deskripsi !!}</p>
             <p><strong>Date:</strong> {{ \Carbon\Carbon::parse($event->tanggal)->format('d M Y, H:i') }}</p>
             <p><strong>Location:</strong> {{ $event->lokasi }}</p>
             <p><strong>Speaker:</strong> {{ $event->pembicara }}</p>

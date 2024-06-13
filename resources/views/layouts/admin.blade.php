@@ -111,11 +111,19 @@
             {{ __('Content Management') }}
         </div>
 
+        <!-- Nav Item - Posts Management -->
+        <li class="nav-item {{ Nav::isRoute('posts.index') }}">
+            <a class="nav-link" href="{{ route('posts.index') }}">
+                <i class="fa-solid fa-pen-to-square"></i>
+                <span>{{ __('Page Management') }}</span>
+            </a>
+        </li>
+
         <!-- Nav Item - Blog -->
         <li class="nav-item {{ Nav::isRoute('blogs.index') }}">
             <a class="nav-link" href="{{ route('blogs.index') }}">
                 <i class="fas fa-fw fa-blog"></i>
-                <span>{{ __('Blog') }}</span>
+                <span>{{ __('Blog Management') }}</span>
             </a>
         </li>
 
@@ -333,7 +341,7 @@
         <footer class="sticky-footer bg-white">
             <div class="container my-auto">
                 <div class="copyright text-center my-auto">
-                    <span>Copyright &copy; <a href="https://github.com/Estrella-1234" target="_blank">Estrella</a> {{ now()->year }}</span>
+                    <span>Copyright &copy; <a href="https://github.com/Estrella-1234" target="_blank">TBN Indonesia</a> {{ now()->year }}</span>
                 </div>
             </div>
         </footer>

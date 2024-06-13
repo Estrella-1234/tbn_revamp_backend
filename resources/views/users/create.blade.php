@@ -1,7 +1,17 @@
 @extends('layouts.admin')
 
 @section('main-content')
-    <h1 class="h3 mb-4 text-gray-800">{{ $user->exists ? __('Edit User') : __('Create User') }}</h1>
+    <h1>Create User</h1>
+
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                @endforeach
+                <li>{{ $error }}</li>
+            </ul>
+        </div>
+    @endif
 
     <form action="{{ $user->exists ? route('users.update', $user->id) : route('users.store') }}" method="POST">
         @csrf
@@ -30,12 +40,18 @@
                 <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
             </div>
         @endunless
+        <div class="form-group">
+            <label for="user_role">User Role</label>
+            <select name="user_role" class="form-control" required>
+                <option value="user" {{ old('user_role', $user->user_role) == 'user' ? 'selected' : '' }}>User</option>
+                <option value="admin" {{ old('user_role', $user->user_role) == 'admin' ? 'selected' : '' }}>Admin</option>
+            </select>
+        </div>
         <div class="d-flex align-items-center">
             <button type="submit" class="btn btn-primary mr-3">
                 {{ $user->exists ? __('Update User') : __('Create User') }}
             </button>
             <a href="{{ route('users.index') }}" class="btn btn-secondary">Back to Users</a>
         </div>
-
     </form>
 @endsection

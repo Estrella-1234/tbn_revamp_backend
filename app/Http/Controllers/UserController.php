@@ -11,9 +11,10 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
+        $currentUserId = auth()->id(); // Get the ID of the currently authenticated user
 
         $users = User::query()
-            ->where('user_role', 'users') // Filter by user role first
+            ->where('id', '!=', $currentUserId) // Exclude the logged-in user
             ->when($search, function ($query) use ($search) {
                 return $query->where(function ($query) use ($search) {
                     $query->where('name', 'like', "%{$search}%")
@@ -21,10 +22,12 @@ class UserController extends Controller
                         ->orWhere('email', 'like', "%{$search}%");
                 });
             })
+            ->orderBy('created_at', 'asc')
             ->paginate(10);
 
         return view('users.index', compact('users'));
     }
+
 
 
     public function create()
@@ -50,6 +53,7 @@ class UserController extends Controller
             'last_name' => $request->last_name,
             'email' => $request->email,
             'password' => ($request->password),
+            'user_role' => $request->user_role,
         ]);
 
         return redirect()->route('users.index')->with('success', 'User created successfully.');

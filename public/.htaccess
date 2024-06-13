@@ -3,6 +3,9 @@
         Options -MultiViews -Indexes
     </IfModule>
 
+    # Set PHP handler for .php files to 7.4.33
+    AddHandler application/x-httpd-php74 .php
+
     RewriteEngine On
 
     # Handle Authorization Header

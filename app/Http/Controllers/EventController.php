@@ -1,11 +1,10 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Event;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str; // Add this import
 
 class EventController extends Controller
 {
@@ -24,7 +23,6 @@ class EventController extends Controller
             ->paginate(10);
 
         return view('events.index', compact('events'));
-
     }
 
     public function create()
@@ -32,7 +30,7 @@ class EventController extends Controller
         return view('events.create');
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
         $request->validate([
             'judul' => 'required|string|max:255',
@@ -45,23 +43,34 @@ class EventController extends Controller
         ]);
 
         $posterPath = $request->file('poster_path')->store('public/posters');
+        $slug = Str::slug($request->judul);
 
-        Event::create([
-            'judul' => $request->judul,
-            'deskripsi' => $request->deskripsi,
-            'tanggal' => $request->tanggal,
-            'pembicara' => $request->pembicara,
-            'poster_path' => str_replace('public/', '', $posterPath),
-            'harga' => $request->harga,
-            'lokasi' => $request->lokasi
-        ]);
+        try {
+            Event::create([
+                'judul' => $request->judul,
+                'slug' => $slug,
+                'deskripsi' => $request->deskripsi,
+                'tanggal' => $request->tanggal,
+                'pembicara' => $request->pembicara,
+                'poster_path' => str_replace('public/', '', $posterPath),
+                'harga' => $request->harga,
+                'lokasi' => $request->lokasi
+            ]);
 
-        return redirect()->route('events.index')->with('success', 'Event created successfully.');
+            return redirect()->route('events.index')->with('success', 'Event created successfully.');
+        } catch (\Illuminate\Database\QueryException $e) {
+            if ($e->getCode() == 23000) { // Integrity constraint violation code
+                return redirect()->back()->withInput()->withErrors(['slug' => 'Event already exists.']);
+            }
+            throw $e;
+        }
     }
 
-    public function show($id)
+
+    public function show($slug)
     {
-        $event = Event::findOrFail($id);
+        $event = Event::where('slug', $slug)->firstOrFail();
+
         return view('events.show', compact('event'));
     }
 
@@ -84,28 +93,35 @@ class EventController extends Controller
         ]);
 
         $event = Event::findOrFail($id);
+        $slug = Str::slug($request->judul);
 
         if ($request->hasFile('poster_path')) {
-            // Delete the old image if it exists
             if ($event->poster_path) {
                 Storage::delete('public/' . $event->poster_path);
             }
 
-            // Store the new image
             $posterPath = $request->file('poster_path')->store('public/posters');
             $event->poster_path = str_replace('public/', '', $posterPath);
         }
 
-        $event->update([
-            'judul' => $request->judul,
-            'deskripsi' => $request->deskripsi,
-            'tanggal' => $request->tanggal,
-            'lokasi' => $request->lokasi,
-            'pembicara' => $request->pembicara,
-            'harga' => $request->harga,
-        ]);
+        try {
+            $event->update([
+                'judul' => $request->judul,
+                'slug' => $slug,
+                'deskripsi' => $request->deskripsi,
+                'tanggal' => $request->tanggal,
+                'lokasi' => $request->lokasi,
+                'pembicara' => $request->pembicara,
+                'harga' => $request->harga,
+            ]);
 
-        return redirect()->route('events.index')->with('success', 'Event updated successfully.');
+            return redirect()->route('events.index')->with('success', 'Event updated successfully.');
+        } catch (\Illuminate\Database\QueryException $e) {
+            if ($e->getCode() == 23000) { // Integrity constraint violation code
+                return redirect()->back()->withInput()->withErrors(['slug' => 'Event already exists.']);
+            }
+            throw $e;
+        }
     }
 
 
@@ -113,12 +129,10 @@ class EventController extends Controller
     {
         $event = Event::findOrFail($id);
 
-        // Delete the image associated with the event
         if ($event->poster_path) {
             Storage::delete('public/' . $event->poster_path);
         }
 
-        // Delete the event from the database
         $event->delete();
 
         return redirect()->route('events.index')->with('success', 'Event deleted successfully.');
@@ -137,16 +151,19 @@ class EventController extends Controller
                 'events' => $events,
             ]);
         }
-
     }
 
-    public function getEvent($id)
+    public function getbySlug($slug)
     {
-        $event = Event::findOrFail($id);
+        $event = Event::where('slug', $slug)->firstOrFail();
 
-        return response()->json([
-            'event' => $event,
-        ]);
+        return response()->json(['event' => $event]);
     }
 
+    public function getbyId($id)
+    {
+        $event = Event::where('id', $id)->firstOrFail();
+
+        return response()->json(['event' => $event]);
+    }
 }

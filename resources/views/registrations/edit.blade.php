@@ -1,7 +1,17 @@
 @extends('layouts.admin')
 
 @section('main-content')
-    <h1 class="h3 mb-4 text-gray-800">{{ __('Edit Registration') }}</h1>
+    <h1>Edit Registration</h1>
+
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                @endforeach
+                <li>{{ $error }}</li>
+            </ul>
+        </div>
+    @endif
 
     <div class="card mb-3">
         <div class="card-body">

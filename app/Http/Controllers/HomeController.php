@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Event;
 use App\Models\User;
+use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class HomeController extends Controller
 {
@@ -20,7 +23,7 @@ class HomeController extends Controller
     /**
      * Show the application dashboard.
      *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @return Renderable
      */
     public function index()
     {
@@ -28,6 +31,9 @@ class HomeController extends Controller
             'users' => User::where('user_role', 'users')->count(),
         ];
 
-        return view('home', compact('widget'));
+        // Fetch upcoming events
+        $events = Event::where('tanggal', '>=', Carbon::now())->paginate(10);
+
+        return view('home', compact('widget', 'events'));
     }
 }

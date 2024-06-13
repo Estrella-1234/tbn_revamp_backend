@@ -1,8 +1,7 @@
 @extends('layouts.admin')
 
 @section('main-content')
-    <h1 class="h3 mb-4 text-gray-800">{{ __('Events') }}</h1>
-
+    <h1>Events</h1>
 
     <div class="d-flex align-items-center mb-3">
         <a href="{{ route('events.create') }}" class="btn btn-primary mr-auto">Add Event</a>
@@ -18,8 +17,6 @@
         </form>
     </div>
 
-
-
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
@@ -27,7 +24,7 @@
     <table class="table table-bordered table-striped">
         <thead>
         <tr>
-            <th>ID</th>
+            <th>No</th>
             <th>Poster</th>
             <th>Title</th>
             <th>Description</th>
@@ -39,17 +36,16 @@
         </tr>
         </thead>
         <tbody>
-        @foreach($events as $event)
+        @foreach($events as $index => $event)
             <tr>
-                <td>{{ $event->id }}</td>
+                <td>{{ ($events->currentPage() - 1) * $events->perPage() + $index + 1 }}</td>
                 <td class="text-center align-middle">
                     @if($event->poster_path)
                         <img src="{{ asset('storage/' . $event->poster_path) }}" alt="Event Poster" style="max-width: 250px;">
                     @endif
                 </td>
-
                 <td>{{ $event->judul }}</td>
-                <td>{{ $event->deskripsi }}</td>
+                <td>{!! $event->deskripsi !!}</td>
                 <td>{{ $event->tanggal }}</td>
                 <td>{{ $event->lokasi }}</td>
                 <td>{{ $event->pembicara }}</td>
@@ -59,10 +55,11 @@
                     <button type="button" class="btn btn-danger delete-event" data-event-id="{{ $event->id }}"
                             data-toggle="modal" data-target="#deleteEventModal-{{ $event->id }}">Delete
                     </button>
-                    <a href="{{ route('events.show', $event->id) }}" class="btn btn-info">View</a>
+                    <a href="{{ route('events.show', $event->slug) }}" class="btn btn-info">View</a> <!-- Update this line to use slug -->
                 </td>
             </tr>
         @endforeach
+
         </tbody>
     </table>
 

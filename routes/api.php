@@ -21,8 +21,13 @@ Route::middleware('auth:api')->get('/users', function (Request $request) {
 
 Route::post('login', 'FrontendAuthController@login');
 Route::post('register', 'FrontendRegisterController@register');
+Route::post('/google-auth', 'FrontendRegisterController@googleAuth');
 Route::get('/events', 'EventController@getAllEvents');
-Route::get('/events/{id}', 'EventController@getEvent');
+Route::get('/events/{id}', 'EventController@getbyId');
+Route::get('events/details/{slug}', 'EventController@getbySlug')
+    ->where('slug', '[A-Za-z0-9\-]+')
+    ->name('events.show');
+
 
 
 Route::get('/registrations', 'RegistrationController@getAllData');
@@ -30,8 +35,6 @@ Route::get('/registrations/{id}', 'RegistrationController@getRegistration');
 Route::post('/registrations', 'RegistrationController@createRegistration');
 Route::put('/registrations/{id}', 'RegistrationController@editRegistration');
 Route::delete('/registrations/{id}', 'RegistrationController@deleteRegistration');
-Route::put('/registrations/{registration}/addattendance','RegistrationController@markAttendance' );
-Route::put('/registrations/{registration}/removeattendance','RegistrationController@unmarkAttendance' );
 
 Route::post('/reviews/{registration}', 'ReviewsController@addReview');
 Route::put('/reviews/{review}', 'ReviewsController@updateReview');
@@ -40,10 +43,16 @@ Route::get('/reviews', 'ReviewsController@getAllReviews');
 Route::get('/reviews/{id}', 'ReviewsController@getReviewbyId');
 
 Route::get('blogs', 'BlogController@getAll');
+
+Route::get('blogs/details/{slug}', 'BlogController@getBySlug')
+    ->where('slug', '[A-Za-z0-9\-]+')
+    ->name('blogs.show');
+
 Route::get('blogs/{id}', 'BlogController@getById');
-Route::post('blogs', 'BlogController@createF');
-Route::put('blogs/{id}', 'BlogController@updateF');
-Route::delete('blogs/{id}', 'BlogController@deleteF');
+
+//Route::post('blogs', 'BlogController@createF');
+//Route::put('blogs/{id}', 'BlogController@updateF');
+//Route::delete('blogs/{id}', 'BlogController@deleteF');
 
 Route::get('blogs/{blog}/comments', 'CommentController@getallComments');
 Route::get('comments/{id}', 'CommentController@getComment');
@@ -51,6 +60,10 @@ Route::get('users/{id}/comments', 'CommentController@getUserComment');
 Route::post('blogs/{blog}/comments', 'CommentController@createComment');
 Route::put('comments/{comment}', 'CommentController@editComment');
 Route::delete('comments/{comment}', 'CommentController@deleteF');
+
+Route::get('posts', 'PostController@getAllPost');
+Route::get('partners', 'PartnerController@getallpartners');
+
 
 
 
