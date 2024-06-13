@@ -1,78 +1,55 @@
-# Laravel SB Admin 2
+# Event Management System
 
-SB Admin 2 for Laravel.
+This is an Event Management System built with Laravel. It allows administrators to manage events, including creating, editing, viewing, and deleting events. Users can also be managed through this system.
 
-| Laravel Version | Branch | Support     |
-|-----------------|--------|-------------|
-| 11.0            | main   |             |
-| 10.0            | v10.0  |             |
-| 9.0             | v9.0   | End of life |
-| 8.0             | v8.0   | End of life |
+## Table of Contents
+
+- [Features](#features)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Routes](#routes)
+- [License](#license)
+
+## Features
+
+- User management (Create, Read, Update, Delete users)
+- Event management (Create, Read, Update, Delete events)
+- Upload and manage event posters
+- Dashboard with statistics
 
 ## Requirements
 
-- PHP >= 7.3.0
-- BCMath PHP Extension
-- Ctype PHP Extension
-- JSON PHP Extension
-- Mbstring PHP Extension
-- OpenSSL PHP Extension
-- PDO PHP Extension
-- Tokenizer PHP Extension
-- XML PHP Extension
+- PHP >= 8.0
+- Composer
+- Laravel 8.x
+- MySQL or other database supported by Laravel
 
 ## Installation
 
-- Clone the repo and `cd` into it
-- Run `composer install`
-- Rename or copy `.env.example` file to `.env`
-- Run `php artisan key:generate`
-- Set your database credentials in your `.env` file
+1. Clone the repository:
+git clone [https://github.com/your-username/event-management-system.git](https://github.com/Estrella-1234/tbn_revamp_backend.git)
 
-## Note
+2. Navigate to the project directory:
+cd event-management-system
 
-Recommend to install this preset on a project that you are starting from scratch, otherwise your project's design might break.
+3. Install dependencies:
+composer install
 
-If you found this project useful, then please consider giving it a :star:
+4. Copy the .env.example file to .env and configure your environment variables:
+cp .env.example .env
 
-## Credits
+5. Generate an application key:
+php artisan key:generate
 
-Laravel SB Admin 2 uses some open-source third-party libraries/packages, many thanks to the web community.
+6. Set up your database and run migrations:
+php artisan migrate
 
-- Laravel - Open source framework.
-- LaravelEasyNav - Making managing navigation in Laravel easy.
-- SB Admin 2 - Thanks to Start Bootstrap.
+7. Link the storage directory to the public directory:
+php artisan storage:link
 
-## Preview
+8. Start the development server:
+php artisan serve
 
-`login`
-
-<img src="https://imgur.com/YjGp6Sbl.png">
-
-***
-
-`register`
-
-<img src="https://imgur.com/Wj09cu4l.png">
-
-***
-
-`dashboard`
-
-<img src="https://imgur.com/CrmOfT5l.png">
-
-***
-
-`profile`
-
-<img src="https://imgur.com/5t4eS1rl.png">
-
-***
-
-`logout`
-
-<img src="https://imgur.com/d9JclOYl.png">
-
-## License
-
-Licensed under the [MIT](LICENSE) license.
+License
+This project is licensed under the MIT License - see the LICENSE file for details.
