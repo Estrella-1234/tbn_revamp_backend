@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\ReviewsController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -12,8 +13,12 @@ Route::get('/', function () {
 
 
 // Authentication routes
-//Auth::routes(['register' => false]); // Disable registration
-Auth::routes();
+Auth::routes(['register' => false]);
+
+// Public route for testing
+Route::get('/example', function () {
+    return 'Hello, world!';
+});
 
 
 // Routes that require authentication
@@ -34,13 +39,13 @@ Route::middleware(['auth'])->group(function () {
         ->where('slug', '[A-Za-z0-9\-]+')
         ->name('events.show');
 
-    // Registration routes
+// Registration routes
     Route::get('/registrations', [RegistrationController::class, 'index'])->name('registrations.index');
     Route::patch('/registrations/{registration}/status', [RegistrationController::class, 'updateStatus'])->name('registrations.updateStatus');
     Route::patch('/registrations/{id}/attendance', [RegistrationController::class, 'updateAttendance']);
     Route::get('registrations/export', [RegistrationController::class, 'export'])->name('registrations.export');
-    Route::put('/registrations/{registration}/updateStatus', [RegistrationController::class, 'updateStatus'])->name('registrations.updateStatus');
     Route::resource('registrations', 'RegistrationController');
+
 
     // Review routes
     Route::get('/reviews', [ReviewsController::class, 'index'])->name('reviews.index');

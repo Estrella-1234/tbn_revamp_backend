@@ -127,7 +127,7 @@
                     const registrationId = this.getAttribute('data-id');
                     const newStatus = this.value;
 
-                    fetch(`/registrations/${registrationId}/status`, {
+                    fetch(`registrations/${registrationId}/status`, {
                         method: 'PATCH',
                         headers: {
                             'Content-Type': 'application/json',
@@ -159,7 +159,7 @@
                     const registrationId = this.getAttribute('data-id');
                     const newAttendance = this.value;
 
-                    fetch(`/registrations/${registrationId}/attendance`, {
+                    fetch(`registrations/${registrationId}/attendance`, {
                         method: 'PATCH',
                         headers: {
                             'Content-Type': 'application/json',
