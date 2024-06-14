@@ -133,7 +133,7 @@ class BlogController extends Controller
 
     public function getBySlug($slug)
     {
-        $blog = Blog::where('slug', $slug)->with('user')->first();
+        $blog = Blog::where('slug', $slug)->with(['user','comments.user'])->first();
         if ($blog) {
             return response()->json($blog);
         } else {

@@ -49,7 +49,7 @@
                                     </div>
                                 </form>
 
-                                <hr>
+{{--                                <hr>--}}
 
 {{--                                @if (Route::has('password.request'))--}}
 {{--                                    <div class="text-center">--}}
