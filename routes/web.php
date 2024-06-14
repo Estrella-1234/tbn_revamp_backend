@@ -21,6 +21,15 @@ Route::get('/example', function () {
     return 'Hello, world!';
 });
 
+Route::get('/clear', function () {
+    // Run artisan command programmatically
+    Artisan::call('cache:clear');
+    Artisan::call('config:clear');
+    Artisan::call('route:clear');
+    Artisan::call('view:clear');
+
+    return 'Caches cleared successfully.';
+});
 
 // Routes that require authentication
 Route::middleware(['auth'])->group(function () {

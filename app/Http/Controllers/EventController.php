@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str; // Add this import
+use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image;
+
+// Add this import
 
 class EventController extends Controller
 {
@@ -37,12 +40,30 @@ class EventController extends Controller
             'deskripsi' => 'required|string',
             'tanggal' => 'required|date',
             'pembicara' => 'required|string|max:255',
-            'poster_path' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'poster_path' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:5120', // Allow typical image formats
             'harga' => 'required|string|max:255',
             'lokasi' => 'required|string|max:255',
         ]);
 
-        $posterPath = $request->file('poster_path')->store('public/posters');
+        // Handle image upload and conversion to WebP
+        if ($request->hasFile('poster_path')) {
+            $image = $request->file('poster_path');
+
+            // Generate a unique filename for the WebP image
+            $webpFileName = time() . '.webp'; // Use .webp extension explicitly
+            $webpFilePath = 'public/posters/' . $webpFileName;
+
+            // Use Intervention Image to convert and save as WebP
+            $webpImage = Image::make($image)
+                ->encode('webp', 80); // Specify WebP format and quality
+
+            // Save the WebP image to storage
+            Storage::put($webpFilePath, (string) $webpImage->encode());
+
+            // Store the WebP file path for database insertion
+            $posterPath = str_replace('public/', '', $webpFilePath);
+        }
+
         $slug = Str::slug($request->judul);
 
         try {
@@ -52,7 +73,7 @@ class EventController extends Controller
                 'deskripsi' => $request->deskripsi,
                 'tanggal' => $request->tanggal,
                 'pembicara' => $request->pembicara,
-                'poster_path' => str_replace('public/', '', $posterPath),
+                'poster_path' => $posterPath ?? null, // Use the WebP file path if uploaded
                 'harga' => $request->harga,
                 'lokasi' => $request->lokasi
             ]);
@@ -65,6 +86,7 @@ class EventController extends Controller
             throw $e;
         }
     }
+
 
 
     public function show($slug)
@@ -88,20 +110,31 @@ class EventController extends Controller
             'tanggal' => 'required|date',
             'lokasi' => 'required|string|max:255',
             'pembicara' => 'required|string|max:255',
-            'poster_path' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'poster_path' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'harga' => 'required|string|max:255',
         ]);
 
         $event = Event::findOrFail($id);
         $slug = Str::slug($request->judul);
 
+        // Handle image upload and conversion to WebP
         if ($request->hasFile('poster_path')) {
+            // Delete old poster if it exists
             if ($event->poster_path) {
                 Storage::delete('public/' . $event->poster_path);
             }
 
-            $posterPath = $request->file('poster_path')->store('public/posters');
-            $event->poster_path = str_replace('public/', '', $posterPath);
+            // Convert and save the uploaded image as WebP
+            $image = $request->file('poster_path');
+            $webpFileName = time() . '.' . $image->getClientOriginalExtension();
+            $webpFilePath = 'public/posters/' . $webpFileName;
+
+            Image::make($image)
+                ->encode('webp', 80) // Convert to WebP with 80% quality
+                ->save(storage_path('app/' . $webpFilePath));
+
+            $posterPath = str_replace('public/', '', $webpFilePath);
+            $event->poster_path = $posterPath;
         }
 
         try {
