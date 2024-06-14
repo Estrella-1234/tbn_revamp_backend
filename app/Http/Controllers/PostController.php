@@ -28,12 +28,19 @@ class PostController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'content_type' => 'required|in:image,video',
-            'image' => $request->content_type == 'image' ? 'required|image|mimes:jpeg,png,jpg,gif|max:5120' : '',
+            'image' => $request->content_type == 'image' ? 'required|image|max:5120' : '',
             'video_url' => $request->content_type == 'video' ? 'required|url' : '',
         ]);
 
         if ($request->content_type == 'image' && $request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('posts', 'public');
+            // Load the image
+            $image = Image::make($request->file('image'));
+
+            // Compress and convert to WebP
+            $webpPath = 'posts/' . uniqid() . '.webp';
+            $image->encode('webp', 80)->save(storage_path('app/public/' . $webpPath));
+
+            $imagePath = $webpPath;
         } else {
             $imagePath = null;
         }
@@ -50,6 +57,7 @@ class PostController extends Controller
 
         return redirect()->route('posts.index')->with('success', 'Post created successfully.');
     }
+
 
     public function show(Post $post)
     {
@@ -68,7 +76,7 @@ class PostController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'content_type' => 'required|in:image,video',
-            'image' => $request->content_type == 'image' ? 'image|mimes:jpeg,png,jpg,gif|max:5120' : '',
+            'image' => $request->content_type == 'image' ? 'image|max:5120' : '',
             'video_url' => $request->content_type == 'video' ? 'required|url' : '',
         ]);
 
@@ -85,9 +93,16 @@ class PostController extends Controller
 
         // Handle image upload if content type is image
         if ($request->content_type == 'image' && $request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('posts', 'public');
+            // Load the image
+            $image = Image::make($request->file('image'));
+
+            // Compress and convert to WebP
+            $webpPath = 'posts/' . uniqid() . '.webp';
+            $image->encode('webp', 80)->save(storage_path('app/public/' . $webpPath));
+
+            $imagePath = $webpPath;
         } else {
-            $imagePath = null;
+            $imagePath = $contentChanged ? null : $postData['content'];
         }
 
         // Update post data

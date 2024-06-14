@@ -15,6 +15,7 @@ Route::get('/', function () {
 // Authentication routes
 Auth::routes(['register' => false]);
 
+
 // Public route for testing
 Route::get('/example', function () {
     return 'Hello, world!';

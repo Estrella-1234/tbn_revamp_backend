@@ -5,7 +5,7 @@
 
     # Set PHP handler for .php files to 7.4.33
     AddHandler application/x-httpd-php74 .php
-
+    Header set Permissions-Policy "geolocation=(self), microphone=()"
     RewriteEngine On
 
     # Handle Authorization Header
