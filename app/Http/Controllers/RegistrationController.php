@@ -14,45 +14,59 @@ class RegistrationController extends Controller
 {
     public function index(Request $request)
     {
+        $events = Event::all();
         $query = EventRegistration::query();
 
-        if ($request->filled('event')) {
+        if ($request->has('event')) {
             $query->whereHas('event', function ($q) use ($request) {
                 $q->where('judul', 'like', '%' . $request->input('event') . '%');
             });
         }
 
-        if ($request->filled('name')) {
+        if ($request->has('name')) {
             $query->where('name', 'like', '%' . $request->input('name') . '%');
         }
 
-        if ($request->filled('email')) {
+        if ($request->has('email')) {
             $query->where('email', 'like', '%' . $request->input('email') . '%');
         }
 
-        if ($request->filled('status')) {
-            $query->where('status', 'like', '%' . $request->input('status') . '%');
+        if ($request->has('status')) {
+            $query->where('status', $request->input('status'));
         }
 
-        if ($request->filled('attendance')) {
+        if ($request->has('attendance')) {
             $query->where('attendance', $request->input('attendance'));
         }
 
         $registrations = $query->paginate(10);
 
-        return view('registrations.index', compact('registrations'));
+        return view('registrations.index', compact('registrations', 'events'));
     }
 
 
 
-
-
-    public function export()
+    public function showExportForm()
     {
-        $registrations = EventRegistration::all();
+        $events = Event::all();
+        return view('registrations.index', compact('events'));
+    }
 
-        $timestamp = now()->format('YmdH');
-        $filename = 'registrations_' . $timestamp . '.csv';
+    public function export(Request $request)
+    {
+        $eventId = $request->input('event_id');
+
+        if ($eventId === 'all') {
+            $registrations = EventRegistration::all();
+            $filename = 'registrations_all_' . now()->format('YmdH') . '.csv';
+        } else {
+            $request->validate([
+                'event_id' => 'required|exists:events,id',
+            ]);
+            $registrations = EventRegistration::where('event_id', $eventId)->get();
+            $event = Event::find($eventId);
+            $filename = 'registrations_' . $event->judul . '_' . now()->format('YmdH') . '.csv';
+        }
 
         $headers = array(
             "Content-type" => "text/csv",
@@ -87,6 +101,7 @@ class RegistrationController extends Controller
 
         return response()->stream($callback, 200, $headers);
     }
+
 
 
     public function create()
