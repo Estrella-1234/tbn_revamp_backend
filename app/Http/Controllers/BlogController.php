@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Blog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
-
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Storage;
 class BlogController extends Controller
 {
     public function index()
@@ -25,12 +27,30 @@ class BlogController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'desc' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|max:2048', // Allow only image files up to 2MB
         ]);
 
         try {
-            $imagePath = $request->file('image') ? $request->file('image')->store('Blog', 'public') : null;
+            // Check if there is an uploaded image
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
 
+                // Create an instance of Intervention Image
+                $imageWebp = \Image::make($image);
+
+                // Generate a unique filename for the webp image
+                $webpPath = 'Blog/' . uniqid() . '.webp';
+
+                // Save the image as WebP format with 80% quality
+                $imageWebp->encode('webp', 80)->save(storage_path('app/public/' . $webpPath));
+
+                // Store the WebP image path in $imagePath
+                $imagePath = $webpPath;
+            } else {
+                $imagePath = null;
+            }
+
+            // Create the blog entry
             $blog = Blog::create([
                 'user_id' => Auth::id(),
                 'title' => $request->title,
@@ -50,6 +70,7 @@ class BlogController extends Controller
     }
 
 
+
     public function show($slug)
     {
         $blog = Blog::where('slug', $slug)->firstOrFail();
@@ -67,7 +88,7 @@ class BlogController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'desc' => 'required|string',
-            'image' => 'nullable|image|max:2048',
+            'image' => 'nullable|image|max:2048', // Allow only image files up to 2MB
         ]);
 
         $blog = Blog::findOrFail($id);
@@ -78,24 +99,44 @@ class BlogController extends Controller
                 throw new \Exception('A blog with the same title already exists.');
             }
 
+            // Handle image upload and processing
             if ($request->hasFile('image')) {
-                // Delete the old image if exists
-                if ($blog->image_path) {
-                    \Storage::delete('public/' . $blog->image_path);
+                try {
+                    $image = $request->file('image');
+                    $webpFileName = uniqid() . '.webp';
+                    $webpPath = 'public/Blog/' . $webpFileName; // Adjusted path to 'blog'
+                    $images_path =  'Blog/' . $webpFileName;
+                    // Process and save the uploaded image as WebP using Intervention Image
+                    Image::make($image)
+                        ->encode('webp', 80)
+                        ->save(storage_path('app/' . $webpPath));
+
+                    // If the new image is processed successfully, delete the old image
+                    if ($blog->image_path && Storage::exists('public/' . $blog->image_path)) {
+                        Storage::delete('public/' . $blog->image_path);
+                    }
+
+                    // Update the blog's image path
+                    $blog->image_path = $images_path;
+                } catch (\Exception $e) {
+                    Log::error('Image processing failed:', ['error' => $e->getMessage()]);
+                    return redirect()->back()->withErrors(['image' => 'Image processing failed. Please try again.'])->withInput();
                 }
-                $imagePath = $request->file('image')->store('Blog', 'public');
-                $blog->image_path = $imagePath;
             }
 
+            // Update the blog
             $blog->title = $request->title;
             $blog->desc = $request->desc;
             $blog->save();
 
             return redirect()->route('blogs.index')->with('success', 'Blog updated successfully.');
         } catch (\Exception $e) {
+            Log::error('Blog update failed:', ['error' => $e->getMessage()]);
             return redirect()->back()->withErrors(['title' => $e->getMessage()])->withInput();
         }
     }
+
+
 
     public function destroy($id)
     {
@@ -141,77 +182,5 @@ class BlogController extends Controller
         }
     }
 
-//    // Create a new blog
-//    public function createF(Request $request)
-//    {
-//        $validator = Validator::make($request->all(), [
-//            'title' => 'required|string|max:255',
-//            'desc' => 'required|string',
-//            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-//            'user_id' => 'required|exists:users,id'
-//        ]);
-//
-//        if ($validator->fails()) {
-//            return response()->json($validator->errors(), 400);
-//        }
-//
-//        $imagePath = null;
-//
-//        // Handle the file upload
-//        if ($request->hasFile('image')) {
-//            $image = $request->file('image');
-//            $imageName = time() . '.' . $image->getClientOriginalExtension();
-//            $imagePath = $image->storeAs('Blog', $imageName, 'public');
-//        }
-//
-//        $blog = Blog::create([
-//            'title' => $request->title,
-//            'desc' => $request->desc,
-//            'image_path' => $imagePath,
-//            'user_id' => $request->user_id,
-//        ]);
-////        dd($imagePath);
-//        return response()->json($blog, 201);
-//    }
-//
-//    // Update a blog
-//    public function updateF(Request $request, $id)
-//    {
-//        $validator = Validator::make($request->all(), [
-//            'title' => 'sometimes|required|string|max:255',
-//            'desc' => 'sometimes|required|string',
-//            'image_path' => 'nullable|string',
-//            'user_id' => 'sometimes|required|exists:users,id'
-//        ]);
-//
-//        if ($validator->fails()) {
-//            return response()->json($validator->errors(), 400);
-//        }
-//
-//        $blog = Blog::find($id);
-//        if ($blog) {
-//            $blog->update($request->all());
-//            return response()->json($blog);
-//        } else {
-//            return response()->json(['message' => 'Blog not found'], 404);
-//        }
-//    }
-//
-//    // Delete a blog
-//    public function deleteF($id)
-//    {
-//        $blog = Blog::find($id);
-//        if ($blog) {
-//            // Hapus gambar terkait jika ada
-//            if ($blog->image_path) {
-//                \Storage::delete('public/' . $blog->image_path);
-//            }
-//
-//            // Hapus blog dari database
-//            $blog->delete();
-//            return response()->json(['message' => 'Blog deleted successfully']);
-//        } else {
-//            return response()->json(['message' => 'Blog not found'], 404);
-//        }
-//    }
+
 }
