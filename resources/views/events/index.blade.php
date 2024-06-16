@@ -3,25 +3,17 @@
 @section('main-content')
     <h1>Events</h1>
 
-    <div class="d-flex align-items-center mb-3">
-        <a href="{{ route('events.create') }}" class="btn btn-primary mr-auto">Add Event</a>
-
-        <form action="{{ route('events.index') }}" method="GET">
-            <div class="input-group">
-                <input type="text" name="search" class="form-control" placeholder="Search Event Here..."
-                       value="{{ request()->input('search') }}">
-                <div class="input-group-append">
-                    <button class="btn btn-primary" type="submit">Search</button>
-                </div>
-            </div>
-        </form>
-    </div>
-
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
-    <table class="table table-bordered table-striped">
+    <div class="d-flex align-items-center mb-3">
+        <a href="{{ route('events.create') }}" class="btn btn-primary mr-auto">Add Event</a>
+    </div>
+
+
+
+    <table id="eventsTable" class="table table-bordered table-striped">
         <thead>
         <tr>
             <th>No</th>
@@ -38,7 +30,7 @@
         <tbody>
         @foreach($events as $index => $event)
             <tr>
-                <td>{{ ($events->currentPage() - 1) * $events->perPage() + $index + 1 }}</td>
+                <td>{{ $index + 1 }}</td>
                 <td class="text-center align-middle">
                     @if($event->poster_path)
                         <img src="{{ asset('storage/' . $event->poster_path) }}" alt="Event Poster" style="max-width: 250px;">
@@ -63,10 +55,6 @@
         </tbody>
     </table>
 
-    <!-- Pagination links -->
-    <div class="d-flex justify-content-center">
-        {{ $events->links() }}
-    </div>
 
     @foreach($events as $event)
         <div class="modal fade" id="deleteEventModal-{{ $event->id }}" data-backdrop="static" data-keyboard="false"
@@ -96,4 +84,19 @@
             </div>
         </div>
     @endforeach
+
+    <script>
+        $(document).ready(function() {
+            $('#eventsTable').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                "lengthMenu": [10, 25, 50, 100]
+            });
+        });
+    </script>
 @endsection

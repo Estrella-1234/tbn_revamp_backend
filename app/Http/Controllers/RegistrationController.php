@@ -39,7 +39,10 @@ class RegistrationController extends Controller
             $query->where('attendance', $request->input('attendance'));
         }
 
-        $registrations = $query->paginate(10);
+        $registrations = $query
+            ->orderBy('created_at', 'asc')
+            ->get();
+
 
         return view('registrations.index', compact('registrations', 'events'));
     }

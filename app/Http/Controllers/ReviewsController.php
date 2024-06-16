@@ -14,7 +14,9 @@ class ReviewsController extends Controller
 {
     public function index()
     {
-        $reviews = Review::with('registration')->paginate(10);
+        $reviews = Review::with('registration')->orderBy('created_at', 'asc')
+            ->get();
+
 
         return view('reviews.index', compact('reviews'));
     }
