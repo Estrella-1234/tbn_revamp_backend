@@ -159,33 +159,76 @@
                 "responsive": true,
                 "lengthMenu": [10, 25, 50, 100]
             });
+        });
 
-            // Handle status change using AJAX
-            $('.status-select').change(function() {
-                const registrationId = $(this).data('id');
-                const newStatus = $(this).val();
+        document.addEventListener('DOMContentLoaded', function () {
+            const statusSelects = document.querySelectorAll('.status-select');
+            const attendanceSelects = document.querySelectorAll('.attendance-select');
+            const successAlert = document.getElementById('success-alert');
+            const successMessage = document.getElementById('success-message');
 
-                fetch(`registrations/${registrationId}/status`, {
-                    method: 'PATCH',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: JSON.stringify({ status: newStatus })
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            $('#success-message').text('Status updated successfully');
-                            $('#success-alert').fadeIn().delay(3000).fadeOut();
-                        } else {
-                            alert('Failed to update status');
-                        }
+            statusSelects.forEach(select => {
+                select.addEventListener('change', function () {
+                    const registrationId = this.getAttribute('data-id');
+                    const newStatus = this.value;
+
+                    fetch(`registrations/${registrationId}/status`, {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({ status: newStatus })
                     })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('An error occurred while updating status');
-                    });
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                successMessage.textContent = 'Status updated successfully';
+                                successAlert.style.display = 'block';
+                                setTimeout(() => {
+                                    successAlert.style.display = 'none';
+                                }, 3000);
+                            } else {
+                                alert('Failed to update status');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('An error occurred while updating status');
+                        });
+                });
+            });
+
+            attendanceSelects.forEach(select => {
+                select.addEventListener('change', function () {
+                    const registrationId = this.getAttribute('data-id');
+                    const newAttendance = this.value;
+
+                    fetch(`registrations/${registrationId}/attendance`, {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({ attendance: newAttendance })
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                successMessage.textContent = 'Attendance updated successfully';
+                                successAlert.style.display = 'block';
+                                setTimeout(() => {
+                                    successAlert.style.display = 'none';
+                                }, 3000);
+                            } else {
+                                alert('Failed to update attendance');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('An error occurred while updating attendance');
+                        });
+                });
             });
         });
     </script>

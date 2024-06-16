@@ -14,36 +14,46 @@ class RegistrationController extends Controller
 {
     public function index(Request $request)
     {
-        $events = Event::all();
+        // Retrieve search parameters from the request
+        $event = $request->input('event');
+        $name = $request->input('name');
+        $email = $request->input('email');
+        $status = $request->input('status');
+        $attendance = $request->input('attendance');
+
+        // Start building query for registrations
         $query = EventRegistration::query();
 
-        if ($request->has('event')) {
-            $query->whereHas('event', function ($q) use ($request) {
-                $q->where('judul', 'like', '%' . $request->input('event') . '%');
+        // Apply filters based on search parameters
+        if ($event) {
+            $query->whereHas('event', function ($eventQuery) use ($event) {
+                $eventQuery->where('judul', 'like', "%$event%");
             });
         }
 
-        if ($request->has('name')) {
-            $query->where('name', 'like', '%' . $request->input('name') . '%');
+        if ($name) {
+            $query->where('name', 'like', "%$name%");
         }
 
-        if ($request->has('email')) {
-            $query->where('email', 'like', '%' . $request->input('email') . '%');
+        if ($email) {
+            $query->where('email', 'like', "%$email%");
         }
 
-        if ($request->has('status')) {
-            $query->where('status', $request->input('status'));
+        if ($status) {
+            $query->where('status', $status);
         }
 
-        if ($request->has('attendance')) {
-            $query->where('attendance', $request->input('attendance'));
+        if ($attendance !== null) {
+            $query->where('attendance', $attendance);
         }
 
-        $registrations = $query
-            ->orderBy('created_at', 'asc')
-            ->get();
+        // Execute the query to retrieve filtered registrations
+        $registrations = $query->orderBy('created_at', 'desc')->paginate(10);
 
+        // Fetch all events for export modal
+        $events = Event::orderBy('judul')->get();
 
+        // Return view with filtered registrations and events
         return view('registrations.index', compact('registrations', 'events'));
     }
 

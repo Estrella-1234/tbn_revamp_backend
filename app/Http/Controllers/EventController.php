@@ -24,7 +24,7 @@ class EventController extends Controller
                     ->orWhere('lokasi', 'like', "%$search%");
             })
             ->orderBy('created_at', 'desc')
-            ->get();;
+            ->get();
 
         return view('events.index', compact('events'));
     }
