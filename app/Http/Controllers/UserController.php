@@ -23,7 +23,7 @@ class UserController extends Controller
                 });
             })
             ->orderBy('created_at', 'asc')
-            ->paginate(10);
+            ->get();
 
         return view('users.index', compact('users'));
     }
