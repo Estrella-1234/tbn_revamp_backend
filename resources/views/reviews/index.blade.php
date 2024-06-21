@@ -15,7 +15,7 @@
 
     <div class="table-responsive">
         <a href="{{ route('registrations.index') }}" class="btn btn-primary mb-3">Back to Registrations</a>
-        <table class="table table-bordered">
+        <table id="reviewsTable" class="table table-bordered table-striped">
             <thead>
             <tr>
                 <th>No</th>
@@ -30,7 +30,7 @@
             <tbody>
             @foreach($reviews as $index => $review)
                 <tr>
-                    <td>{{ ($reviews->currentPage() - 1) * $reviews->perPage() + $index + 1 }}</td>
+                    <td>{{ $index + 1 }}</td>
                     <td>{{ $review->registration->event->judul }}</td>
                     <td>{{ $review->registration->name }}</td>
                     <td class="text-center align-middle">
@@ -52,10 +52,20 @@
             @endforeach
             </tbody>
         </table>
-
-        <!-- Pagination links -->
-        <div class="d-flex justify-content-center">
-            {{ $reviews->links() }}
-        </div>
     </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#reviewsTable').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                "lengthMenu": [10, 25, 50, 100]
+            });
+        });
+    </script>
 @endsection

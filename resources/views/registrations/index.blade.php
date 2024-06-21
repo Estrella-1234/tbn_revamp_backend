@@ -20,7 +20,7 @@
 
     <div class="d-flex align-items-center mb-3">
         <a href="{{ route('registrations.create') }}" class="btn btn-primary mr-3">Register for an Event</a>
-        <a href="{{ route('registrations.export') }}" class="btn btn-secondary mr-auto">Export CSV</a>
+        <button type="button" class="btn btn-secondary mr-auto" data-toggle="modal" data-target="#exportModal">Export CSV</button>
 
         <form action="{{ route('registrations.index') }}" method="GET">
             <div class="input-group">
@@ -37,7 +37,7 @@
     </div>
 
     @if($registrations->count())
-        <table class="table table-bordered table-striped">
+        <table id="registrationsTable" class="table table-bordered table-striped">
             <thead>
             <tr>
                 <th>No</th>
@@ -55,7 +55,7 @@
             <tbody>
             @foreach($registrations as $index => $registration)
                 <tr>
-                    <td>{{ ($registrations->currentPage() - 1) * $registrations->perPage() + $index + 1 }}</td>
+                    <td>{{ $index + 1 }}</td>
                     <td>{{ $registration->event->judul }}</td>
                     <td>{{ $registration->name }}</td>
                     <td>{{ $registration->email }}</td>
@@ -110,12 +110,57 @@
             @endforeach
             </tbody>
         </table>
-        {{ $registrations->links() }}
+
     @else
         <p>No registrations found.</p>
     @endif
 
+    <!-- Export Modal -->
+    <div class="modal fade" id="exportModal" tabindex="-1" aria-labelledby="exportModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exportModalLabel">Select Event to Export</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{ route('registrations.export') }}" method="GET">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="event_id">Event</label>
+                            <select name="event_id" id="event_id" class="form-control">
+                                <option value="all">All Events</option>
+                                @foreach($events as $event)
+                                    <option value="{{ $event->id }}">{{ $event->judul }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Export</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script>
+        $(document).ready(function() {
+            // Initialize DataTable
+            $('#registrationsTable').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                "lengthMenu": [10, 25, 50, 100]
+            });
+        });
+
         document.addEventListener('DOMContentLoaded', function () {
             const statusSelects = document.querySelectorAll('.status-select');
             const attendanceSelects = document.querySelectorAll('.attendance-select');

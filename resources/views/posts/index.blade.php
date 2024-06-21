@@ -19,7 +19,7 @@
     @if ($posts->isEmpty())
         <p>No posts found.</p>
     @else
-        <table class="table">
+        <table id="postsTable" class="table table-bordered table-striped">
             <thead>
             <tr>
                 <th>No</th>
@@ -36,7 +36,7 @@
                     $postData = is_array($post->post_data) ? $post->post_data : json_decode($post->post_data, true);
                 @endphp
                 <tr>
-                    <td>{{ ($posts->currentPage() - 1) * $posts->perPage() + $index + 1 }}</td>
+                    <td>{{ $index + 1 }}</td>
                     <td>{{ $post->section }}</td>
                     <td>{{ $postData['title'] }}</td>
                     <td>{!! $postData['description'] !!}</td>
@@ -55,7 +55,21 @@
             </tbody>
         </table>
 
-        <!-- Pagination Links -->
-        {{ $posts->links() }}
     @endif
+
+    <!-- DataTables JS Initialization -->
+    <script>
+        $(document).ready(function() {
+            $('#postsTable').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                // Add any additional options here as needed
+            });
+        });
+    </script>
 @endsection

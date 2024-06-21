@@ -4,12 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\Partner;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class PartnerController extends Controller
 {
     public function index()
     {
-        $partners = Partner::paginate(7); // Change 10 to the number of items per page you want
+        $partners = Partner::query()
+            ->orderBy('created_at', 'asc')
+            ->get();
+
         return view('partners.index', compact('partners'));
     }
 
@@ -23,10 +28,22 @@ class PartnerController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'image' => 'required|image',
+            'image' => 'required|image|max:5120',
         ]);
 
-        $path = $request->file('image')->store('partners', 'public');
+        // Handle image upload and conversion to WebP
+        if ($request->hasFile('image')) {
+            // Load the image
+            $image = Image::make($request->file('image'));
+
+            // Compress and convert to WebP
+            $webpPath = 'partners/' . uniqid() . '.webp';
+            $image->encode('webp', 80)->save(storage_path('app/public/' . $webpPath));
+
+            $path = $webpPath;
+        } else {
+            $path = null;
+        }
 
         Partner::create([
             'name' => $request->name,
@@ -35,6 +52,7 @@ class PartnerController extends Controller
 
         return redirect()->route('partners.index')->with('success', 'Partner created successfully.');
     }
+
 
     public function show(Partner $partner)
     {
@@ -50,14 +68,25 @@ class PartnerController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'image' => 'image',
+            'image' => 'image|max:5120',
         ]);
 
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('partners', 'public');
-            $partner->update(['image' => $path]);
+            // Load the image
+            $image = Image::make($request->file('image'));
+
+            // Compress and convert to WebP
+            $webpPath = 'partners/' . uniqid() . '.webp';
+            $image->encode('webp', 80)->save(storage_path('app/public/' . $webpPath));
+
+            // Delete the old image
+            Storage::disk('public')->delete($partner->image);
+
+            // Update the partner with the new image path
+            $partner->update(['image' => $webpPath]);
         }
 
+        // Update the partner's name
         $partner->update(['name' => $request->name]);
 
         return redirect()->route('partners.index')->with('success', 'Partner updated successfully.');
@@ -65,7 +94,14 @@ class PartnerController extends Controller
 
     public function destroy(Partner $partner)
     {
+        // Delete the associated image file from storage
+        if ($partner->image) {
+            Storage::disk('public')->delete($partner->image);
+        }
+
+        // Delete the partner record from the database
         $partner->delete();
+
         return redirect()->route('partners.index')->with('success', 'Partner deleted successfully.');
     }
 

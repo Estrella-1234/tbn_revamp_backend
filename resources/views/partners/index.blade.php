@@ -8,7 +8,7 @@
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
-    <table class="table">
+    <table id="partnersTable" class="table table-bordered table-striped">
         <thead>
         <tr>
             <th>No</th>
@@ -20,7 +20,7 @@
         <tbody>
         @foreach ($partners as $index => $partner)
             <tr>
-                <td>{{ $index + 1 + ($partners->currentPage() - 1) * $partners->perPage() }}</td>
+                <td>{{ $index + 1 }}</td>
                 <td>{{ $partner->name }}</td>
                 <td><img src="{{ asset('storage/' . $partner->image) }}" alt="{{ $partner->name }}" width="50"></td>
                 <td>
@@ -36,8 +36,20 @@
         </tbody>
     </table>
 
-    <!-- Pagination links -->
-    <div class="d-flex justify-content-center">
-        {{ $partners->links() }}
-    </div>
+
+    <!-- DataTables JS Initialization -->
+    <script>
+        $(document).ready(function() {
+            $('#partnersTable').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                // Add any additional options here as needed
+            });
+        });
+    </script>
 @endsection

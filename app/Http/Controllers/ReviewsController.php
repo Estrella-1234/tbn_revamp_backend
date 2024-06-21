@@ -8,17 +8,18 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class ReviewsController extends Controller
 {
     public function index()
     {
-        $reviews = Review::with('registration')->paginate(10);
+        $reviews = Review::with('registration')->orderBy('created_at', 'asc')
+            ->get();
+
 
         return view('reviews.index', compact('reviews'));
     }
-
-
 
 
     public function edit(Review $review)
@@ -28,32 +29,48 @@ class ReviewsController extends Controller
 
     public function update(Request $request, Review $review)
     {
-        $request->validate([
-            'review' => 'required|string|max:255',
+        // Validate incoming request data
+        $validator = Validator::make($request->all(), [
+            'review' => 'required|string',
+            'new_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // Handle file update if a new file is uploaded
-        if ($request->hasFile('image')) {
-            // Delete the old file if it exists
-            if ($review->image_path) {
-                Storage::disk('public')->delete($review->image_path);
-            }
-
-            // Upload the new file
-            $image = $request->file('image');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $imagePath = $image->storeAs('review', $imageName, 'public');
-
-            $review->update([
-                'review' => $request->input('review'),
-                'image_path' => $imagePath,
-            ]);
-        } else {
-            // No file uploaded, only update review text
-            $review->update([
-                'review' => $request->input('review'),
-            ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
         }
+
+        // Update the review text
+        $review->review = $request->input('review');
+
+        // Handle image update
+        if ($request->hasFile('new_image')) {
+            try {
+                $image = $request->file('new_image');
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
+
+                // Convert and save as WebP format
+                $webpImageName = pathinfo($imageName, PATHINFO_FILENAME) . '.webp';
+                $webpImagePath = 'review/' . $webpImageName; // Path for WebP image
+
+                Image::make($image)
+                    ->encode('webp', 80) // Convert to WebP with 80% quality
+                    ->save(storage_path('app/public/' . $webpImagePath));
+
+                // Delete the old image if it exists
+                if ($review->image_path) {
+                    Storage::disk('public')->delete($review->image_path);
+                }
+
+                // Update the review's image path
+                $review->image_path = $webpImagePath;
+            } catch (\Exception $e) {
+                \Log::error('Image processing failed:', ['error' => $e->getMessage()]);
+                return redirect()->back()->withErrors(['image' => 'Image processing failed. Please try again.'])->withInput();
+            }
+        }
+
+        // Save the updated review
+        $review->save();
 
         return redirect()->route('reviews.index')->with('success', 'Review updated successfully.');
     }
@@ -74,32 +91,53 @@ class ReviewsController extends Controller
     //==================================================================================================================
     public function addReview(Request $request, EventRegistration $registration): JsonResponse
     {
+        // Validate incoming request data
         $validator = Validator::make($request->all(), [
             'review' => 'required|string',
             'rating' => 'required|integer|min:1|max:5',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|max:2048', // Adjusted validation rule to include JPEG and GIF
         ]);
 
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()->first()], 400);
         }
 
-        $imagePath = null;
+        // Initialize image path variables
+        $webpImagePath = null;
 
-        // Handle the file upload
+        // Handle the file upload if image is present in the request
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $imagePath = $image->storeAs('review', $imageName, 'public');
+            $imageName = time() . '.' . $image->getClientOriginalExtension(); // Generate unique image name
+
+            // Convert and save as WebP format
+            try {
+                $webpImageName = pathinfo($imageName, PATHINFO_FILENAME) . '.webp';
+                $webpImagePath = 'review/' . $webpImageName; // Path for WebP image
+
+                Image::make($image)
+                    ->encode('webp', 80) // Convert to WebP with 80% quality
+                    ->save(storage_path('app/public/' . $webpImagePath));
+
+                // Delete the original image after successful conversion
+                if (file_exists($image->getPathname())) {
+                    unlink($image->getPathname());
+                }
+            } catch (\Exception $e) {
+                // Handle conversion errors gracefully
+                \Log::error('WebP conversion failed:', ['error' => $e->getMessage()]);
+                return response()->json(['error' => 'Image processing failed. Please try again.'], 500);
+            }
         }
 
-        // Create the review
+        // Create the review with validated data and saved image paths
         $review = $registration->reviews()->create([
             'review' => $request->input('review'),
             'rating' => $request->input('rating'),
-            'image_path' => $imagePath, // save image path to the database
+            'image_path' => $webpImagePath, // Save WebP path if converted successfully
         ]);
 
+        // Return success response with the created review data
         return response()->json(['message' => 'Review added successfully', 'review' => $review], 200);
     }
 
@@ -107,11 +145,10 @@ class ReviewsController extends Controller
 
     public function updateReview(Request $request, Review $review): JsonResponse
     {
-
         $validator = Validator::make($request->all(), [
             'review' => 'required|string|max:255',
             'rating' => 'required|integer|min:1|max:5',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         if ($validator->fails()) {
@@ -124,11 +161,27 @@ class ReviewsController extends Controller
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $imagePath = $image->storeAs('review', $imageName, 'public');
 
-            // Delete the old image if it exists
-            if ($review->image_path) {
-                Storage::disk('public')->delete($review->image_path);
+            // Convert and save as WebP format
+            try {
+                $webpImageName = pathinfo($imageName, PATHINFO_FILENAME) . '.webp';
+                $webpImagePath = 'review/' . $webpImageName; // Path for WebP image
+
+                Image::make($image)
+                    ->encode('webp', 80) // Convert to WebP with 80% quality
+                    ->save(storage_path('app/public/' . $webpImagePath));
+
+                // Delete the old image if it exists
+                if ($review->image_path) {
+                    Storage::disk('public')->delete($review->image_path);
+                }
+
+                // Update image path to WebP
+                $imagePath = $webpImagePath;
+            } catch (\Exception $e) {
+                // Handle conversion errors gracefully
+                \Log::error('WebP conversion failed:', ['error' => $e->getMessage()]);
+                return response()->json(['error' => 'Image processing failed. Please try again.'], 500);
             }
         }
 

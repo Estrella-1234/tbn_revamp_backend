@@ -7,8 +7,8 @@
         <div class="alert alert-danger">
             <ul>
                 @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
                 @endforeach
-                <li>{{ $error }}</li>
             </ul>
         </div>
     @endif
@@ -16,25 +16,16 @@
     <div class="d-flex align-items-center mb-3">
         <a href="{{ route('users.create') }}" class="btn btn-primary mr-auto">Add User</a>
 
-        <form action="{{ route('users.index') }}" method="GET">
-            <div class="input-group">
-                <input type="text" name="search" class="form-control" placeholder="Search User Here..." value="{{ request('search') }}">
-                <div class="input-group-append">
-                    <button class="btn btn-primary" type="submit">Search</button>
-                </div>
-            </div>
-        </form>
     </div>
 
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
-    <table class="table table-bordered table-striped">
+    <table id="usersTable" class="table table-bordered table-striped">
         <thead>
         <tr>
             <th>No</th>
-{{--            <th>ID</th>--}}
             <th>Name</th>
             <th>Last Name</th>
             <th>Email</th>
@@ -45,8 +36,7 @@
         <tbody>
         @foreach($users as $index => $user)
             <tr>
-                <td>{{ ($users->currentPage() - 1) * $users->perPage() + $index + 1 }}</td>
-{{--                <td>{{ $user->id }}</td>--}}
+                 <td>{{ $index + 1 }}</td>
                 <td>{{ $user->name }}</td>
                 <td>{{ $user->last_name }}</td>
                 <td>{{ $user->email }}</td>
@@ -61,10 +51,6 @@
         </tbody>
     </table>
 
-    <!-- Pagination links -->
-    <div class="d-flex justify-content-center">
-        {{ $users->links() }}
-    </div>
 
     @foreach($users as $user)
         <div class="modal fade" id="deleteUserModal-{{ $user->id }}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="deleteUserModalLabel-{{ $user->id }}" aria-hidden="true">
@@ -91,4 +77,20 @@
             </div>
         </div>
     @endforeach
+
+    <script>
+        $(document).ready(function() {
+            $('#usersTable').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                "lengthMenu": [10, 25, 50, 100]
+            });
+        });
+    </script>
 @endsection
+

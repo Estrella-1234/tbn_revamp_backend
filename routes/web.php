@@ -15,11 +15,21 @@ Route::get('/', function () {
 // Authentication routes
 Auth::routes(['register' => false]);
 
+
 // Public route for testing
 Route::get('/example', function () {
     return 'Hello, world!';
 });
 
+Route::get('/clear', function () {
+    // Run artisan command programmatically
+    Artisan::call('cache:clear');
+    Artisan::call('config:clear');
+    Artisan::call('route:clear');
+    Artisan::call('view:clear');
+
+    return 'Caches cleared successfully.';
+});
 
 // Routes that require authentication
 Route::middleware(['auth'])->group(function () {
@@ -43,7 +53,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/registrations', [RegistrationController::class, 'index'])->name('registrations.index');
     Route::patch('/registrations/{registration}/status', [RegistrationController::class, 'updateStatus'])->name('registrations.updateStatus');
     Route::patch('/registrations/{id}/attendance', [RegistrationController::class, 'updateAttendance']);
-    Route::get('registrations/export', [RegistrationController::class, 'export'])->name('registrations.export');
+    Route::get('/registrations/export/form', [RegistrationController::class, 'showExportForm'])->name('registrations.exportForm');
+    Route::get('/registrations/export', [RegistrationController::class, 'export'])->name('registrations.export');
     Route::resource('registrations', 'RegistrationController');
 
 
