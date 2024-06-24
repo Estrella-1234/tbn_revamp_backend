@@ -22,6 +22,8 @@ Route::middleware('auth:api')->get('/users', function (Request $request) {
 Route::post('login', 'FrontendAuthController@login');
 Route::post('register', 'FrontendRegisterController@register');
 Route::post('/google-auth', 'FrontendRegisterController@googleAuth');
+Route::post('/reset-password', 'ForgotPasswordController@sendResetLinkEmail');
+
 Route::get('/events', 'EventController@getAllEvents');
 Route::get('/events/{id}', 'EventController@getbyId');
 Route::get('events/details/{slug}', 'EventController@getbySlug')
@@ -49,10 +51,6 @@ Route::get('blogs/details/{slug}', 'BlogController@getBySlug')
     ->name('blogs.show');
 
 Route::get('blogs/{id}', 'BlogController@getById');
-
-//Route::post('blogs', 'BlogController@createF');
-//Route::put('blogs/{id}', 'BlogController@updateF');
-//Route::delete('blogs/{id}', 'BlogController@deleteF');
 
 Route::get('blogs/{blog}/comments', 'CommentController@getallComments');
 Route::get('comments/{id}', 'CommentController@getComment');
